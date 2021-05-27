@@ -1,5 +1,4 @@
-import React, { useState } from "https://jspm.dev/react";
-
+import { React, useState } from '../../deps.ts'
 
 function App() {
     const [thing, setThing] = useState(0);

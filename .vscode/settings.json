@@ -1,5 +1,6 @@
 {
     "deno.enable": true,
+    "deno.unstable": true,
     "deno.suggest.completeFunctionCalls": true,
     "typescript.validate.enable": false,
     "javascript.validate.enable": false,
