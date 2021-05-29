@@ -1,35 +1,48 @@
 # phlappjack
 
+## How to run the server
+
+`deno run --unstable --allow-read --allow-write --allow-net server.ts`
+
+Optionally run with the `--watch` flag for file reloading.
+
+This will serve the static react content and watch for file changes.
+
 ## React
 
 React dependencies are now served from Skypack rather than JSPM. This is because
 it includes a http header with the correct types.
 
-The bundle can now be built by running
+The bundle is automatically built when running the server.ts file. It can also
+be built using:
+
 `deno run --allow-write --allow-read --allow-net  --unstable createBundle.ts`
 
-## Deps
+## Dependencies
 
 Dependencies are stored in `deps.ts`
 
-======= These have now been deprecated, leaving for reference.
+Server deps and client deps need to be split to prevent Deno modules from being
+bundles in with the front end code. This will likely need seperate front-end and
+back-end deps.ts files. For the time being server related deps should be
+imported in their own file.
 
-React can be run in DENO using JSPM's CDN. The URL is derived from the NPM pkg
-name.
+## Oak Server
 
-React for example:
+The backend is running Oak and serving static files from the build directory.
 
+### Server log messages
+
+In order to display the messages on the same line in stdout `Deno.writeAll()`
+has been used.
+
+```js
+// build bundle console messages, single line stdout
+const messageBuilding = new TextEncoder().encode("Building Bundle...");
+const messageDone = new TextEncoder().encode("Done!\n");
+
+await Deno.writeAll(Deno.stdout, messageBuilding);
+// build bundle
+await createBundle();
+await Deno.writeAll(Deno.stdout, messageDone);
 ```
-import React from "https://jspm.dev/react";
-import { render } from "https://jspm.dev/react-dom";
-```
-
-# N.B. This is using the dev CDN but there is a production one we should probably migrate to.
-
-### Build commands for bundle
-
-`deno bundle ./client/index.jsx ./build/bundle.js`
-
-### Command to run local static file server
-
-`deno run --allow-net --allow-read https://deno.land/std@0.97.0/http/file_server.ts`
