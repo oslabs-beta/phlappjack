@@ -1,4 +1,4 @@
-import { React, render } from "../deps.ts";
+import { React, render } from "./deps.ts";
 import { App } from "./components/App.tsx";
 
 render(

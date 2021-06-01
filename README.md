@@ -8,24 +8,42 @@ Optionally run with the `--watch` flag for file reloading.
 
 This will serve the static react content and watch for file changes.
 
+## Mongo
+
+There is now a .env file to support connecting to Mongo. Please add a .env file
+to the root of the repo and populate the fields, e.g:
+
+MONGO_HOST=cluster0.yybae.mongodb.net MONGO_DB=phlappjack MONGO_USER=dbUser
+MONGO_PASS=secret123
+
+The connection uri is already set up in `server/models/`
+
 ## React
 
 React dependencies are now served from Skypack rather than JSPM. This is because
 it includes a http header with the correct types.
 
-The bundle is automatically built when running the server.ts file. It can also
-be built using:
+The bundle is automatically built when running the `mod.ts` file. It can also be
+built using:
 
 `deno run --allow-write --allow-read --allow-net  --unstable createBundle.ts`
 
+## Compiling executables
+
+The `createBundle()` must be disabled in `mod.ts` before running this command!
+
+`deno compile --unstable --prompt mod.ts`
+
+This will prompt the user for the permissions required at execution time.
+
 ## Dependencies
 
-Dependencies are stored in `deps.ts`
+Server Dependencies are stored in `deps.ts`
 
-Server deps and client deps need to be split to prevent Deno modules from being
-bundles in with the front end code. This will likely need seperate front-end and
-back-end deps.ts files. For the time being server related deps should be
-imported in their own file.
+Client Dependencies are stored in `client/deps.ts`
+
+This is required to keep server dependencies out of the client bundle and allow
+React to work.
 
 ## Oak Server
 

@@ -1,6 +1,4 @@
-// TODO may need to split front and back end deps for the bundler
-// import { Application, send } from "./deps.ts";
-import { Application, send } from "https://deno.land/x/oak/mod.ts";
+import { Application, send } from "./deps.ts";
 import { createBundle } from "./createBundle.ts";
 
 const app = new Application();
