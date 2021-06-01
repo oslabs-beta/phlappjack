@@ -1,4 +1,4 @@
-import { React, useState } from "../../deps.ts";
+import { React, useState } from "../deps.ts";
 
 function App() {
   const [thing, setThing] = useState(0);
