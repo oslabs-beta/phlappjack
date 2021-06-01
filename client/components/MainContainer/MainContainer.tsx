@@ -17,14 +17,30 @@ type props = {
   setMainContainerVW: (sideToolBarVW: number) => void;
   isElementBeingDragged: boolean;
   setIsElementBeingDragged: (isElementBeingDragged: boolean) => void;
-  draggedElementName: Array<string>;
-  setDraggedElementName: (draggedElementName: Array<string>) => void;
+  draggedElementName: Array<any>;
+  setDraggedElementName: (draggedElementName: Array<any>) => void;
   draggedElementPosition: Array<Array<number>>;
   setDraggedElementPosition: (draggedElementPosition: Array<Array<number>>) => void;
   definedDBToolbar: number;
+  draggedElementTranslation:Array<Array<number>>;
+  setdraggedElementTranslation: (draggedElementPosition: Array<Array<number>>) => void;
 }
 
-const MainContainer = ({ sideToolBarVW, setSideToolBarVW, mainContainerVW, setMainContainerVW, isElementBeingDragged, setIsElementBeingDragged, draggedElementName, setDraggedElementName, draggedElementPosition, setDraggedElementPosition, definedDBToolbar }: props ) => {
+const MainContainer = ({ 
+  sideToolBarVW, 
+  setSideToolBarVW, 
+  mainContainerVW, 
+  setMainContainerVW, 
+  isElementBeingDragged, 
+  setIsElementBeingDragged, 
+  draggedElementName, 
+  setDraggedElementName, 
+  draggedElementPosition, 
+  setDraggedElementPosition, 
+  definedDBToolbar,
+  draggedElementTranslation,
+  setdraggedElementTranslation
+}: props ) => {
   
   return (
       <div style = {{width: String(mainContainerVW + 'vw'), border:'solid', textAlign:'center' }}>
@@ -41,6 +57,8 @@ const MainContainer = ({ sideToolBarVW, setSideToolBarVW, mainContainerVW, setMa
           draggedElementPosition = {draggedElementPosition}
           setDraggedElementPosition = {setDraggedElementPosition}
           definedDBToolbar = {definedDBToolbar}
+          draggedElementTranslation = {draggedElementTranslation}
+          setdraggedElementTranslation = {setdraggedElementTranslation}
         />
       </div>
   ); 

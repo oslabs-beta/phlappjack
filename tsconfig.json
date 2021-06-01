@@ -2,9 +2,10 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Deno",
   "include": [
-      "client/*"
+      "client/**/*"
   ],
   "compilerOptions": {
+    "jsx": "react",
     "lib": [
       "DOM",
       "ES2017"

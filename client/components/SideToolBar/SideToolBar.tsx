@@ -6,10 +6,11 @@ import DatabaseSymbol from './DatabaseSymbol.tsx';
 import SaveApplicationButton from './SaveApplicationButton.tsx';
 import GenerateApplicationButton from './GenerateApplicationButton.tsx';
 
+//Globaly declare SideToolBar sub-components as React functional components.
 declare global {
   namespace JSX {
       interface IntrinsicElements {
-
+        EndPointSymbol: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
         ReactComponentSymbol: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
         DatabaseSymbol: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
         SaveApplicationButton: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
@@ -18,19 +19,34 @@ declare global {
   }
 }
 
+//Define prop types.
 type props = {
   sideToolBarVW: number;
   setSideToolBarVW: (sideToolBarVW: number) => void;
   isElementBeingDragged: boolean;
   setIsElementBeingDragged: (isElementBeingDragged: boolean) => void;
-  draggedElementName: Array<string>;
-  setDraggedElementName: (draggedElementName: Array<string>) => void;
+  draggedElementName: Array<any>;
+  setDraggedElementName: (draggedElementName: Array<any>) => void;
   draggedElementPosition: Array<Array<number>>;
   setDraggedElementPosition: (draggedElementPosition: Array<Array<number>>) => void;
   definedDBToolbar: number;
+  draggedElementTranslation: Array<Array<number>>;
+  setdraggedElementTranslation:(draggedElementPosition: Array<Array<number>>) => void;
 }
 
-const SideToolBar = ({ sideToolBarVW, setSideToolBarVW, isElementBeingDragged, setIsElementBeingDragged, draggedElementName, setDraggedElementName, draggedElementPosition, setDraggedElementPosition, definedDBToolbar }:props) => {
+const SideToolBar = ({ 
+  sideToolBarVW,
+  setSideToolBarVW, 
+  isElementBeingDragged, 
+  setIsElementBeingDragged, 
+  draggedElementName, 
+  setDraggedElementName, 
+  draggedElementPosition,
+  setDraggedElementPosition, 
+  definedDBToolbar,
+  draggedElementTranslation,
+  setdraggedElementTranslation
+}:props) => {
 
   return (
     <div style = {{ display:'flex', flexDirection:'column', width: String(sideToolBarVW +'vw'), alignItems:'center', border:'1px solid' }}>
@@ -51,6 +67,8 @@ const SideToolBar = ({ sideToolBarVW, setSideToolBarVW, isElementBeingDragged, s
               draggedElementPosition = {draggedElementPosition}
               setDraggedElementPosition = {setDraggedElementPosition}
               definedDBToolbar = {definedDBToolbar}
+              draggedElementTranslation = {draggedElementTranslation}
+              setdraggedElementTranslation = {setdraggedElementTranslation}
             />
           </div>
         </div>
