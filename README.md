@@ -8,6 +8,11 @@ Optionally run with the `--watch` flag for file reloading.
 
 This will serve the static react content and watch for file changes.
 
+## Docker and Compose
+
+You can run the deployment using `docker-compose up` **BUT** you need to build
+the phlappjack react image first using `docker build -t phlappjack .`
+
 ## Mongo
 
 There is now a .env file to support connecting to Mongo. Please add a .env file
