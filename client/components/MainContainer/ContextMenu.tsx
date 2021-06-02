@@ -1,8 +1,9 @@
 import { React, ReactDOM, ReactRouter } from '../../deps.ts';
 
-const { useRef,useEffect } = React;
+const { useRef,useEffect, useState } = React;
 
 type props = {
+  urlEndPointSymbolID: string;
   isContextMenuOpen: boolean;
   setIsContextMenuOpen: (isContextMenuOpen: boolean) => void;
   appConfiguration: AppConfig;
@@ -10,17 +11,26 @@ type props = {
 }
 
 const ContextMenu = ({ 
+  urlEndPointSymbolID,
   isContextMenuOpen, 
   setIsContextMenuOpen, 
   appConfiguration, 
-  setAppConfiguration 
+  setAppConfiguration
 }:props) => {
+
+  const [, forceUpdate] = useState<number>(0); 
 
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
         function handleClickOutside(e: any) {
           if (ref.current && !ref.current.contains(e.target)) {
+            const inputElement = document.getElementById('Specify Endpoint') as HTMLInputElement;
+            const inputValue = inputElement.value;
+            appConfiguration['EndPoints'].push(inputValue);
+            setAppConfiguration(appConfiguration);
             setIsContextMenuOpen(false)
+            const ele = document.getElementById(urlEndPointSymbolID) as HTMLDivElement;
+            ele.innerHTML = inputValue;
           }
         }
         document.addEventListener("mousedown", handleClickOutside);
@@ -37,6 +47,8 @@ const ContextMenu = ({
       appConfiguration['EndPoints'].push(inputValue);
       setAppConfiguration(appConfiguration);
       setIsContextMenuOpen(false)
+      const ele = document.getElementById(urlEndPointSymbolID) as HTMLDivElement;
+      ele.innerHTML = inputValue;
     }
   }
 

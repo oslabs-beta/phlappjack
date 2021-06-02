@@ -32,10 +32,16 @@ type props = {
   definedDBToolbar: number;
   draggedElementTranslation: Array<Array<number>>;
   setdraggedElementTranslation:(draggedElementPosition: Array<Array<number>>) => void;
+  urlEndPointCount: number;
+  setURLEndPointCount: (urlEndPointCount: number) => void;
   isContextMenuOpen: boolean;
   setIsContextMenuOpen: (isContextMenuOpen: boolean) => void;
   appConfiguration: AppConfig;
   setAppConfiguration: (appConfiguration: AppConfig) => void;
+  routeInputCoordinates: Array<Array<number>>;
+  setRouteInputCoordinates: (routeInputCoordinates: Array<Array<number>>) => void;
+  routeOutputCoordinates: Array<Array<number>>;
+  setRouteOutputCoordinates: (routeInputCoordinates: Array<Array<number>>) => void;
 }
 
 const SideToolBar = ({ 
@@ -50,10 +56,16 @@ const SideToolBar = ({
   definedDBToolbar,
   draggedElementTranslation,
   setdraggedElementTranslation,
+  urlEndPointCount,
+  setURLEndPointCount,
   isContextMenuOpen,
   setIsContextMenuOpen,
   appConfiguration,
-  setAppConfiguration
+  setAppConfiguration,
+  routeInputCoordinates,
+  setRouteInputCoordinates,
+  routeOutputCoordinates,
+  setRouteOutputCoordinates
 }:props) => {
 
   return (
@@ -77,10 +89,16 @@ const SideToolBar = ({
               definedDBToolbar = {definedDBToolbar}
               draggedElementTranslation = {draggedElementTranslation}
               setdraggedElementTranslation = {setdraggedElementTranslation}
+              urlEndPointCount = {urlEndPointCount}
+              setURLEndPointCount = {setURLEndPointCount}
               isContextMenuOpen = {isContextMenuOpen}
               setIsContextMenuOpen = {setIsContextMenuOpen}
               appConfiguration = {appConfiguration}
               setAppConfiguration = {setAppConfiguration}
+              routeInputCoordinates = {routeInputCoordinates}
+              setRouteInputCoordinates = {setRouteInputCoordinates}
+              routeOutputCoordinates = {routeOutputCoordinates}
+              setRouteOutputCoordinates = {setRouteOutputCoordinates}
             />
           </div>
         </div>

@@ -17,7 +17,7 @@ declare global{
         div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
       }
   }
-
+  //Interface to define AppConfiguration object type.
   interface AppConfig{
     EndPoints: Array<string>;
     DataBases: Array<string>;
@@ -40,6 +40,8 @@ const App = () => {
   //Create state that retains an array of how much an item must be tanslated for their respective
   //drop position. (User will not always grab the element at the top left corner) 
   const [draggedElementTranslation, setdraggedElementTranslation] = useState<Array<Array<number>>>([])
+  //Create state to refer to specific 'URL EndPoint' elements.
+  const [urlEndPointCount, setURLEndPointCount] = useState<number>(0)
   //Create state to display create new endpoint context menu.
   const [ isContextMenuOpen, setIsContextMenuOpen ] = useState<boolean>(true);
   //Create state to allow app configuration to persist.
@@ -47,6 +49,10 @@ const App = () => {
     "EndPoints":[],
     "DataBases":[]
   });
+  //Create state to track 'Route Line' output pixel coordinates.
+  const [ routeInputCoordinates, setRouteInputCoordinates ] = useState<Array<Array<number>>>([]);
+  //Create state to track 'Route Line' output pixel coordinates.
+  const [ routeOutputCoordinates, setRouteOutputCoordinates ] = useState<Array<Array<number>>>([]);
 
   return (
     <div style = {{ display:'flex', flexDirection:'row'}}>
@@ -63,10 +69,16 @@ const App = () => {
         definedDBToolbar = {definedDBToolbar} 
         draggedElementTranslation = {draggedElementTranslation}
         setdraggedElementTranslation = {setdraggedElementTranslation}
+        urlEndPointCount = {urlEndPointCount}
+        setURLEndPointCount = {setURLEndPointCount}
         isContextMenuOpen = {isContextMenuOpen}
         setIsContextMenuOpen = {setIsContextMenuOpen}
         appConfiguration = {appConfiguration}
         setAppConfiguration = {setAppConfiguration}
+        routeInputCoordinates = {routeInputCoordinates}
+        setRouteInputCoordinates = {setRouteInputCoordinates}
+        routeOutputCoordinates = {routeOutputCoordinates}
+        setRouteOutputCoordinates = {setRouteOutputCoordinates}
       />
       {/*Main container component*/}
       <MainContainer
@@ -83,10 +95,16 @@ const App = () => {
         definedDBToolbar = {definedDBToolbar} 
         draggedElementTranslation = {draggedElementTranslation}
         setdraggedElementTranslation = {setdraggedElementTranslation}
+        urlEndPointCount = {urlEndPointCount}
+        setURLEndPointCount = {setURLEndPointCount}
         isContextMenuOpen = {isContextMenuOpen}
         setIsContextMenuOpen = {setIsContextMenuOpen}
         appConfiguration = {appConfiguration}
         setAppConfiguration = {setAppConfiguration}
+        routeInputCoordinates = {routeInputCoordinates}
+        setRouteInputCoordinates = {setRouteInputCoordinates}
+        routeOutputCoordinates = {routeOutputCoordinates}
+        setRouteOutputCoordinates = {setRouteOutputCoordinates}
       />
       {/*Defined db tool bar component*/}
       <DefinedDBToolbar 

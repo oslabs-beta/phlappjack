@@ -19,12 +19,17 @@ type props = {
   definedDBToolbar: number;
   draggedElementTranslation: Array<Array<number>>;
   setdraggedElementTranslation:(draggedElementPosition: Array<Array<number>>) => void;
+  urlEndPointCount: number;
+  setURLEndPointCount: (urlEndPointCount: number) => void;
   isContextMenuOpen: boolean;
   setIsContextMenuOpen: (isContextMenuOpen: boolean) => void;
   appConfiguration: AppConfig;
   setAppConfiguration: (appConfiguration: AppConfig) => void;
+  routeInputCoordinates: Array<Array<number>>;
+  setRouteInputCoordinates: (routeInputCoordinates: Array<Array<number>>) => void;
+  routeOutputCoordinates: Array<Array<number>>;
+  setRouteOutputCoordinates: (routeInputCoordinates: Array<Array<number>>) => void;
 }
-
 
 const DisplayGrid = ({ 
   sideToolBarVW, 
@@ -40,10 +45,16 @@ const DisplayGrid = ({
   definedDBToolbar,
   draggedElementTranslation,
   setdraggedElementTranslation,
+  urlEndPointCount,
+  setURLEndPointCount,
   isContextMenuOpen,
   setIsContextMenuOpen,
   appConfiguration,
-  setAppConfiguration
+  setAppConfiguration,
+  routeInputCoordinates,
+  setRouteInputCoordinates,
+  routeOutputCoordinates,
+  setRouteOutputCoordinates
 }: props ) => {
 
   const displaySymbols = [];
@@ -55,29 +66,35 @@ const DisplayGrid = ({
       displaySymbols.push(
         <div key = {i} style = {{position:'absolute', left:String(elementLeft + 'vw'), top:String(elementTop + 'vh')}}>
           <ContextMenu
+            urlEndPointSymbolID = {String('urlEndPointSymbol ' + i)}
             isContextMenuOpen = {isContextMenuOpen}
             setIsContextMenuOpen = {setIsContextMenuOpen}
             appConfiguration = {appConfiguration}
             setAppConfiguration = {setAppConfiguration}
           />
-          {appConfiguration['EndPoints'][i]}
           {draggedElementName[i]}
         </div>
       )
     } else {
       displaySymbols.push(
         <div key = {i} style = {{position:'absolute', left:String(elementLeft + 'vw'), top:String(elementTop + 'vh')}}>
-          {appConfiguration['EndPoints'][i]}
           {draggedElementName[i]}
         </div>
       )
     }
   }
 
+  // const displayRouteLines = [];
+  // for(let i = 0; i < routeInputCoordinates.length; i++){
+  //   displayRouteLines.push(
+  //     <svg x1={String(routeInputCoordinates[i][0])} y1={String(routeInputCoordinates[i][1])} x2={String(routeOutputCoordinates[i][0])} y2={String(routeOutputCoordinates[i][0])} color="black"/>
+  //   )
+  // }
 
   return (
     <div>
       {displaySymbols}
+      {displayRouteLines}
     </div>
   );
 };
