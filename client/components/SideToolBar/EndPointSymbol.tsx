@@ -2,6 +2,8 @@ import { React, ReactDOM, ReactRouter } from "../../deps.ts";
 
 const { useState } = React;
 
+import ContextMenu from '../MainContainer/ContextMenu.tsx';
+
 //Globaly declare App sub-components as React functional components.
 declare global{
   namespace JSX {
@@ -23,6 +25,10 @@ type props = {
   definedDBToolbar: number;
   draggedElementTranslation:Array<Array<number>>;
   setdraggedElementTranslation: (draggedElementPosition: Array<Array<number>>) => void;
+  isContextMenuOpen: boolean;
+  setIsContextMenuOpen: (isContextMenuOpen: boolean) => void;
+  appConfiguration: AppConfig;
+  setAppConfiguration: (appConfiguration: AppConfig) => void;
 }
 
 const EndPointSymbol = ({ 
@@ -36,7 +42,11 @@ const EndPointSymbol = ({
   setDraggedElementPosition, 
   definedDBToolbar,
   draggedElementTranslation,
-  setdraggedElementTranslation
+  setdraggedElementTranslation,
+  isContextMenuOpen,
+  setIsContextMenuOpen,
+  appConfiguration,
+  setAppConfiguration
 }:props ) => {
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
@@ -62,6 +72,7 @@ const EndPointSymbol = ({
       draggedElementPosition.push(dropPosition);
       setDraggedElementPosition(draggedElementPosition);
       const draggedElement = (e.target as Element).id;
+      setIsContextMenuOpen(true)
       draggedElementName.push(
         <EndPointSymbol
           sideToolBarVW = {sideToolBarVW}  
@@ -75,6 +86,10 @@ const EndPointSymbol = ({
           definedDBToolbar = {definedDBToolbar}
           draggedElementTranslation = {draggedElementTranslation}
           setdraggedElementTranslation = {setdraggedElementTranslation}
+          isContextMenuOpen = {isContextMenuOpen}
+          setIsContextMenuOpen = {setIsContextMenuOpen}
+          appConfiguration = {appConfiguration}
+          setAppConfiguration = {setAppConfiguration}
         />
       );
       setDraggedElementName(draggedElementName);

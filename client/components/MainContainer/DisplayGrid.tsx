@@ -1,7 +1,9 @@
 import { React, ReactDOM, ReactRouter } from "../../deps.ts";
 
+const { useState } = React;
+
 import EndPointSymbol  from '../SideToolBar/EndPointSymbol.tsx';
-import ContextMenu from '../SideToolBar/ContextMenu.tsx';
+import ContextMenu from './ContextMenu.tsx';
 
 type props = {
   sideToolBarVW: number;
@@ -17,6 +19,10 @@ type props = {
   definedDBToolbar: number;
   draggedElementTranslation: Array<Array<number>>;
   setdraggedElementTranslation:(draggedElementPosition: Array<Array<number>>) => void;
+  isContextMenuOpen: boolean;
+  setIsContextMenuOpen: (isContextMenuOpen: boolean) => void;
+  appConfiguration: AppConfig;
+  setAppConfiguration: (appConfiguration: AppConfig) => void;
 }
 
 
@@ -33,7 +39,11 @@ const DisplayGrid = ({
   setDraggedElementPosition, 
   definedDBToolbar,
   draggedElementTranslation,
-  setdraggedElementTranslation
+  setdraggedElementTranslation,
+  isContextMenuOpen,
+  setIsContextMenuOpen,
+  appConfiguration,
+  setAppConfiguration
 }: props ) => {
 
   const displaySymbols = [];
@@ -41,11 +51,27 @@ const DisplayGrid = ({
   for (let i = 0; i < draggedElementName.length; i++){
     const elementLeft: number = draggedElementPosition[i][0] + draggedElementTranslation[i][0];
     const elementTop: number = draggedElementPosition[i][1] + draggedElementTranslation[i][1];
-    displaySymbols.push(
-      <div key = {i} style = {{position:'absolute', left:String(elementLeft + 'vw'), top:String(elementTop + 'vh')}}>
-        {draggedElementName[i]}
-      </div>
-    )
+    if(i === (draggedElementName.length - 1)){
+      displaySymbols.push(
+        <div key = {i} style = {{position:'absolute', left:String(elementLeft + 'vw'), top:String(elementTop + 'vh')}}>
+          <ContextMenu
+            isContextMenuOpen = {isContextMenuOpen}
+            setIsContextMenuOpen = {setIsContextMenuOpen}
+            appConfiguration = {appConfiguration}
+            setAppConfiguration = {setAppConfiguration}
+          />
+          {appConfiguration['EndPoints'][i]}
+          {draggedElementName[i]}
+        </div>
+      )
+    } else {
+      displaySymbols.push(
+        <div key = {i} style = {{position:'absolute', left:String(elementLeft + 'vw'), top:String(elementTop + 'vh')}}>
+          {appConfiguration['EndPoints'][i]}
+          {draggedElementName[i]}
+        </div>
+      )
+    }
   }
 
 

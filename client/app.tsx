@@ -17,6 +17,12 @@ declare global{
         div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
       }
   }
+
+  interface AppConfig{
+    EndPoints: Array<string>;
+    DataBases: Array<string>;
+  }
+
 }
 
 const App = () => {
@@ -34,6 +40,13 @@ const App = () => {
   //Create state that retains an array of how much an item must be tanslated for their respective
   //drop position. (User will not always grab the element at the top left corner) 
   const [draggedElementTranslation, setdraggedElementTranslation] = useState<Array<Array<number>>>([])
+  //Create state to display create new endpoint context menu.
+  const [ isContextMenuOpen, setIsContextMenuOpen ] = useState<boolean>(true);
+  //Create state to allow app configuration to persist.
+  const [ appConfiguration, setAppConfiguration ] = useState<AppConfig>({
+    "EndPoints":[],
+    "DataBases":[]
+  });
 
   return (
     <div style = {{ display:'flex', flexDirection:'row'}}>
@@ -50,6 +63,10 @@ const App = () => {
         definedDBToolbar = {definedDBToolbar} 
         draggedElementTranslation = {draggedElementTranslation}
         setdraggedElementTranslation = {setdraggedElementTranslation}
+        isContextMenuOpen = {isContextMenuOpen}
+        setIsContextMenuOpen = {setIsContextMenuOpen}
+        appConfiguration = {appConfiguration}
+        setAppConfiguration = {setAppConfiguration}
       />
       {/*Main container component*/}
       <MainContainer
@@ -66,6 +83,10 @@ const App = () => {
         definedDBToolbar = {definedDBToolbar} 
         draggedElementTranslation = {draggedElementTranslation}
         setdraggedElementTranslation = {setdraggedElementTranslation}
+        isContextMenuOpen = {isContextMenuOpen}
+        setIsContextMenuOpen = {setIsContextMenuOpen}
+        appConfiguration = {appConfiguration}
+        setAppConfiguration = {setAppConfiguration}
       />
       {/*Defined db tool bar component*/}
       <DefinedDBToolbar 

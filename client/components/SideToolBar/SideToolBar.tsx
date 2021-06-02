@@ -32,6 +32,10 @@ type props = {
   definedDBToolbar: number;
   draggedElementTranslation: Array<Array<number>>;
   setdraggedElementTranslation:(draggedElementPosition: Array<Array<number>>) => void;
+  isContextMenuOpen: boolean;
+  setIsContextMenuOpen: (isContextMenuOpen: boolean) => void;
+  appConfiguration: AppConfig;
+  setAppConfiguration: (appConfiguration: AppConfig) => void;
 }
 
 const SideToolBar = ({ 
@@ -45,7 +49,11 @@ const SideToolBar = ({
   setDraggedElementPosition, 
   definedDBToolbar,
   draggedElementTranslation,
-  setdraggedElementTranslation
+  setdraggedElementTranslation,
+  isContextMenuOpen,
+  setIsContextMenuOpen,
+  appConfiguration,
+  setAppConfiguration
 }:props) => {
 
   return (
@@ -69,6 +77,10 @@ const SideToolBar = ({
               definedDBToolbar = {definedDBToolbar}
               draggedElementTranslation = {draggedElementTranslation}
               setdraggedElementTranslation = {setdraggedElementTranslation}
+              isContextMenuOpen = {isContextMenuOpen}
+              setIsContextMenuOpen = {setIsContextMenuOpen}
+              appConfiguration = {appConfiguration}
+              setAppConfiguration = {setAppConfiguration}
             />
           </div>
         </div>
