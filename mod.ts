@@ -1,5 +1,5 @@
 import { Application, send } from "./deps.ts";
-import { createBundle } from "./createBundle.ts";
+//import { createBundle } from "./createBundle.ts";
 
 const app = new Application();
 
@@ -9,7 +9,7 @@ const messageDone = new TextEncoder().encode("Done!\n");
 
 await Deno.writeAll(Deno.stdout, messageBuilding);
 // build bundle
-await createBundle();
+//await createBundle();
 await Deno.writeAll(Deno.stdout, messageDone);
 
 // serve cwd as static files
