@@ -74,7 +74,7 @@ const EndPointSymbol = ({
     e.preventDefault();
     const mouseXAsVW: number = (e.clientX / document.documentElement.clientWidth) * 100;
     const mouseYAsVH: number = (e.clientY / document.documentElement.clientHeight) * 100;
-    const outputPosition: Array<number> = [mouseXAsVW, mouseXAsVW]
+    const outputPosition: Array<number> = [mouseXAsVW, mouseYAsVH]
     routeOutputCoordinates.push(outputPosition);
     setRouteOutputCoordinates(routeOutputCoordinates);
   }

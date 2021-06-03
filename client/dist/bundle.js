@@ -24351,7 +24351,7 @@ const EndPointSymbol = ({ sideToolBarVW , setSideToolBarVW , isElementBeingDragg
         const mouseYAsVH = e.clientY / document.documentElement.clientHeight * 100;
         const outputPosition = [
             mouseXAsVW,
-            mouseXAsVW
+            mouseYAsVH
         ];
         routeOutputCoordinates.push(outputPosition);
         setRouteOutputCoordinates(routeOutputCoordinates);
@@ -24604,13 +24604,207 @@ const DisplayGrid = ({ sideToolBarVW , setSideToolBarVW , mainContainerVW , setM
     }
     const displayRouteLines = [];
     for(let i5 = 0; i5 < routeInputCoordinates.length; i5++){
-        displayRouteLines.push(export_default1.createElement("svg", {
-            x1: String(routeInputCoordinates[i5][0]),
-            y1: String(routeInputCoordinates[i5][1]),
-            x2: String(routeOutputCoordinates[i5][0]),
-            y2: String(routeOutputCoordinates[i5][0]),
-            color: "black"
-        }));
+        if (routeOutputCoordinates[i5][0] < routeInputCoordinates[i5][0] && routeOutputCoordinates[i5][1] < routeInputCoordinates[i5][1]) {
+            const left = routeOutputCoordinates[i5][0];
+            const top = routeOutputCoordinates[i5][1];
+            const height = (routeInputCoordinates[i5][1] - top) / 2;
+            const left_2 = routeOutputCoordinates[i5][0];
+            const top_2 = routeInputCoordinates[i5][1] - height;
+            const width = routeInputCoordinates[i5][0] - routeOutputCoordinates[i5][0];
+            const left_3 = routeInputCoordinates[i5][0];
+            const top_3 = top_2;
+            const height_2 = routeInputCoordinates[i5][1] - top_2;
+            displayRouteLines.push(export_default1.createElement("div", null, export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left + 'vw'),
+                    top: String(top + 'vh'),
+                    height: String(height + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_2 + 'vw'),
+                    top: String(top_2 + 'vh'),
+                    width: String(width + 'vw'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_3 + 'vw'),
+                    top: String(top_3 + 'vh'),
+                    height: String(height_2 + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            })));
+        } else if (routeOutputCoordinates[i5][0] > routeInputCoordinates[i5][0] && routeOutputCoordinates[i5][1] < routeInputCoordinates[i5][1]) {
+            const left = routeOutputCoordinates[i5][0];
+            const top = routeOutputCoordinates[i5][1];
+            const height = (routeInputCoordinates[i5][1] - top) / 2;
+            const left_2 = routeInputCoordinates[i5][0];
+            const top_2 = routeInputCoordinates[i5][1] - height;
+            const width = routeOutputCoordinates[i5][0] - routeInputCoordinates[i5][0];
+            const left_3 = routeInputCoordinates[i5][0];
+            const top_3 = top_2;
+            const height_2 = routeInputCoordinates[i5][1] - top_2;
+            displayRouteLines.push(export_default1.createElement("div", null, export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left + 'vw'),
+                    top: String(top + 'vh'),
+                    height: String(height + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_2 + 'vw'),
+                    top: String(top_2 + 'vh'),
+                    width: String(width + 'vw'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_3 + 'vw'),
+                    top: String(top_3 + 'vh'),
+                    height: String(height_2 + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            })));
+        } else if (routeOutputCoordinates[i5][0] < routeInputCoordinates[i5][0] && routeOutputCoordinates[i5][1] > routeInputCoordinates[i5][1]) {
+            const left = routeOutputCoordinates[i5][0];
+            const top = routeOutputCoordinates[i5][1];
+            const height = 2.5;
+            const left_2 = routeOutputCoordinates[i5][0];
+            const top_2 = routeOutputCoordinates[i5][1] + 2.5;
+            const width = (routeInputCoordinates[i5][0] - routeOutputCoordinates[i5][0]) / 2;
+            const left_3 = routeOutputCoordinates[i5][0] + width;
+            const top_3 = routeInputCoordinates[i5][1] - 2.5;
+            const height_2 = 2.5 * 2 + (routeOutputCoordinates[i5][1] - routeInputCoordinates[i5][1]);
+            const left_4 = left_3;
+            const top_4 = top_3;
+            const width_2 = width;
+            const left_5 = left_3 + width;
+            const top_5 = top_3;
+            const height_3 = 2.5;
+            displayRouteLines.push(export_default1.createElement("div", null, export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left + 'vw'),
+                    top: String(top + 'vh'),
+                    height: String(2.5 + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_2 + 'vw'),
+                    top: String(top_2 + 'vh'),
+                    width: String(width + 'vw'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_3 + 'vw'),
+                    top: String(top_3 + 'vh'),
+                    height: String(height_2 + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_4 + 'vw'),
+                    top: String(top_4 + 'vh'),
+                    width: String(width_2 + 'vw'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_5 + 'vw'),
+                    top: String(top_5 + 'vh'),
+                    height: String(2.5 + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            })));
+        } else if (routeOutputCoordinates[i5][0] > routeInputCoordinates[i5][0] && routeOutputCoordinates[i5][1] > routeInputCoordinates[i5][1]) {
+            const left = routeOutputCoordinates[i5][0];
+            const top = routeOutputCoordinates[i5][1];
+            const height = 2.5;
+            const left_2 = left - (routeOutputCoordinates[i5][0] - routeInputCoordinates[i5][0]) / 2;
+            const top_2 = routeOutputCoordinates[i5][1] + 2.5;
+            const width = (routeOutputCoordinates[i5][0] - routeInputCoordinates[i5][0]) / 2;
+            const left_3 = left_2;
+            const top_3 = routeInputCoordinates[i5][1] - 2.5;
+            const height_2 = 2.5 * 2 + (routeOutputCoordinates[i5][1] - routeInputCoordinates[i5][1]);
+            const left_4 = routeInputCoordinates[i5][0];
+            const top_4 = routeInputCoordinates[i5][1] - 2.5;
+            const width_2 = width;
+            const left_5 = left_4;
+            const top_5 = top_4;
+            const height_3 = 2.5;
+            displayRouteLines.push(export_default1.createElement("div", null, export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left + 'vw'),
+                    top: String(top + 'vh'),
+                    height: String(2.5 + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_2 + 'vw'),
+                    top: String(top_2 + 'vh'),
+                    width: String(width + 'vw'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_3 + 'vw'),
+                    top: String(top_3 + 'vh'),
+                    height: String(height_2 + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_4 + 'vw'),
+                    top: String(top_4 + 'vh'),
+                    width: String(width_2 + 'vw'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            }), export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left_5 + 'vw'),
+                    top: String(top_5 + 'vh'),
+                    height: String(2.5 + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            })));
+        }
     }
     return export_default1.createElement("div", null, displaySymbols, displayRouteLines);
 };
