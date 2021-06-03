@@ -24804,6 +24804,20 @@ const DisplayGrid = ({ sideToolBarVW , setSideToolBarVW , mainContainerVW , setM
                     backgroundColor: 'black'
                 }
             })));
+        } else if (routeOutputCoordinates[i5][0] === routeInputCoordinates[i5][0] && routeOutputCoordinates[i5][1] < routeInputCoordinates[i5][1]) {
+            const left = routeOutputCoordinates[i5][0];
+            const top = routeOutputCoordinates[i5][1];
+            const height = routeOutputCoordinates[i5][1] - routeInputCoordinates[i5][1];
+            displayRouteLines.push(export_default1.createElement("div", null, export_default1.createElement("div", {
+                style: {
+                    position: 'absolute',
+                    left: String(left + 'vw'),
+                    top: String(top + 'vh'),
+                    height: String(height + 'vh'),
+                    border: '1px solid black',
+                    backgroundColor: 'black'
+                }
+            })));
         }
     }
     return export_default1.createElement("div", null, displaySymbols, displayRouteLines);

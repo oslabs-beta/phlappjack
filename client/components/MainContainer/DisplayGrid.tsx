@@ -106,7 +106,7 @@ const DisplayGrid = ({
           <div style = {{position: 'absolute', left:String(left_3 + 'vw'), top:String(top_3 + 'vh'), height:String(height_2 + 'vh'),border:'1px solid black', backgroundColor:'black'}}/>
         </div>
       )
-    } else if(routeOutputCoordinates[i][0] > routeInputCoordinates[i][0] && routeOutputCoordinates[i][1] < routeInputCoordinates[i][1]){
+    }else if(routeOutputCoordinates[i][0] > routeInputCoordinates[i][0] && routeOutputCoordinates[i][1] < routeInputCoordinates[i][1]){
       const left: number = routeOutputCoordinates[i][0];
       const top: number = routeOutputCoordinates[i][1];
       const height: number = (routeInputCoordinates[i][1] - top) / 2;
@@ -126,7 +126,8 @@ const DisplayGrid = ({
           <div style = {{position: 'absolute', left:String(left_3 + 'vw'), top:String(top_3 + 'vh'), height:String(height_2 + 'vh'),border:'1px solid black', backgroundColor:'black'}}/>
         </div>
       )
-    } else if(routeOutputCoordinates[i][0] < routeInputCoordinates[i][0] && routeOutputCoordinates[i][1] > routeInputCoordinates[i][1]){
+
+    }else if(routeOutputCoordinates[i][0] <= routeInputCoordinates[i][0] && routeOutputCoordinates[i][1] > routeInputCoordinates[i][1]){
       const left: number = routeOutputCoordinates[i][0];
       const top: number = routeOutputCoordinates[i][1];
       const height: number = 2.5;
@@ -134,7 +135,7 @@ const DisplayGrid = ({
       const left_2: number = routeOutputCoordinates[i][0];
       const top_2: number = routeOutputCoordinates[i][1] + height;
       const width: number = (routeInputCoordinates[i][0] - routeOutputCoordinates[i][0]) / 2;
-
+      
       const left_3: number = routeOutputCoordinates[i][0] + width;
       const top_3: number = routeInputCoordinates[i][1] - 2.5;
       const height_2: number = height * 2 + (routeOutputCoordinates[i][1] - routeInputCoordinates[i][1]);
@@ -156,7 +157,8 @@ const DisplayGrid = ({
           <div style = {{position: 'absolute', left:String(left_5 + 'vw'), top:String(top_5 + 'vh'), height:String(height_3 + 'vh'),border:'1px solid black', backgroundColor:'black'}}/>
         </div>
       )
-    }  else if(routeOutputCoordinates[i][0] > routeInputCoordinates[i][0] && routeOutputCoordinates[i][1] > routeInputCoordinates[i][1]){
+
+    }else if(routeOutputCoordinates[i][0] > routeInputCoordinates[i][0] && routeOutputCoordinates[i][1] > routeInputCoordinates[i][1]){
       const left: number = routeOutputCoordinates[i][0];
       const top: number = routeOutputCoordinates[i][1];
       const height: number = 2.5;
@@ -186,6 +188,17 @@ const DisplayGrid = ({
           <div style = {{position: 'absolute', left:String(left_5 + 'vw'), top:String(top_5 + 'vh'), height:String(height_3 + 'vh'),border:'1px solid black', backgroundColor:'black'}}/>
         </div>
       )
+
+    }else if(routeOutputCoordinates[i][0] === routeInputCoordinates[i][0] && routeOutputCoordinates[i][1] < routeInputCoordinates[i][1]){
+      const left: number = routeOutputCoordinates[i][0];
+      const top: number = routeOutputCoordinates[i][1];
+      const height: number = routeOutputCoordinates[i][1] - routeInputCoordinates[i][1] ;
+      displayRouteLines.push(
+        <div>
+          <div style = {{position: 'absolute', left:String(left + 'vw'), top:String(top + 'vh'), height:String(height + 'vh'),border:'1px solid black', backgroundColor:'black'}}/>
+        </div>
+      )
+
     }
   }
 
