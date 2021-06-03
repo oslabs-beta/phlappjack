@@ -9,7 +9,7 @@ import {List} from "../deps.ts";
 import {Typography} from "../deps.ts";
 import {Divider} from "../deps.ts";
 import {IconButton} from "../deps.ts";
-import {MenuIcon} from "https://cdn.skypack.dev/@material-ui/icons";
+// import {MenuIcon} from "https://cdn.skypack.dev/@material-ui/icons";
 import {ChevronLeftIcon} from "../deps.ts";
 import {ChevronRightIcon} from "../deps.ts";
 import {ListItem} from "../deps.ts";
@@ -112,7 +112,7 @@ export default function PersistentDrawerRight() {
             onClick={handleDrawerOpen}
             className={clsx(open && classes.hide)}
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
         </Toolbar>
       </AppBar>

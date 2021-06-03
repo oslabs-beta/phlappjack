@@ -8,7 +8,7 @@ function App() {
   const [thing, setThing] = useState(0);
   return (
     <div className='app'>some {thing}
-    {/* <PersistentDrawerRight></PersistentDrawerRight> */}
+    <PersistentDrawerRight></PersistentDrawerRight>
     <FloatingActionButton></FloatingActionButton>
       <ContainedButtons></ContainedButtons>
     </div>
