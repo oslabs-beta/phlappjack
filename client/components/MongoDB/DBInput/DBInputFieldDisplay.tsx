@@ -45,8 +45,8 @@ export default function DBInputFieldDisplay(props){
         newDBInputDisplay[props.dbBeingModified].splice(indexToRemove,1);
         props.setDBInputDisplay(newDBInputDisplay);
         //Force parent component to update.
-        const newChildKey: number = Math.floor(Math.random() * 100000);
-        props.setChildKey(newChildKey)
+        const newChildKey0: number = props.newChildKey + 1;
+        props.setChildKey(newChildKey0)
       }else if(mouseup === false && redPercentage > 20){
         selectedKeyValueEle.style.background = `linear-gradient(90deg, #ffffff ${100 - redPercentage}%, #ff0000 ${redPercentage}%)`
       } else if (mouseup === true){

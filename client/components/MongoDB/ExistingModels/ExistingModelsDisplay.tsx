@@ -42,13 +42,11 @@ export default function ExistingModelsDisplay(props){
       if(redPercentage === 100){
         clearInterval(intervalID);
         const indexToRemove: string = selectedKeyValueEle.parentNode.parentNode.id.split('_')[1];
+        console.log(props.dbInputDisplay[indexToRemove])
         const newDBInputDisplay = props.dbInputDisplay;
         delete newDBInputDisplay[indexToRemove];
         props.setDBInputDisplay(newDBInputDisplay);
         props.setDBBeingModified('DB Input Field');
-        //Force parent component to update.
-        const newChildKey: number = Math.floor(Math.random() * 100000);
-        props.setChildKey(newChildKey);
       }else if(mouseup === false && redPercentage > 10){
         selectedKeyValueEle.style.background = `linear-gradient(90deg, #ffffff ${100 - redPercentage}%, #ff0000 ${redPercentage}%)`
       } else if (mouseup === true){
@@ -73,13 +71,12 @@ export default function ExistingModelsDisplay(props){
                 <ListItem 
                   id = {`schema-selection_${text}`}
                   button key={text}
-                  onClick = {(e) => handleSelection(e)}
-                  onMouseDown = {(e) => handleMouseDown(e)}
                 >
                   <ListItemText 
                     primary={text}
                     classes={{primary:classes.listItemText}}
                     onClick = {(e) => handleSelection(e)}
+                    onMouseDown = {(e) => handleMouseDown(e)}
                   />
                 </ListItem>
             ))}

@@ -6,11 +6,14 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import DBInputFieldDisplay from './DBInputFieldDisplay';
 import DBInputFieldKey from './DBInputFieldKey';
-import Value from './DBInputFieldValue';
+import DBInputFieldValue from './DBInputFieldValue';
 
 export default function DBInputField(props){
 
-  const [ childKey,setChildKey ] = useState(0);
+  const [ childKey0,setChildKey0] = useState(0);
+  const [ childKey1,setChildKey1] = useState(0);
+  const [ childKey2,setChildKey2] = useState(0);
+
   const handleOnClick = (e) =>{
     if(props.dbInputDisplay[props.dbBeingModified]){
       const keyEle = (document.getElementById("key-input-field")) as HTMLInputElement;
@@ -42,16 +45,30 @@ export default function DBInputField(props){
           {props.dbBeingModified}
         </div>
         <DBInputFieldDisplay
-          key = {childKey}
+          childKey0 = {childKey0}
+          setChildKey0 = {setChildKey0}
           dbBeingModified = {props.dbBeingModified}
           setDBBeingModified = {props.setDBBeingModified}
           dbInputDisplay = {props.dbInputDisplay}
           setDBInputDisplay = {props.setDBInputDisplay}
-          setChildKey = {setChildKey}
         />
         <div style={{display:'flex', flexDirection:'row', marginTop:'1vh', marginLeft:'2.5vw'}}>
-          <DBInputFieldKey/>
-          <Value/>
+          <DBInputFieldKey
+            childKey1 = {childKey1}
+            setChildKey1 = {setChildKey1}
+            dbBeingModified = {props.dbBeingModified}
+            setDBBeingModified = {props.setDBBeingModified}
+            dbInputDisplay = {props.dbInputDisplay}
+            setDBInputDisplay = {props.setDBInputDisplay}
+          />
+          <DBInputFieldValue
+            childKey2 = {childKey2}
+            setChildKey2 = {setChildKey2}
+            dbBeingModified = {props.dbBeingModified}
+            setDBBeingModified = {props.setDBBeingModified}
+            dbInputDisplay = {props.dbInputDisplay}
+            setDBInputDisplay = {props.setDBInputDisplay}
+          />
         </div>
         <AddCircleIcon style = {{fontSize:'48px', marginLeft:'11.5vw'}} onClick ={e => handleOnClick(e)}/>
       </Paper>

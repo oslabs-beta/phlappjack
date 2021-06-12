@@ -9,10 +9,9 @@ import DBNameInput from './DBNameInput';
 
 export default function ExistingModels(props){
 
-  const [ childKey,setChildKey ] = useState(0);
-
   const handleClick = (e) =>{
     const inputFieldEle = (document.getElementById("Specifiy DB Input field")) as HTMLInputElement;
+    console.log(inputFieldEle.value)
     props.setDBBeingModified(inputFieldEle.value)
     if (!props.dbInputDisplay[inputFieldEle.value]){
       const newDBInputDisplay = props.dbInputDisplay;
@@ -29,14 +28,17 @@ export default function ExistingModels(props){
         Existing Models
       </div>
         <ExistingModelsDisplay
-          key = {childKey}
           dbBeingModified = {props.dbBeingModified}
           setDBBeingModified = {props.setDBBeingModified}
           dbInputDisplay = {props.dbInputDisplay}
           setDBInputDisplay = {props.setDBInputDisplay}
-          setChildKey = {setChildKey}
         />
-        <DBNameInput/>
+        <DBNameInput
+          dbBeingModified = {props.dbBeingModified}
+          setDBBeingModified = {props.setDBBeingModified}
+          dbInputDisplay = {props.dbInputDisplay}
+          setDBInputDisplay = {props.setDBInputDisplay}
+        />
         <AddCircleIcon style = {{fontSize:'48px', marginLeft:'11.5vw'}} onClick ={(e) => handleClick(e)}/>
       </Paper>
     </div>

@@ -87,15 +87,20 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function DBNameInput(){
+export default function DBNameInput(props){
   const classes = useStyles();
 
   const handleKeyPress = (e) => {
     if(e.keyCode === 13){
       e.preventDefault();
-      const mongoPasswordInputEle = e.target as HTMLElement;
-      props.setAtlasPassword(mongoPasswordInputEle.value)
-      mongoPasswordInputEle.value = '';
+      const collectionInputEle = e.target as HTMLElement;
+      props.setDBBeingModified(collectionInputEle.value)
+      if (!props.dbInputDisplay[collectionInputEle.value]){
+        const newDBInputDisplay = props.dbInputDisplay;
+        newDBInputDisplay[collectionInputEle.value] = [];
+        props.setDBInputDisplay(newDBInputDisplay);
+      }
+      collectionInputEle.value = '';
     }
   }
 
