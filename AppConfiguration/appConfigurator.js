@@ -20,18 +20,18 @@ const fs = require('fs-extra')
 
 // const { applicationName,mongoHostState,userNameState,passWordState,mongoDBState,collectionsState } = state;
 
-const AppConfigurator = async ( applicationName ,mongoHostState ,userNameState ,passWordState ,mongoDBState ,collectionsState, dockerFile, dockerComposeFile ) => {
+const AppConfigurator = async ( dir, applicationName ,mongoHostState ,userNameState ,passWordState ,mongoDBState ,collectionsState, dockerFile, dockerComposeFile ) => {
 
   const clientDepsTSTemplate =`export { MongoClient } from "https://deno.land/x/mongo/mod.ts";
     
   export { Application } from "https://deno.land/x/oak/mod.ts";
     `
   //Create application folder.
-  await fs.ensureDir(`./${applicationName}`);
+  await fs.ensureDir(`${dir}/${applicationName}`);
   //Create server folder within the new application folder.
-  await fs.ensureDir(`./${applicationName}/server`);
+  await fs.ensureDir(`${dir}/${applicationName}/server`);
   //Create server.ts file in the new server folder.
-  await fs.ensureFile(`./${applicationName}/server/server.ts`);
+  await fs.ensureFile(`${dir}/${applicationName}/server/server.ts`);
   //Create server template that will populate the server.ts file.
   clientServerTSTemplate =`import { Application } from './deps.ts'
   import { router } from './router/routes.ts'
@@ -44,11 +44,11 @@ app.use(router.allowedMethods());
 app.listen({ port });
   `
   //Popualte server.ts file with clientServerTSTemplate.
-  await fs.writeFileSync(`./${applicationName}/server/server.ts`,clientServerTSTemplate);
+  await fs.writeFileSync(`${dir}/${applicationName}/server/server.ts`,clientServerTSTemplate);
   //Create a router dirrectory.
-  await fs.ensureDir(`./${applicationName}/server/router`);
+  await fs.ensureDir(`${dir}/${applicationName}/server/router`);
   //Create a routes.ts file in the newly created router folder.
-  await fs.ensureFile(`./${applicationName}/server/router/routes.ts`);
+  await fs.ensureFile(`${dir}/${applicationName}/server/router/routes.ts`);
   //Create server template that will populate the server.ts file.
   clientRouterTSTemplate =`import { Router } from '../deps.ts'
 const router = new Router()
@@ -56,14 +56,14 @@ const router = new Router()
 router
     `
   //Write clientRouterTSTemplate to newly create routes.ts file.
-  await fs.writeFileSync(`./${applicationName}/server/router/routes.ts`,clientRouterTSTemplate);
+  await fs.writeFileSync(`${dir}/${applicationName}/server/router/routes.ts`,clientRouterTSTemplate);
 
   //Create deps.ts file in the new server folder.
-  await fs.ensureFile(`./${applicationName}/server/deps.ts`);
+  await fs.ensureFile(`${dir}/${applicationName}/server/deps.ts`);
   //Write to deps.ts file in the server folder.
-  await fs.writeFileSync(`./${applicationName}/server/deps.ts`,clientDepsTSTemplate);
+  await fs.writeFileSync(`${dir}/${applicationName}/server/deps.ts`,clientDepsTSTemplate);
   //Create a models folder within the new server folder.
-  await fs.ensureDir(`./${applicationName}/server/models`);
+  await fs.ensureDir(`${dir}/${applicationName}/server/models`);
 
   const databases  = Object.keys(collectionsState);
   for(let i = 0; i < databases.length; i++){
@@ -104,26 +104,26 @@ const ${databases[i]} = await db.collection("${databases[i]}");
 console.log('Successfully connected to ${databases[i]}!')
       `
     //Create a models.ts files within the new models folder.
-    await fs.ensureFile(`./${applicationName}/server/models/${databases[i]}.ts`);
+    await fs.ensureFile(`${dir}/${applicationName}/server/models/${databases[i]}.ts`);
 
     //Write template to the new models folder.
-    fs.writeFileSync(`./${applicationName}/server/models/${databases[i]}.ts`, databaseConnectionTemp)
+    fs.writeFileSync(`${dir}/${applicationName}/server/models/${databases[i]}.ts`, databaseConnectionTemp)
   }
 
   //Create a client folder.
-  await fs.ensureDir(`./${applicationName}/client`);
+  await fs.ensureDir(`${dir}/${applicationName}/client`);
   //Create deps.ts file in the new server folder.
-  await fs.ensureFile(`./${applicationName}/client/deps.ts`);
+  await fs.ensureFile(`${dir}/${applicationName}/client/deps.ts`);
 
   //Create DockerFile in new application root folder.
-  await fs.ensureFile(`./${applicationName}/DockerFile`);
+  await fs.ensureFile(`${dir}/${applicationName}/DockerFile`);
   //Populate DockerFile
-  fs.writeFileSync(`./${applicationName}/DockerFile`, dockerFile)
+  fs.writeFileSync(`${dir}/${applicationName}/DockerFile`, dockerFile)
 
   //Create docker-compose.yml in new application root folder.
-  await fs.ensureFile(`./${applicationName}/docker-compose.yml`);
+  await fs.ensureFile(`${dir}/${applicationName}/docker-compose.yml`);
   //Populate docker-compose.yml.
-  fs.writeFileSync(`./${applicationName}/docker-compose.yml`, dockerComposeFile)
+  fs.writeFileSync(`${dir}/${applicationName}/docker-compose.yml`, dockerComposeFile)
 
 }
 
