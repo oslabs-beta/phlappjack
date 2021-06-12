@@ -55,11 +55,11 @@ export default function MongoDB(props){
               <Grid sm={4} item >
                 <DBInputField
                   key = {childKey}
+                  setChildKey = {setChildKey}
                   dbBeingModified = {props.dbBeingModified}
                   setDBBeingModified = {props.setDBBeingModified}
                   dbInputDisplay = {props.dbInputDisplay}
                   setDBInputDisplay = {props.setDBInputDisplay}
-                  setChildKey = {setChildKey}
                 />
               </Grid>
            </Grid>

@@ -101,6 +101,14 @@ interface ${databases[i]}{
 const db = await client.database("${mongoDBState}");
 const ${databases[i]} = await db.collection("${databases[i]}");
 
+${databases[i]}.prototype.insert = (inputFields) =>{
+  await ${databases[i]}.insertOne(inputFields);
+};
+
+${databases[i]}.prototype.insertMany = (inputFieldsArr) =>{
+  await ${databases[i]}.insertMany(inputFieldsArr);
+};
+
 console.log('Successfully connected to ${databases[i]}!')
       `
     //Create a models.ts files within the new models folder.
