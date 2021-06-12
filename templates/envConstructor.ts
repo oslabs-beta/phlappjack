@@ -18,21 +18,15 @@ const testPKG: envPKG = {
     MONGO_PASS: "secret123",
 }
 
-
 export const envConstructor = async (model: envPKG) => {
-
-
     let envCluster = ''
     for (const [k, v] of Object.entries(model)){
         envCluster += `${k}=${v}\n`
     }
-    
     await fs.ensureFile('./.env')
     Deno.writeTextFile('./.env', envCluster)
-    
     //return model
 }
-
 console.log(envConstructor(testPKG))
 
 // const dbName = Deno.env.get("MONGO_DB");

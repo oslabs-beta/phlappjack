@@ -6,7 +6,6 @@ import {
 
 import * as schemaBuilder from "./schemaBuilder.ts"
 
-
 interface PKG {
     schemaInterface: string;
     collectionString: string;

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Deno",
+  "include": [
+      "client/*"
+  ],
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "ES2017"
+    ],
+    "strict": true
+  }
+}
