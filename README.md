@@ -1,5 +1,13 @@
 # phlappjack
 
+
+## Front end dev (Node)
+run 
+`npm install`
+`npm run dev`
+
+The Dev repository for the node version of the application has now been merged here.
+
 ## How to run the server
 
 `deno run --unstable --allow-read --allow-write --allow-net server.ts`
