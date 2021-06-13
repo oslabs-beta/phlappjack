@@ -73,6 +73,8 @@ export default function DBInputField(props){
             setDBBeingModified = {props.setDBBeingModified}
             dbInputDisplay = {props.dbInputDisplay}
             setDBInputDisplay = {props.setDBInputDisplay}
+            endPoints = {props.endPoints}
+            setEndPoints = {props.setEndPoints}
           />
         </div>
         <AddCircleIcon style = {{fontSize:'48px', marginLeft:'11.5vw'}} onClick ={e => handleOnClick(e)}/>

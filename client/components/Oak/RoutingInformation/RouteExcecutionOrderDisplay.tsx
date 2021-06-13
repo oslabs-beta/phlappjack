@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize:'1.5em',
       textAlign:'left',
       marginLeft:'1.5em',
-      marginTop:'-2em',
-      marginBottom:'-2em',
+      // marginTop:'-1.0em',
+      // marginBottom:'-1.0em',
       whiteSpace: 'pre-wrap',
     }
   }),

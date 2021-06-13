@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 app.post("/ConfigureApplication", (req, res, next) => {
   props = req.body;
   const { newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose } = props;
-  const dir = './Created Appilcations/';
+  const dir = './Created Applications/';
   AppConfigurator(dir,newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose );
   next();
 })

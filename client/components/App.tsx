@@ -105,6 +105,8 @@ export default function App() {
     const [selectedEndPoint, setSelectedEndPoint] = useState('Routing Information');
         //State for routes.
     const [routes, setRoutes] = useState([]);
+        //State for middleware template.
+    const [middleWareTemp, setMiddleWareTemp] = useState(``);
 
     //State regarding Docker Tab.
     const [dockerFile, setDockerFile] = useState(dockerFileInit);
@@ -136,9 +138,11 @@ export default function App() {
                 _atlasUserName,
                 _atlasPassword,
                 _atlasHostCluster,
-                _atlasDB, 
+                _atlasDB,
+                _endPoints,
+                _routes,
                 _dockerFile, 
-                _dockerCompose 
+                _dockerCompose
             } = JSON.parse(loadedProps);
             //Set the loaded props as the current state.
             setDBInputDisplay(_dbInputDisplay);
@@ -146,6 +150,8 @@ export default function App() {
             setAtlasPassword(_atlasPassword);
             setAtlasHostCluster(_atlasHostCluster);
             setAtlasDB(_atlasDB);
+            setEndPoints(_endPoints);
+            setRoutes(_routes);
             setDockerFile(_dockerFile);
             setDockerCompose(_dockerCompose);
         }
@@ -236,6 +242,10 @@ ${newApplication}:
                             setDockerFile = {setDockerFile}
                             dockerCompose = {dockerCompose}
                             setDockerCompose = {setDockerCompose}
+                            endPoints = {endPoints}
+                            setEndPoints = {setEndPoints}
+                            routes = {routes}
+                            setRoutes = {setRoutes}
                         />
                     </Grid>
                     <Grid item xs={12} sm={10}>
@@ -281,6 +291,10 @@ ${newApplication}:
                                 setSelectedEndPoint = {setSelectedEndPoint}
                                 routes = {routes}
                                 setRoutes = {setRoutes}
+                                middleWareTemp = {middleWareTemp}
+                                setMiddleWareTemp = {setMiddleWareTemp}
+                                dbInputDisplay = {dbInputDisplay}
+                                setDBInputDisplay = {setDBInputDisplay}
                             />
                         </Route>
                         <Route exact path="/deno">

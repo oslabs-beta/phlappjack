@@ -31,6 +31,9 @@ export default function RoutingMethods(props){
     const resEle = event.target as HTMLElement;
     const index: number = resEle.value;
     props.setResMethod(responses[index].toLowerCase());
+    //Force parent element to re-render.
+    const newChildKey0: number = Math.floor(Math.random() * 100000);
+    props.setChildKey(newChildKey0);
   };
 
   const labelDisplay = () => {
@@ -38,7 +41,7 @@ export default function RoutingMethods(props){
     else return props.resMethod;
   };
 
-  const responses = ['GET','POST','DELETE','PUT'];
+  const responses = ['DELETE','GET','PATCH','POST','PUT'];
 
   return (
     <FormControl variant="outlined" className={classes.formControl}>
