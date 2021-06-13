@@ -26,6 +26,12 @@ export default function Home(props){
            <Grid container>
               <Grid sm={4}  item>
                 <LoadExistingApplication
+                  applicationsToLoad = {props.applicationsToLoad}
+                  setApplicationsToLoad = {props.setApplicationsToLoad}
+                  newApplication = {props.newApplication}
+                  setNewApplication = {props.setNewApplication}
+                  childKeyForLoadingApplication = {props.childKeyForLoadingApplication}
+                  setChildKeyForLoadingApplication = {props.setChildKeyForLoadingApplication}
                 />
               </Grid>
               <Grid sm={4}  item>

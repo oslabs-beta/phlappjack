@@ -3,6 +3,7 @@ import { IconButton, createStyles} from '@material-ui/core';
 import { makeStyles, useTheme, Theme } from '@material-ui/core/styles'
 import {FaHome} from 'react-icons/fa';
 import {DiMongodb} from 'react-icons/di';
+import {GiSquirrel} from 'react-icons/gi';
 import {SiDeno} from 'react-icons/si';
 import {FaDocker} from 'react-icons/fa';
 import { Route } from 'react-router';
@@ -136,6 +137,22 @@ export default function MyDrawer(props){
 
     }
 
+    const saveApplication = () => {
+      const currApplicationName: string = props.newApplication;
+      let propsToSave = {};
+      const propKeys = Object.keys(props);
+      for (let i = 0; i < propKeys.length; i++){
+        let propValue = props[propKeys[i]];
+        let propKey = String('_' + propKeys[i])
+        propsToSave[propKey] = propValue;
+      }
+
+      window.localStorage.setItem(currApplicationName, JSON.stringify(propsToSave))
+      const newKey: number = props.childKey + 1
+      props.setChildKey(newKey)
+      console.log(props.childKey)
+    }
+
     const [sectionSelected, setSectionSelected] = useState({
       home: false,
       mongo: false,
@@ -187,7 +204,7 @@ export default function MyDrawer(props){
             <ListItemLink to="/mongo" primary="MongoDb" icon={<DiMongodb size={'42'}/>} />
           </ListItem>
           <ListItem button key={'Oak'} selected={sectionSelected.oak} onClick={() => handleSelect('oak')}>
-            <ListItemLink to="/oak" primary="Oak" icon={<DiMongodb size={'42'}/>}/>
+            <ListItemLink to="/oak" primary="Oak" icon={<GiSquirrel size={'42'}/>}/>
           </ListItem>
           <ListItem button key={'Deno'} selected={sectionSelected.deno} onClick={() => handleSelect('deno')}>
           <ListItemLink to="/deno" primary="Deno" icon={<SiDeno size={'42'}/>} />
@@ -203,6 +220,7 @@ export default function MyDrawer(props){
           className={classes.button}
           size="large"
           startIcon={<SaveIcon />}
+          onClick = {saveApplication}
         >
           Save
        </Button>

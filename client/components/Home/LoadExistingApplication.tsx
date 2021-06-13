@@ -4,6 +4,8 @@ const { useState, useEffect } = React;
 import Paper from '@material-ui/core/Paper';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
+import LoadExistingApplicationsDisplay from './LoadExistingApplicationsDisplay'
+
 export default function LoadExistingApplications(props){
 
   const [ childKey,setChildKey ] = useState(0);
@@ -25,6 +27,14 @@ export default function LoadExistingApplications(props){
         <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
           Load Existing Application
         </div>
+          <LoadExistingApplicationsDisplay
+            applicationsToLoad = {props.applicationsToLoad}
+            setApplicationsToLoad = {props.setApplicationsToLoad}
+            newApplication = {props.newApplication}
+            setNewApplication = {props.setNewApplication}
+            childKeyForLoadingApplication = {props.childKeyForLoadingApplication}
+            setChildKeyForLoadingApplication = {props.setChildKeyForLoadingApplication}
+          />
       </Paper>
     </div>
   );

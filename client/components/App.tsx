@@ -84,6 +84,9 @@ export default function App() {
 
     //State regarding new application.
     const [newApplication, setNewApplication] = useState('');
+    //State regarding loading applications.
+    const [applicationsToLoad, setApplicationsToLoad] = useState(Object.keys(window.localStorage));
+
     //State regarding MongoDB tab.
     const [dbBeingModified, setDBBeingModified] = useState('DB Input Field');
         //State for schema models and properties.
@@ -109,6 +112,9 @@ export default function App() {
 
     //Key state to allow for re-rendering from child props.
     const [childKey, setChildKey] = useState(0);
+    //Key state to allow for application to re-render upon
+    //selection of an application to load.
+    const [childKeyForLoadingApplication, setChildKeyForLoadingApplication] = useState(0);
     const [open, setOpen] = useState(false);
     
     const handleDrawerOpen = () => {
@@ -120,6 +126,29 @@ export default function App() {
     };
 
     useEffect(() => {
+        console.log(applicationsToLoad.indexOf(newApplication) > -1)
+        if(applicationsToLoad.indexOf(newApplication) > -1){
+            //Retrieve saved props from local storage.
+            const loadedProps = window.localStorage.getItem(newApplication);
+            //Deconstruct props to respective variable.
+            const { 
+                _dbInputDisplay,
+                _atlasUserName,
+                _atlasPassword,
+                _atlasHostCluster,
+                _atlasDB, 
+                _dockerFile, 
+                _dockerCompose 
+            } = JSON.parse(loadedProps);
+            //Set the loaded props as the current state.
+            setDBInputDisplay(_dbInputDisplay);
+            setAtlasUserName(_atlasUserName);
+            setAtlasPassword(_atlasPassword);
+            setAtlasHostCluster(_atlasHostCluster);
+            setAtlasDB(_atlasDB);
+            setDockerFile(_dockerFile);
+            setDockerCompose(_dockerCompose);
+        }
 
         const newDockerFile: string = `FROM hayd/alpine-deno:1.10.2
 
@@ -136,7 +165,7 @@ WORKDIR /${newApplication}
 COPY . .
 RUN deno cache --unstable deps.ts
 RUN deno cache  ./client/deps.ts
-# RUN deno bundle ./client/index.tsx ./build/bundle.js
+# RUN deno bundle ./client /index.tsx ./build/bundle.js
 
 
 # These steps will be re-run upon each file change in your working directory:
@@ -168,7 +197,7 @@ ${newApplication}:
 `
     setDockerCompose(newDockerComposeFile);
 
-    })
+    },[newApplication])
 
     return (
         <MemoryRouter>
@@ -187,7 +216,7 @@ ${newApplication}:
                         <Drawer 
                             open={open} 
                             handleDrawerClose={handleDrawerClose}
-                            key ={childKey}
+                            childKey ={childKey}
                             setChildKey = {setChildKey}
                             dbBeingModified = {dbBeingModified}
                             setDBBeingModified = {setDBBeingModified}
@@ -212,10 +241,14 @@ ${newApplication}:
                     <Grid item xs={12} sm={10}>
                         <Route exact path="/">
                             <Home
-                                key ={childKey}
+                                childkey ={childKey}
                                 setChildKey = {setChildKey}
                                 newApplication = {newApplication}
                                 setNewApplication = {setNewApplication}
+                                applicationsToLoad = {applicationsToLoad}
+                                setApplicationsToLoad = {setApplicationsToLoad}
+                                childKeyForLoadingApplication = {childKeyForLoadingApplication}
+                                setChildKeyForLoadingApplication = {setChildKeyForLoadingApplication}
                             />
                         </Route>
                         <Route exact path="/mongo">
