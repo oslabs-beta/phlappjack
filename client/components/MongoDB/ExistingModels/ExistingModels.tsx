@@ -16,10 +16,11 @@ export default function ExistingModels(props){
       const newDBInputDisplay = props.dbInputDisplay;
       newDBInputDisplay[inputFieldEle.value] = [];
       props.setDBInputDisplay(newDBInputDisplay);
-      const newEndPoints = props.endPoints
+      
       const newEndPoint: string = String('/' + inputFieldEle.value);
+      const newEndPoints = props.endPoints;
       newEndPoints[newEndPoint] = [];
-      props.setEndPoints(newEndPoint);
+      props.setEndPoints(newEndPoints);
     }
     inputFieldEle.value = '';
   }
@@ -42,9 +43,12 @@ export default function ExistingModels(props){
           setDBBeingModified = {props.setDBBeingModified}
           dbInputDisplay = {props.dbInputDisplay}
           setDBInputDisplay = {props.setDBInputDisplay}
+          endPoints = {props.endPoints}
+          setEndPoints = {props.setEndPoints}
         />
         <AddCircleIcon style = {{fontSize:'48px', marginLeft:'11.5vw'}} onClick ={(e) => handleClick(e)}/>
       </Paper>
     </div>
   );
 }
+

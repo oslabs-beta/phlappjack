@@ -26,6 +26,11 @@ export default function DBInputField(props){
       const newDBInputDisplay = props.dbInputDisplay;
       newDBInputDisplay[props.dbBeingModified].push([`${newKeyValue}:  ${newValueEle};`]);
       props.setDBInputDisplay(newDBInputDisplay)
+      
+      const newEndPoint: string = '/' + props.dbBeingModified + ':' + newKeyValue;
+      const newEndPoints = props.endPoints;
+      newEndPoints[newEndPoint] = [];
+      props.setEndPoints(newEndPoints);
       //Force parent component to update.
       const newChildKey: number = Math.floor(Math.random() * 100000);
       props.setChildKey(newChildKey)
