@@ -1,0 +1,67 @@
+{
+    "name": "",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.tsx",
+    "scripts": {
+        "start": "cross-env NODE_ENV=production node server/server.js",
+        "build": "cross-env NODE_ENV=production webpack",
+        "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"nodemon ./server.js\"",
+        "gulp-prod": "node_modules/.bin/gulp prod",
+        "gulp-dev": "node_modules/.bin/gulp dev"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "build",
+            "client"
+        ]
+    },
+    "author": "CodesmithLLC https://github.com/CodesmithLLC <hello@codesmith.io>",
+    "license": "ISC",
+    "dependencies": {
+        "@babel/preset-typescript": "^7.13.0",
+        "@material-ui/core": "^4.11.4",
+        "@material-ui/icons": "^4.11.2",
+        "@types/jest": "^26.0.23",
+        "@types/node": "^15.12.1",
+        "body-parser": "^1.19.0",
+        "browserify": "^17.0.0",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "fs": "0.0.1-security",
+        "fs-extra": "^10.0.0",
+        "gulp": "^4.0.2",
+        "path": "^0.12.7",
+        "prop-types": "^15.6.1",
+        "react": "^17.0.2",
+        "react-beautiful-dnd": "^13.1.0",
+        "react-dom": "^17.0.2",
+        "react-icons": "^4.2.0",
+        "react-router-dom": "^5.2.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.14.0",
+        "@babel/preset-env": "^7.14.0",
+        "@babel/preset-react": "^7.13.13",
+        "@types/react": "^17.0.9",
+        "@types/react-dom": "^17.0.6",
+        "awesome-typescript-loader": "^5.2.1",
+        "babel-loader": "^8.2.2",
+        "concurrently": "^6.0.2",
+        "cross-env": "^7.0.3",
+        "css-loader": "^5.2.6",
+        "html-webpack-plugin": "^5.3.1",
+        "isomorphic-fetch": "^3.0.0",
+        "mini-css-extract-plugin": "^1.6.0",
+        "nodemon": "^2.0.7",
+        "sass": "^1.32.12",
+        "sass-loader": "^11.0.1",
+        "source-map-loader": "^3.0.0",
+        "style-loader": "^2.0.0",
+        "typescript": "^3.9.9",
+        "webpack": "^5.38.1",
+        "webpack-cli": "^4.7.0",
+        "webpack-dev-server": "^3.11.2",
+        "webpack-node-externals": "^3.0.0"
+    }
+}

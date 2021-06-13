@@ -1,8 +1,8 @@
-import { React, render } from "./deps.ts";
-import { App } from "./components/App.tsx";
+import * as React from 'react'
+import { render } from 'react-dom';
+import App from './components/App';
 
 render(
   <App />,
-  // @ts-expect-error
   document.getElementById("root"),
 );
