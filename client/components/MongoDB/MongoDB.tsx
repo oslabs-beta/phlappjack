@@ -50,6 +50,8 @@ export default function MongoDB(props){
                   setDBBeingModified = {props.setDBBeingModified}
                   dbInputDisplay = {props.dbInputDisplay}
                   setDBInputDisplay = {props.setDBInputDisplay}
+                  endPoints = {props.endPoints}
+                  setEndPoints = {props.setEndPoints}
                 />
               </Grid>
               <Grid sm={4} item >

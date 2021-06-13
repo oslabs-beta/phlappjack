@@ -11,15 +11,19 @@ export default function ExistingModels(props){
 
   const handleClick = (e) =>{
     const inputFieldEle = (document.getElementById("Specifiy DB Input field")) as HTMLInputElement;
-    console.log(inputFieldEle.value)
     props.setDBBeingModified(inputFieldEle.value)
     if (!props.dbInputDisplay[inputFieldEle.value]){
       const newDBInputDisplay = props.dbInputDisplay;
       newDBInputDisplay[inputFieldEle.value] = [];
       props.setDBInputDisplay(newDBInputDisplay);
+      const newEndPoints = props.endPoints
+      const newEndPoint: string = String('/' + inputFieldEle.value);
+      newEndPoints[newEndPoint] = [];
+      props.setEndPoints(newEndPoint);
     }
     inputFieldEle.value = '';
   }
+
 
   return (
     <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh', marginLeft:'2.5vw' }}>

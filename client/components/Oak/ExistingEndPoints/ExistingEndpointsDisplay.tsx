@@ -57,8 +57,9 @@ export default function ExistingEndpointsDisplay(props){
         }
       }, 50)
     }
-
+    console.log(props.endPoints)
     const endPointNames = Object.keys(props.endPoints);
+    console.log(endPointNames)
 
     return (
         <div>

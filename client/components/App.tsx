@@ -267,6 +267,8 @@ ${newApplication}:
                                 setAtlasHostCluster = {setAtlasHostCluster}
                                 atlasDB = {atlasDB}
                                 setAtlasDB = {setAtlasDB}
+                                endPoints = {endPoints}
+                                setEndPoints = {setEndPoints}
                             />
                         </Route>
                         <Route exact path="/oak">
