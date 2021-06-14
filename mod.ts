@@ -1,8 +1,8 @@
 import { Application, send, Router } from "./deps.ts";
 import { createBundle } from "./createBundle.ts";
-import {gitClone} from "./gitfunctions/gitClone.ts"
-import {gitCommitPush} from "./gitfunctions/gitCommitPush.ts"
-import {bundle} from "./build/bundle.js"
+import gitClone from "./gitfunctions/gitClone.ts"
+import gitCommitPush from "./gitfunctions/gitCommitPush.ts"
+import { Leaf } from "./deps.ts";
 
 // build bundle console messages, single line stdout
 const messageBuilding = new TextEncoder().encode("Building Bundle...");
@@ -13,8 +13,19 @@ await Deno.writeAll(Deno.stdout, messageBuilding);
 // await createBundle();
 await Deno.writeAll(Deno.stdout, messageDone);
 
+const decoder = new TextDecoder("utf-8");
+const index = await Leaf.readFile("./build/index.html")
+const bundle = await Leaf.readFile("./build/bundle.js")
+
 const router = new Router();
 router
+.get("/", (context) => {
+  context.response.body = decoder.decode(index);
+})
+.get("/bundle.js", (context) => {
+  context.response.headers.set("Content-Type", "application/javascript; charset=utf-8")
+  context.response.body = decoder.decode(bundle);
+})
   .get("/export", (context) => {
     console.log("here")
     const write = Deno.writeTextFile("./hello.txt", "Hello World!");
@@ -35,14 +46,11 @@ router
 const app = new Application();
 app.use(router.routes());
 app.use(router.allowedMethods());
-
-// serve cwd as static files
-app.use(async (context) => {
-  await send(context, context.request.url.pathname, {
-    root: `${Deno.cwd()}`,
-    index: "index.html",
-  });
+app.addEventListener("error", (evt) => {
+  // Will log the thrown error to the console.
+  console.log(evt.error);
 });
+
 
 console.log(`Listening on http://localhost:8000`);
 await app.listen({ port: 8000 });

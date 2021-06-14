@@ -1,4 +1,4 @@
-export default function gitCommitPush() {
+export default async function gitCommitPush() {
 
 const userGithubRepo = "https://github.com/nonstdout/deno-deploy.git"
 
