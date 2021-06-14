@@ -116,38 +116,65 @@ const configureApplication = async (
       }
   }
 
-  const createControllerFiles = async (obj) => {
-    const models = Object.keys(obj)
+    const createControllerFiles = async (obj) => {
+        const models = Object.keys(obj)
 
-    for(let i = 0; i < models.length; i++){
-        let controllerFileString = ''
-        const model = models[i]
+        for(let i = 0; i < models.length; i++){
+            let controllerFileString = ''
+            const model = models[i]
 
-        //CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete 
-        const getAllCRUD: string = await CRUDFunctionGet(model)
-        const getOneCRUD: string = await CRUDFunctionGetOne(model)
-        const createCRUD: string = await CRUDFunctionCreateOne(model)
-        const updateCRUD: string = await CRUDFunctionPatch(model)
-        const deleteCRUD: string = await CRUDFunctionDelete(model)
+            //CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete 
+            const getAllCRUD: string = await CRUDFunctionGet(model)
+            const getOneCRUD: string = await CRUDFunctionGetOne(model)
+            const createCRUD: string = await CRUDFunctionCreateOne(model)
+            const updateCRUD: string = await CRUDFunctionPatch(model)
+            const deleteCRUD: string = await CRUDFunctionDelete(model)
 
-        controllerFileString += `${getAllCRUD}, ${getOneCRUD}, ${createCRUD}, ${updateCRUD}, ${deleteCRUD}`
-        controllerImportString.push(`import {get${model}, getAll${model}, create${model}, update${model}, delete${model}} from "./Controllers/${model}Controller.ts`)
+            controllerFileString += `${getAllCRUD}, ${getOneCRUD}, ${createCRUD}, ${updateCRUD}, ${deleteCRUD}`
+            controllerImportString.push(`import {get${model}, getAll${model}, create${model}, update${model}, delete${model}} from "./Controllers/${model}Controller.ts`)
 
-        const prettyController = prettier.format(controllerFileString, {
-            parser: "babel",
-            plugins: prettierPlugins
-        })
+            const prettyController = prettier.format(controllerFileString, {
+                parser: "babel",
+                plugins: prettierPlugins
+            })
 
-    
-        await ensureFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`)
-        const write = Deno.writeTextFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`, prettyController)
-        write.then(() => console.log(`controller File for ${model} Successfully Written to ${dir}/${applicationName}/Controllers/${model}Controller.ts`))
+        
+            await ensureFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`)
+            const write = Deno.writeTextFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`, prettyController)
+            write.then(() => console.log(`controller File for ${model} Successfully Written to ${dir}/${applicationName}/Controllers/${model}Controller.ts`))
+
+        }
 
     }
 
-}
+    const createServerFiles = async (obj) => {
+        
+
+        let template: string = ''
+        let routerString: string = ''
+        const models = Object.keys(obj)
+
+        for(let i = 0; i < models.length; i++){
+            const model = models[i]
+
+            const route = `router.get("/${model}", getAll${model})
+                .get("/${model}/:id", get${model}
+                .post("/${model}", create${model})
+                .patch("/${model}/:id, update${model})
+                .delete("${model}/:id, delete${model})`
+
+                routerString += route
+        }
+
+        template += importString
+        controllerImportString.forEach(el => {
+            template += el
+        })
+        template += setUp
+        template += routerString
 
 
+    }
   
 
 }

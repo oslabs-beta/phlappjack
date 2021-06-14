@@ -4,7 +4,7 @@ interface Schema {
     properties: string[]
 }
 
-const CRUDFunctionGet =  (schema: Schema) => {
+export const CRUDFunctionGet =  (schema: Schema) => {
 
    const template: string = `const getAll${schema.schemaName} = async (ctx: RouterContext) => {
     const ${schema.schemaName} = await ${schema.schemaName}Collections.find();
@@ -14,7 +14,7 @@ const CRUDFunctionGet =  (schema: Schema) => {
    return template
 }
 
-const CRUDFunctionGetOne =  (schema: Schema) => {
+export const CRUDFunctionGetOne =  (schema: Schema) => {
 
     const template: string = `const get${schema.schemaName} = async (ctx: RouterContext) => {
         const id = ctx.params.id;
@@ -25,7 +25,7 @@ const CRUDFunctionGetOne =  (schema: Schema) => {
     return template
 }
 
-const CRUDFunctionCreateOne =  (schema: Schema) => {
+export const CRUDFunctionCreateOne =  (schema: Schema) => {
     
 
     let parameters: string = ''
@@ -50,7 +50,7 @@ const CRUDFunctionCreateOne =  (schema: Schema) => {
     return template
 }
 
-const CRUDFunctionPatch = (schema: Schema) => {
+export const CRUDFunctionPatch = (schema: Schema) => {
 
     let parameters: string = ''
     schema.properties.forEach(el => {
@@ -81,7 +81,7 @@ const CRUDFunctionPatch = (schema: Schema) => {
 
 }
 
-const CRUDFunctionDelete = (schema: Schema) => {
+export const CRUDFunctionDelete = (schema: Schema) => {
 
     const single: string = schema.schemaName.slice(0,schema.schemaName.length-1)
 
@@ -99,4 +99,4 @@ const CRUDFunctionDelete = (schema: Schema) => {
     }`
 
     return template
-}
+} 
