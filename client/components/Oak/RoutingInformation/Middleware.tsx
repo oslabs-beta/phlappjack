@@ -12,8 +12,8 @@ import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
 
-import ExistingModelsDisplay from './ExistingModelsDisplay.tsx'
-import DBNameInput from './DBNameInput.tsx';
+import ExistingModelsDisplay from './ExistingModelsDisplay'
+import DBNameInput from './DBNameInput';
 import { TextFieldsOutlined } from '@material-ui/icons';
 
 const styles = {
@@ -39,8 +39,19 @@ export default function Middleware(props){
 
   useEffect(() =>{
 
-    if( props.selectedEndPoint !== 'Routing Information' && props.resMethod ){
-      let newMiddleWareTemp: string;
+    const dbNames = Object.keys(props.dbInputDisplay);
+    const endPointName: string = props.selectedEndPoint;
+    let dbName: string;
+    if(props.selectedEndPoint.includes(':')){
+      dbName = endPointName.split(':')[0];
+      dbName = dbName.split('/')[1];
+    } else {
+      dbName = endPointName.split('/')[1];
+    }
+
+    let newMiddleWareTemp: string;
+
+    if( props.selectedEndPoint !== 'Routing Information' && props.resMethod && dbNames.indexOf(dbName) > -1){
       //Middleware template for findAll
       if(props.resMethod == 'get' && !props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1];
@@ -103,20 +114,20 @@ export default function Middleware(props){
       \t}
     })
         `
-      //Middleware template for delete one.
+      //Middleware template for delete many.
       } else if(props.resMethod == 'delete' && props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
         const currModelInput: string = props.selectedEndPoint.split(':')[1];
         newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
       \tif(ctx.params && ctx.params.id){
-      \t\tconst ${currModel}_deleteOne = await ${currModel}.deleteOne({
+      \t\tconst ${currModel}_deleteMany = await ${currModel}.deleteMany({
       \t\t\t_id: ctx.params.id 
       \t\t});
       \t\tctx.response.body = ${currModel}_deleteOne;
       \t}
     })
         `
-      //Middleware template for delete many.
+      //Middleware template for delete one.
       } else if(props.resMethod == 'delete' && !props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
         const currModelInput: string = props.selectedEndPoint.split(':')[1];
@@ -131,12 +142,20 @@ export default function Middleware(props){
       \t\tctx.response.body = ${currModel}_deleteMany;
     })
         `
-      }else {
-        newMiddleWareTemp = '';
-      }
-      props.setMiddleWareTemp(newMiddleWareTemp)
-    }
+      }else { 
 
+        newMiddleWareTemp = '';
+
+      }
+
+    } else if( props.selectedEndPoint !== 'Routing Information' && props.resMethod ) {
+
+      newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
+      
+    })
+          `
+    }
+    props.setMiddleWareTemp(newMiddleWareTemp)
   },[props.resMethod, props.selectedEndPoint])
 
   // const generateLineNumbers = () => {
@@ -156,7 +175,7 @@ export default function Middleware(props){
         id = 'middleware-input'
         value = {props.middleWareTemp}
         multiline={true}
-        rows={15}
+        rows={21}
         style = {{width:'100%',overflow: 'auto'}}
         inputProps={{
           style: {fontSize: '0.85em'},

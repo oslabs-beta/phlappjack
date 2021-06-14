@@ -1,5 +1,5 @@
 import * as React from 'react'
-const { useEffect } = React;
+const { useEffect, useState, useRef } = React;
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
@@ -15,11 +15,11 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     listItemRouter:{
-      fontSize:'1.5em',
+      fontSize:'1em',
       textAlign:'left',
     },
     listItemText:{
-      fontSize:'1.5em',
+      fontSize:'1em',
       textAlign:'left',
       marginLeft:'1.5em',
       // marginTop:'-1.0em',
@@ -32,12 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function RouteExecutionOrderDisplay(props){
 
   const classes = useStyles();
-  
-  const handleSelection = (e) =>{
-    e.preventDefault();
-    // const selectedDBName: string = e.target.innerText;
-    // props.setDBBeingModified(selectedDBName);
-  }
 
   const handleMouseDown = (e) =>{
     e.preventDefault();
@@ -75,9 +69,37 @@ export default function RouteExecutionOrderDisplay(props){
     const items = Array.from(props.routes);
     const [reOrderdRoute] = items.splice(result.source.index,1)
     items.splice(result.destination.index, 0, reOrderdRoute);
-
     props.setRoutes(items)
   }
+
+  const useClickOutside = (ref) => {
+    const handleClick = e => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        const newToggleState = new Array(props.routes.length).fill(true).map((item, idx) => true);
+        props.setToggles(newToggleState);
+      }
+    };
+    useEffect(() => {
+      document.addEventListener('click', handleClick);
+      return () => {
+        document.removeEventListener('click', handleClick);
+      };
+    });
+  };
+
+  const editField = useRef();
+
+  useClickOutside(editField);
+
+  const handleChange = (e) =>{
+    props.setEditTextFieldValue(e.target.value)
+    const routeIndex: number = e.target.id;
+    const newRoutes = props.routes;
+    newRoutes[routeIndex] = e.target.value;
+    props.setRoutes(newRoutes);
+
+  }
+
 
   let routerDisplay = [];
   if(props.routes){
@@ -86,10 +108,10 @@ export default function RouteExecutionOrderDisplay(props){
       routerDisplay.push(currRoute);
     }
   }
-
+  
   return (
     <div>
-      <Paper style = {{marginLeft:'2.5vw', marginTop:'2.5vh', height:'35vh', maxHeight:'100%', overflow:'auto'}}>
+      <Paper style = {{marginLeft:'2.5vw', marginTop:'2.5vh', height:'42vh', maxHeight:'100%', overflow:'auto', width:'20vw'}}>
         <Divider/>
           <List>
             <ListItem 
@@ -121,21 +143,46 @@ export default function RouteExecutionOrderDisplay(props){
                             id = {`routing-background-color-selection_${index}`}
                             style = {{height:'auto'}}
                           >
-                            <ListItem 
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref = {provided.innerRef}
-                              key = {index}
-                              id = {`routing-selection_${index}`}
-                              classes={{primary:classes.listItem}}
-                              button key={index}
-                              onMouseDown = {(e) => handleMouseDown(e)}
-                            >
-                              <ListItemText 
-                                classes={{primary:classes.listItemText}}
-                                primary={text}
-                              />
-                            </ListItem>
+                            {props.toggles[index] ? (
+                              <ListItem 
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref = {provided.innerRef}
+                                key = {index}
+                                id = {`routing-selection_${index}`}
+                                classes={{primary:classes.listItem}}
+                                button key={index}
+                                onMouseDown = {(e) => handleMouseDown(e)}
+                                onDoubleClick = {() =>{
+                                  let newToggleState = props.toggles;
+                                  newToggleState[index] = false;
+                                  props.setToggles(newToggleState);
+                                  props.setEditTextFieldValue(props.routes[index])
+                                  //Force parent component to update.
+                                  const newChildKey: number = Math.floor(Math.random() * 100000);
+                                  props.setChildKey(newChildKey);
+                                }}
+                              >
+                                <ListItemText 
+                                  classes={{primary:classes.listItemText}}
+                                  primary={text}
+                                />
+                              </ListItem>
+                            ) : (
+                              <div ref = {editField}>
+                                <TextField
+                                  id = {index}
+                                  multiline = {true}
+                                  style = {{
+                                    width:'100%', 
+                                    marginLeft: '1.5em'
+                                  }}
+                                  rows = {8}
+                                  value = {props.editTextFieldValue}
+                                  onChange = {handleChange}
+                                />
+                              </div>
+                            )}
                         </div>
                         )}
                       </Draggable>

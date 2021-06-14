@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
     listItemText:{
       fontSize:'1.5em',
       textIndent:'1em',
+      textAlign:'center'
     }
   }),
 );
@@ -70,6 +71,7 @@ export default function DBInputFieldDisplay(props){
   if(props.applicationsToLoad){
     applicationsToLoadNames = props.applicationsToLoad;
   }
+  applicationsToLoadNames.sort();
 
   return (
     <div>

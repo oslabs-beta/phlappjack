@@ -105,6 +105,10 @@ export default function App() {
     const [selectedEndPoint, setSelectedEndPoint] = useState('Routing Information');
         //State for routes.
     const [routes, setRoutes] = useState([]);
+        //Toggle state allowing route display to turn into text fields.
+    const toggleState = new Array(routes.length).fill(true).map((item, idx) => true);
+    const [toggles, setToggles] = useState(toggleState);
+    const [editTextFieldValue, setEditTextFieldValue] = useState();
         //State for middleware template.
     const [middleWareTemp, setMiddleWareTemp] = useState(``);
 
@@ -295,6 +299,10 @@ ${newApplication}:
                                 setMiddleWareTemp = {setMiddleWareTemp}
                                 dbInputDisplay = {dbInputDisplay}
                                 setDBInputDisplay = {setDBInputDisplay}
+                                toggles = {toggles}
+                                setToggles = {setToggles}
+                                editTextFieldValue = {editTextFieldValue}
+                                setEditTextFieldValue = {setEditTextFieldValue}
                             />
                         </Route>
                         <Route exact path="/deno">

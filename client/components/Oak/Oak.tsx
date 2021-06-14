@@ -22,8 +22,6 @@ export default function Oak(props){
 
     const classes = useStyles();
 
-    console.log(props.routes)
-
     return (
          <Grid container  >
             <Paper className={classes.paper}>
@@ -64,6 +62,10 @@ export default function Oak(props){
                         setSelectedEndPoint = {props.setSelectedEndPoint}
                         routes = {props.routes}
                         setRoutes = {props.setRoutes}
+                        toggles = {props.toggles}
+                        setToggles = {props.setToggles}
+                        editTextFieldValue = {props.editTextFieldValue}
+                        setEditTextFieldValue = {props.setEditTextFieldValue}
                      />
                 </Grid>
              </Grid>

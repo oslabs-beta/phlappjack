@@ -42,8 +42,16 @@ export default function ExistingModelsDisplay(props){
       if(redPercentage === 100){
         clearInterval(intervalID);
         const indexToRemove: string = selectedKeyValueEle.parentNode.parentNode.id.split('_')[1];
-        console.log(props.dbInputDisplay[indexToRemove])
         const newDBInputDisplay = props.dbInputDisplay;
+        
+        //Remove relevant endpoints from props.endPoints.
+        const newEndPoints = props.endPoints;
+        let newEndPointNames = Object.keys(newEndPoints);
+        newEndPointNames.filter((val) =>{
+          if(val.indexOf(indexToRemove) > -1) delete newEndPoints[val]
+        })
+        props.setEndPoints(newEndPoints);
+
         delete newDBInputDisplay[indexToRemove];
         props.setDBInputDisplay(newDBInputDisplay);
         props.setDBBeingModified('DB Input Field');

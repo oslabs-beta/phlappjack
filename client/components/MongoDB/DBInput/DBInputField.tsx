@@ -44,7 +44,7 @@ export default function DBInputField(props){
   }
 
   return (
-    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh', marginLeft:'2.5vw' }}>
+    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh'}}>
       <Paper style = {{height:'55vh', width:'25vw'}}>
         <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
           {props.dbBeingModified}

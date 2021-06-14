@@ -33,7 +33,7 @@ export default function RoutingMethods(props){
     props.setResMethod(responses[index].toLowerCase());
     //Force parent element to re-render.
     const newChildKey0: number = Math.floor(Math.random() * 100000);
-    props.setChildKey(newChildKey0);
+    props.setChildKey0(newChildKey0);
   };
 
   const labelDisplay = () => {
