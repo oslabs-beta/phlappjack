@@ -7,6 +7,7 @@ import PublishRoundedIcon from '@material-ui/icons/PublishRounded';
 import CheckIcon from '@material-ui/icons/Check';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
+import TextField from '@material-ui/core/TextField';
 
 
 
@@ -16,9 +17,14 @@ const useStyles = makeStyles((theme:Theme) =>
             display: 'flex',
             alignItems: 'center',
           },
+        form: {
+          flex: 1,
+        },
         wrapper: {
             margin: theme.spacing(1),
             position: 'relative',
+            display: 'flex',
+            justifyContent: 'center'
           },
         paper: {
             margin: theme.spacing(1),
@@ -48,6 +54,11 @@ export default function Deno(props){
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
     const timer = React.useRef<number>();
+
+    const [name, setName] = React.useState('');
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setName(event.target.value);
+    };
   
     const buttonClassname = clsx({
       [classes.buttonSuccess]: success,
@@ -74,15 +85,29 @@ export default function Deno(props){
          <Grid container  >
             <Paper className={classes.paper}>
              <Grid container>
-                <Grid sm={5}  item>
+                <Grid sm={4}  item>
                    
                 </Grid>
-                <Grid sm={2} container item >
-                <div className={classes.wrapper}>
+                <Grid sm={4} container item direction="column" justify="center">
+                  <form className={classes.root} noValidate autoComplete="off">
+                    <TextField
+                      id="github-repo-url"
+                      label=""
+                      value={name}
+                      onChange={handleChange}
+                      // variant="outlined"
+                      disabled={success}
+                      required
+                      fullWidth
+                      placeholder="Enter Github Url"
+                    />
+                  </form>
+                  <div className={classes.wrapper}>
                     <Button
                         id="deploy-button"
                         variant="contained"
                         color="secondary"
+                        size="large"
                         className={buttonClassname}
                         disabled={loading}
                         startIcon={success ? <CheckIcon /> : <PublishRoundedIcon />}
@@ -93,7 +118,7 @@ export default function Deno(props){
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                     </div>
                 </Grid>
-                 <Grid sm={5}  item>
+                 <Grid sm={4}  item>
                 </Grid>
              </Grid>
             </Paper>
