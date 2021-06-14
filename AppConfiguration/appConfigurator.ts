@@ -117,76 +117,38 @@ const configureApplication = async (
   }
 
   const createControllerFiles = async (obj) => {
-      const models = Object.keys(obj)
+    const models = Object.keys(obj)
+
+    for(let i = 0; i < models.length; i++){
+        let controllerFileString = ''
+        const model = models[i]
+
+        //CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete 
+        const getAllCRUD: string = await CRUDFunctionGet(model)
+        const getOneCRUD: string = await CRUDFunctionGetOne(model)
+        const createCRUD: string = await CRUDFunctionCreateOne(model)
+        const updateCRUD: string = await CRUDFunctionPatch(model)
+        const deleteCRUD: string = await CRUDFunctionDelete(model)
+
+        controllerFileString += `${getAllCRUD}, ${getOneCRUD}, ${createCRUD}, ${updateCRUD}, ${deleteCRUD}`
+        controllerImportString.push(`import {get${model}, getAll${model}, create${model}, update${model}, delete${model}} from "./Controllers/${model}Controller.ts`)
+
+        const prettyController = prettier.format(controllerFileString, {
+            parser: "babel",
+            plugins: prettierPlugins
+        })
+
+    
+        await ensureFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`)
+        const write = Deno.writeTextFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`, prettyController)
+        write.then(() => console.log(`controller File for ${model} Successfully Written to ${dir}/${applicationName}/Controllers/${model}Controller.ts`))
+
+    }
+
+}
+
+
   
-      for(let i = 0; i < models.length; i++){
-          let controllerFileString = ''
-          const model = models[i]
-
-          //CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete 
-          const getAllCRUD: string = await CRUDFunctionGet(model)
-          const getOneCRUD: string = await CRUDFunctionGetOne(model)
-          const createCRUD: string = await CRUDFunctionCreateOne(model)
-          const updateCRUD: string = await CRUDFunctionPatch(model)
-          const deleteCRUD: string = await CRUDFunctionDelete(model)
-
-          controllerFileString += `${getAllCRUD}, ${getOneCRUD}, ${createCRUD}, ${updateCRUD}, ${deleteCRUD}`
-          controllerImportString.push(`import {get${model}, getAll${model}, create${model}, update${model}, delete${model}} from "./Controllers/${model}Controller.ts`)
-
-          const prettyController = prettier.format(controllerFileString, {
-              parser: "babel",
-              plugins: prettierPlugins
-          })
-
-      
-          await ensureFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`)
-          const write = Deno.writeTextFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`, prettyController)
-          write.then(() => console.log(`controller File for ${model} Successfully Written to ${dir}/${applicationName}/Controllers/${model}Controller.ts`))
-
-      }
-
-  }
-
-  const createServerFiles = async (obj) => {
-      
-      //need a little app.get for each schema
-      //need an app.get for for the static content and html hydration
-      //need a feth request thingy for serving the files for denoy deploy
-      //need to then loop through my schemas and create gets for each of them 
-      //need basic imports and exports as well. 
-      //need to import each schema from its relative file in the structure...this will take smoe time to work 
-      //need a new therapist 
-      //need some port shit as well 
-      
-
-      //loop through schemas and create the basic router.get to send to the controllers. 
-      //also populate file with imports from the router controller function...hmmm promises promises promises....this code aint loyal
-      
-      let template: string = ''
-      let routerString: string = ''
-      const models = Object.keys(obj)
-
-      for(let i = 0; i < models.length; i++){
-          const model = models[i]
-
-          const route = `router.get("/${model}", getAll${model})
-              .get("/${model}/:id", get${model}
-              .post("/${model}", create${model})
-              .patch("/${model}/:id, update${model})
-              .delete("${model}/:id, delete${model})`
-
-              routerString += route
-      }
-
-      template += importString
-      controllerImportString.forEach(el => {
-          template += el
-      })
-      template += setUp
-      template += routerString
-
-
-  }
 
 }
 
