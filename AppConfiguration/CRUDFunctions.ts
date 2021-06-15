@@ -9,7 +9,7 @@ export const CRUDFunctionGet =  (schema) => {
    const template: string = `const getAll${schema} = async (ctx: RouterContext) => {
     const ${schema} = await ${schema}Collections.find();
     ctx.response.body = ${schema};
-   }`
+   }\n`
 
    return template
 }
@@ -20,32 +20,25 @@ export const CRUDFunctionGetOne =  (schema) => {
         const id = ctx.params.id;
         const ${schema} = await ${schema}collection.findOne({_id: {$oid: id } });
         ctx.response.body = ${schema};
-    }`
+    }\n`
 
     return template
 }
 
-export const CRUDFunctionCreateOne =  (schema) => {
-    
-    console.log(schema)
-    let parameters: string = ''
-    schema.properties.forEach(el => {
-        parameters += `${el},`
-    })
+export const CRUDFunctionCreateOne =  (schema, props) => {
 
     const single: string = schema.slice(0,schema.length-1)
     
-    const template: string = `const create${schema} = async {ctx: RouterContext} => {
-        const {${parameters}} = await ctx.request.body().value;
+    const template: string = `const create${schema} = async (ctx: RouterContext) => {
+        const {${props}} = await ctx.request.body().value;
         const ${single}: any = {
-            ${parameters}
+            ${props}
         };
         const id = await ${schema}Collection.insertOne();
         ${single}._id = id;
         ctx.response.status = 201
         ctx.response.body = ${single}
-    }`
-
+    }\n`
 
     return template
 }
@@ -70,7 +63,7 @@ export const CRUDFunctionPatch = (schema, props) => {
             return;
         }
         ctx.response.body = await ${schema}Collection.findOne({ _id: { $oid: id } })
-    }`
+    }\n`
 
     return template
 

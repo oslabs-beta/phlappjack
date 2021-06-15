@@ -75,7 +75,7 @@ export const configureApplication = async (
 
       for(let i = 0; i < models.length; i++){
           //here we delcare an empty string whcih will hold our shcema's properties
-          let schemaValues +='';
+          let schemaValues = '';
           const model = models[i]
 
           if(mongooseConnectionFileIsCreated){
@@ -96,24 +96,24 @@ export const configureApplication = async (
           })
 
           const schemaTemplateString = `import { MongoClient } from '../deps.ts'
-import { client } from './DBConnection.ts'
+                import { client } from './DBConnection.ts'
 
-interface ${model}{
-    ${schemaValues}
-}
+                interface ${model}{
+                    ${schemaValues}
+                }
 
-const db = await client.database(${mongoDBState})
-const ${model} = await db.collection("${model}")
+                const db = await client.database(${mongoDBState})
+                const ${model} = await db.collection("${model}")
 
-export { ${model} };
+                export { ${model} };
           `
 
-          const PretySchema = prettier.format(schemaTemplateString, {
+          const prettySchema = prettier.format(schemaTemplateString, {
               parser: "babel",
               plugins: prettierPlugins
           })
 
-          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/models/${model}.ts`,schemaTemplateString);
+          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/models/${model}.ts`,prettySchema);
           writeSchema().then(() => console.log(`Schema file for ${model} succesfully wirtten to ${dir}/${applicationName}/Server/Models/${model}.ts`))
           
       }
@@ -128,8 +128,8 @@ export { ${model} };
 
             const flatModel = obj[model].flat()
             const props = flatModel.reduce((acc, property) => {
-
-                acc += `${property}`
+                property = property.slice(0, property.indexOf(":"))
+                acc += `${property}, `
                 return acc
 
             }, '')
@@ -137,12 +137,12 @@ export { ${model} };
             //CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete 
             const getAllCRUD: string = await CRUDFunctionGet(model)
             const getOneCRUD: string = await CRUDFunctionGetOne(model)
-            const createCRUD: string = await CRUDFunctionCreateOne(model)
+            const createCRUD: string = await CRUDFunctionCreateOne(model, props)
             const updateCRUD: string = await CRUDFunctionPatch(model, props)
             const deleteCRUD: string = await CRUDFunctionDelete(model)
 
-            controllerFileString += `${getAllCRUD}, ${getOneCRUD}, ${createCRUD}, ${updateCRUD}, ${deleteCRUD}`
-            controllerImportString.push(`import {get${model}, getAll${model}, create${model}, update${model}, delete${model}} from "./Controllers/${model}Controller.ts`)
+            controllerFileString += `${getAllCRUD}; ${getOneCRUD}; ${createCRUD}; ${updateCRUD}; ${deleteCRUD}`
+            controllerImportString.push(`import {get${model}, getAll${model}, create${model}, update${model}, delete${model}} from "./Controllers/${model}Controller.ts"\n`)
 
             const prettyController = prettier.format(controllerFileString, {
                 parser: "babel",
@@ -164,16 +164,29 @@ export { ${model} };
         let routerString: string = ''
         const models = Object.keys(obj)
 
+        let routerCount = 0
         for(let i = 0; i < models.length; i++){
             const model = models[i]
 
+            if(routerCount < 1){
             const route = `router.get("/${model}", getAll${model})
-                .get("/${model}/:id", get${model}
+                .get("/${model}/:id", get${model})
                 .post("/${model}", create${model})
-                .patch("/${model}/:id, update${model})
-                .delete("${model}/:id, delete${model})`
+                .patch("/${model}/:id", update${model})
+                .delete("${model}/:id", delete${model})`
 
-                routerString += `${route}\n`
+                routerString += `${route}`
+                routerCount++
+            } else {
+                const route = `.get("/${model}", getAll${model})
+                .get("/${model}/:id", get${model})
+                .post("/${model}", create${model})
+                .patch("/${model}/:id", update${model})
+                .delete("${model}/:id", delete${model})
+                `
+                routerString += `${route}`
+                routerCount++
+            }
         }
 
         template += importString
@@ -181,7 +194,7 @@ export { ${model} };
             template += el
         })
         template += setUp
-        template += routerString
+        template += `${routerString}`
         template += fetchHandler
 
         const prettyServer = prettier.format(template, {
