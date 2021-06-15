@@ -6,7 +6,7 @@ interface users {
   passsword: string;
 }
 
-const db = await client.database(database);
-const users = await db.collection("users");
+const db = await client.database("sample_airbnb");
+const users = await db.collection<users>("users");
 
 export { users };

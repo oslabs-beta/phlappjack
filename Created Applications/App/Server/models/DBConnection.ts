@@ -6,14 +6,14 @@ await client.connect({
   db: "",
   servers: [
     {
-      host: "hostcluster",
+      host: "cluster0-shard-00-01.tiosa.mongodb.net",
       port: 27017
     }
   ],
   credential: {
-    username: "",
-    password: "password",
-    db: "database",
+    username: "dbUser",
+    password: "dbPassword",
+    db: "sample_airbnb",
     mechanism: "SCRAM-SHA-1"
   }
 });

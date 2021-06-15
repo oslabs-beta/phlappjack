@@ -103,7 +103,7 @@ export const configureApplication = async (
                     ${schemaValues}
                 }
 
-                const db = await client.database(${mongoDBState})
+                const db = await client.database("${mongoDBState}")
                 const ${model} = await db.collection("${model}")
 
                 export { ${model} };
