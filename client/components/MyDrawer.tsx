@@ -120,7 +120,7 @@ export default function MyDrawer(props){
 
     const configureApp = () =>{
 
-      fetch('/ConfigureApplication', {
+      fetch('/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

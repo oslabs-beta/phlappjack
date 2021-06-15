@@ -6,8 +6,7 @@ import {
 import {
   ensureDir,
   ensureFile,
-  writeFileSync
-} from "https://deno.land/std@$STD_VERSION/fs/mod.ts";
+} from "https://deno.land/std/fs/mod.ts";
 
 //up here we need to put all our cute little defualt imports for all files...
 //import * as serverImports from "./put server deps import file here"
@@ -44,9 +43,9 @@ export const configureApplication = async (
   await ensureDir(`${dir}/${applicationName}/client`);
   await ensureFile(`${dir}/${applicationName}/client/deps.ts`);
   await ensureFile(`${dir}/${applicationName}/DockerFile`);
-  await writeFileSync(`${dir}/${applicationName}/DockerFile`, dockerFile)
+  await Deno.writeTextFile(`${dir}/${applicationName}/DockerFile`, dockerFile)
   await ensureFile(`${dir}/${applicationName}/docker-compose.yml`);
-  await writeFileSync(`${dir}/${applicationName}/docker-compose.yml`, dockerComposeFile)
+  await Deno.writeTextFile(`${dir}/${applicationName}/docker-compose.yml`, dockerComposeFile)
 
   
   let controllerImportString: string[] = []
@@ -66,8 +65,8 @@ export const configureApplication = async (
           parser: "babel",
           plugins: prettierPlugins
         });
-
-
+        console.log(obj)
+        console.log(models)
       for(let i = 0; i < models.length; i++){
           //here we delcare an empty string whcih will hold our shcema's properties
           let schemaValues = ''
@@ -87,8 +86,7 @@ export const configureApplication = async (
           
 
           //here we need to iterate through each of the mdodels to get their properties
-
-          model.values.forEach(el => {
+          model.forEach(el => {
               schemaValues += `\t${String(el)}\n`
           })
 
