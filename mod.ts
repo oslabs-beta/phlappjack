@@ -30,9 +30,8 @@ router
     const response = await context.request.body();
     const props = await response.value;
     const dir = './Created Applications/'
-    const { newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose} = props;
-    console.log(props.routes[0])
-    configureApplication(dir, newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose);
+    const { newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose, routes } = props;
+    configureApplication(dir, newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose, routes);
   })
   .get("/gitclone", (context) => {
     gitClone()
