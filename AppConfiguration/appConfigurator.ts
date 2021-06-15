@@ -184,7 +184,14 @@ export { ${model} };
         template += routerString
         template += fetchHandler
 
-        Deno.writeTextFile(`${dir}/${applicationName}/Server/server.ts`, template)
+        const prettyServer = prettier.format(template, {
+            parser: "babel",
+            plugins: prettierPlugins
+        })
+
+
+        const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/server.ts`, prettyServer)
+        write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/server.ts`))
 
     }
   
