@@ -8,11 +8,10 @@ import {
   ensureFile,
 } from "https://deno.land/std/fs/mod.ts";
 
-//up here we need to put all our cute little defualt imports for all files...
-//import * as serverImports from "./put server deps import file here"
 import { importString, setUp, fetchHandler } from "./Imports/importsForServer.ts"
 import { CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete } from  "./CRUDFunctions.ts"
 import { mongooseString } from "./Imports/importsForMongo.ts"
+import { routerString, exportString } from "./Imports/ImportsForRouter.ts"
 
 
 export const configureApplication = async (
@@ -42,15 +41,11 @@ export const configureApplication = async (
   await ensureDir(`${dir}/${applicationName}/Server/models`)
   await ensureDir(`${dir}/${applicationName}/Server/Routes`)
   await ensureFile(`${dir}/${applicationName}/Server/Routes/Router.ts`)
-
   await ensureDir(`${dir}/${applicationName}/Controllers/`)
-
   await ensureDir(`${dir}/${applicationName}/client`);
   await ensureFile(`${dir}/${applicationName}/client/deps.ts`);
-
   await ensureFile(`${dir}/${applicationName}/DockerFile`);
   await Deno.writeTextFile(`${dir}/${applicationName}/DockerFile`, dockerFile)
-
   await ensureFile(`${dir}/${applicationName}/docker-compose.yml`);
   await Deno.writeTextFile(`${dir}/${applicationName}/docker-compose.yml`, dockerComposeFile)
 
@@ -157,9 +152,8 @@ export const configureApplication = async (
 
     }
 
-    const createServerFiles = async (obj) => {
+    const createServerFiles = async (obj, arr) => {
         
-
         let template: string = ''
         let routerString: string = ''
         const models = Object.keys(obj)
@@ -194,7 +188,6 @@ export const configureApplication = async (
             template += el
         })
         template += setUp
-        template += `${routerString}`
         template += fetchHandler
 
         const prettyServer = prettier.format(template, {

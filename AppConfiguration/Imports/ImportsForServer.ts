@@ -1,7 +1,7 @@
 
 export const importString: string = `import { h, jsx, serve, serveStatic, json, validateRequest } from "https://deno.land/x/sift@0.3.2/mod.ts";
 import { createClient } from "https://denopkg.com/chiefbiiko/dynamodb/mod.ts";
-import { Application, Router } from "https://deno.land/x/oak/mod.ts";
+import { Application } from "https://deno.land/x/oak/mod.ts";
 import { render } from "https://x.lcas.dev/preact@10.5.12/ssr.js";
 import type { VNode } from "https://x.lcas.dev/preact@10.5.12/mod.d.ts";
 import {
@@ -18,6 +18,7 @@ const port: number = 8000;
 
 
 export const fetchHandler: string = `
+  app.use(router.routes())
+  app.use(router.allowedMethods())\n
   app.addEventListener("fetch", app.fetchEventHandler())
-
 `
