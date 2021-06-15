@@ -29,11 +29,11 @@ export const configureApplication = async (
   ) => {
       
 
-  //here we ensure the file structure for export includes a working directory based on the application name entered at the beginning of the project
+  // here we ensure the file structure for export includes a working directory based on the application name entered at the beginning of the project
   // a sever folder subjugated to the top level working directory which will contain:
-  //a mod.ts file (the sever itself)
+  // a mod.ts file (the sever itself)
   // a models file which will contain the shcmeas entered by the user as well as the necessary connections to the Mongo Atlas DB
-  //a router folder which will contain the proper middleware functionality for CRUD functionality
+  // a router folder which will contain the proper middleware functionality for CRUD functionality
   // sub router files for each schema produced.
 
   await ensureDir(`${dir}/${applicationName}`)
@@ -176,9 +176,9 @@ export const configureApplication = async (
 
     }
   
-    createModelsDir(collectionsState);
-    createControllerFiles(collectionsState);
-    createServerFiles(collectionsState)
+   await createModelsDir(collectionsState);
+   await createControllerFiles(collectionsState);
+   await createServerFiles(collectionsState)
 }
 
 
