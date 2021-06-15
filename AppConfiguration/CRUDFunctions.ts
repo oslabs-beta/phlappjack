@@ -52,18 +52,13 @@ export const CRUDFunctionCreateOne =  (schema) => {
 
 export const CRUDFunctionPatch = (schema, props) => {
 
-    let parameters: string = ''
-    props.forEach(el => {
-        parameters += `${el},`
-    })
-
     const single: string = schema.slice(0,schema.length-1)
 
 
     const template: string = `const update${schema} = async (ctx: RouterContext) => {
         
         const id = ctx.params.id
-        const { ${props}} = await ctx.request.body().value;
+        const { ${props} } = await ctx.request.body().value;
         const { modified } = await ${schema}Collection.updateOne({ _id: { $oid: id } }, {
             $set: {
                 ${props}

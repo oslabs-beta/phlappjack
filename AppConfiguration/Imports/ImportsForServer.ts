@@ -15,3 +15,9 @@ const app = new Application();
 const router = new Router(); 
 const port: number = 8000;
 `
+
+
+export const fetchHandler: string = `
+  addEventListener("fetch", app.fetchEventHandler()")
+
+`
