@@ -86,8 +86,8 @@ export const configureApplication = async (
           
 
           //here we need to iterate through each of the mdodels to get their properties
-          model.forEach(el => {
-              schemaValues += `\t${String(el)}\n`
+          obj[model].forEach(el => {
+              schemaValues += `\t${String(model[el])}\n`
           })
 
           const schemaTemplateString = `
@@ -181,3 +181,17 @@ export const configureApplication = async (
 }
 
 
+function tester(obj){
+
+    const keys = Object.keys(obj)
+    console.log(keys)
+
+    keys.forEach(el => {
+        console.log(obj[el])
+    })
+}
+
+console.log(tester(Object.keys({
+    users: [ [ "username:  string;" ], [ "passsword:  string;" ] ],
+    users2: [ [ "usersName2:  string;" ], [ "password2:  string;" ] ]
+  })))
