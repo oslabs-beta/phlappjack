@@ -13,18 +13,17 @@ await Deno.writeAll(Deno.stdout, messageBuilding);
 // await createBundle();
 await Deno.writeAll(Deno.stdout, messageDone);
 
-const decoder = new TextDecoder("utf-8");
-const index = await Leaf.readFile("./build/index.html")
-const bundle = await Leaf.readFile("./build/bundle.js")
+const index = Leaf.readTextFileSync("./build/index.html")
+const bundle = Leaf.readTextFileSync("./build/bundle.js")
 
 const router = new Router();
 router
 .get("/", (context) => {
-  context.response.body = decoder.decode(index);
+  context.response.body = index;
 })
 .get("/bundle.js", (context) => {
   context.response.headers.set("Content-Type", "application/javascript; charset=utf-8")
-  context.response.body = decoder.decode(bundle);
+  context.response.body = bundle;
 })
   .get("/export", (context) => {
     console.log("here")
