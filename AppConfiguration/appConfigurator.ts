@@ -11,7 +11,7 @@ import {
 import { importString, setUp, fetchHandler } from "./Imports/importsForServer.ts"
 import { CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete } from  "./CRUDFunctions.ts"
 import { mongooseString } from "./Imports/importsForMongo.ts"
-import { routerString, exportString } from "./Imports/ImportsForRouter.ts"
+import { routerString, exportString } from "./Imports/ImportsForrouter.ts"
 
 
 export const configureApplication = async (
@@ -23,7 +23,8 @@ export const configureApplication = async (
   mongoDBState, 
   collectionsState, 
   dockerFile, 
-  dockerComposeFile
+  dockerComposeFile,
+  routes
   ) => {
       
 
@@ -37,10 +38,10 @@ export const configureApplication = async (
   await ensureDir(`${dir}/${applicationName}`)
   await ensureDir(`${dir}/${applicationName}/Server`)
   await ensureFile(`${dir}/${applicationName}/Server/deps.ts`);
-  await ensureFile(`${dir}/${applicationName}/Server/server.ts`)
-  await ensureDir(`${dir}/${applicationName}/Server/models`)
+  await ensureFile(`${dir}/${applicationName}/Server/mods.ts`)
+  await ensureDir(`${dir}/${applicationName}/Server/Models`)
   await ensureDir(`${dir}/${applicationName}/Server/Routes`)
-  await ensureFile(`${dir}/${applicationName}/Server/Routes/Router.ts`)
+  await ensureFile(`${dir}/${applicationName}/Server/Routes/router.ts`)
   await ensureDir(`${dir}/${applicationName}/Controllers/`)
   await ensureDir(`${dir}/${applicationName}/client`);
   await ensureFile(`${dir}/${applicationName}/client/deps.ts`);
@@ -75,12 +76,12 @@ export const configureApplication = async (
 
           if(mongooseConnectionFileIsCreated){
               await ensureFile(`${dir}/${applicationName}/Server/models/${model}.ts`)
-              const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/models/DBConnection.ts`, prettyConnection)
+              const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`, prettyConnection)
               write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/models/DBConnection.ts`))
           } else {
               await ensureFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`)
               const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`, prettyConnection)
-              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/models/DBConnection.ts`))
+              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/Models/DBConnection.ts`))
               mongooseConnectionFileIsCreated = true
               await ensureFile(`${dir}/${applicationName}/Server/models/${model}.ts`)
           }
@@ -97,8 +98,8 @@ export const configureApplication = async (
                     ${schemaValues}
                 }
 
-                const db = await client.database(${mongoDBState})
-                const ${model} = await db.collection("${model}")
+                const db = await client.database("${mongoDBState}")
+                const ${model} = await db.collection<${model}>("${model}")
 
                 export { ${model} };
           `
@@ -108,7 +109,7 @@ export const configureApplication = async (
               plugins: prettierPlugins
           })
 
-          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/models/${model}.ts`,prettySchema);
+          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/${model}.ts`,prettySchema);
           writeSchema().then(() => console.log(`Schema file for ${model} succesfully wirtten to ${dir}/${applicationName}/Server/Models/${model}.ts`))
           
       }
@@ -152,7 +153,7 @@ export const configureApplication = async (
 
     }
 
-    const createServerFiles = async (obj, arr) => {
+    const createServerFiles = async (obj) => {
         
         let template: string = ''
         let routerString: string = ''
@@ -184,9 +185,9 @@ export const configureApplication = async (
         }
 
         template += importString
-        controllerImportString.forEach(el => {
-            template += el
-        })
+        // controllerImportString.forEach(el => {
+        //     template += el
+        // })
         template += setUp
         template += fetchHandler
 
@@ -195,15 +196,40 @@ export const configureApplication = async (
             plugins: prettierPlugins
         })
 
-
-        const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/server.ts`, prettyServer)
-        write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/server.ts`))
+        const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/mods.ts`, prettyServer)
+        write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/mods.ts`))
 
     }
+
+    const createRouteFile = async (routes, collectionsState) => {
+        const models:Array<string> = Object.keys(collectionsState)
+        let modelImport: string = ''
+        for(let i = 0; i < models.length; i++){
+            modelImport += `import { ${models[i]} } from '../Models/${models[i]}.ts';\n`;
+        }
+
+        let routeTemplateStr: string =`import { Router } from '../deps.ts';
+            ${modelImport}
+            const router = new Router()
+            router`
+        for (let i = 0; i < routes.length; i++){
+            routeTemplateStr += '\n\t' + routes[i];
+        }
+        routeTemplateStr += ';';
+        routeTemplateStr += `\n\nexport { router };`;
+        Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/router.ts`, routeTemplateStr);
+
+        let serverDepsTemplateStr: string =`export { Application, Router } from "https://deno.land/x/oak/mod.ts";
+            export { MongoClient } from "https://deno.land/x/mongo/mod.ts";
+        `;
+        Deno.writeTextFile(`${dir}/${applicationName}/Server/deps.ts`, serverDepsTemplateStr);
+    }
+
   
    await createModelsDir(collectionsState);
    await createControllerFiles(collectionsState);
-   await createServerFiles(collectionsState)
+   await createServerFiles(collectionsState);
+   await createRouteFile(routes, collectionsState);
 }
 
 

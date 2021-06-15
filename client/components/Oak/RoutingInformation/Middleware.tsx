@@ -70,8 +70,7 @@ export default function Middleware(props){
       \t\t_id: { $ne: null } 
       \t}).toArray();
       \tctx.response.body = ${currModel}_findAll;
-    })
-        `
+    })`
       //Middleware template for find based on specified input field.
       } else if (props.resMethod == 'get' && props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
@@ -82,8 +81,7 @@ export default function Middleware(props){
     \t\t});
     \t\tctx.response.body = ${currModel}_findOne;
     \t}
-  })
-      `
+  })`
       //Middleware template for insert one.
       } else if (props.resMethod == 'post' && !props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1];
@@ -93,8 +91,7 @@ export default function Middleware(props){
     \tconst value = body.value;
     \tconst ${currModel}_insertOne = await ${currModel}.insert(value);
     \tctx.response.body = ${currModel}_insertOne;
-    })
-        `
+    })`
       //Middleware template for update one.
       } else if (props.resMethod == 'patch' && props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
@@ -108,8 +105,7 @@ export default function Middleware(props){
       \t}
       \tctx.response.body = ${currModel}_updateOne;
       \t}
-    })
-        `
+    })`
       //Middleware template for update many.
       } else if(props.resMethod == 'put' && props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
@@ -122,8 +118,7 @@ export default function Middleware(props){
       \t\t);
       \t\tctx.response.body = ${currModel}_updateMany;
       \t}
-    })
-        `
+    })`
       //Middleware template for delete many.
       } else if(props.resMethod == 'delete' && props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
@@ -133,10 +128,9 @@ export default function Middleware(props){
       \t\tconst ${currModel}_deleteMany = await ${currModel}.deleteMany({
       \t\t\t_id: ctx.params.id 
       \t\t});
-      \t\tctx.response.body = ${currModel}_deleteOne;
+      \t\tctx.response.body = ${currModel}_deleteMany;
       \t}
-    })
-        `
+    })`
       //Middleware template for delete one.
       } else if(props.resMethod == 'delete' && !props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
@@ -147,11 +141,11 @@ export default function Middleware(props){
       \t\t\t${currModelInput}:{ $ne:ctx.params.${currModelInput}}
       \t\t},
       \t\t{
-      \t\t\t${currModelInput}:ctx.params.${currModelInput}}
-      \t\t);
+      \t\t\t${currModelInput}:ctx.params.${currModelInput}
+      \t\t});
       \t\tctx.response.body = ${currModel}_deleteMany;
-    })
-        `
+      \t}
+    })`
       }else { 
 
         newMiddleWareTemp = '';
