@@ -19,7 +19,9 @@ const useStyles = makeStyles((theme:Theme) =>
     );
 
 export default function Oak(props){
+
     const classes = useStyles();
+
     return (
          <Grid container  >
             <Paper className={classes.paper}>
@@ -44,6 +46,10 @@ export default function Oak(props){
                         setEndPoints = {props.setEndPoints}
                         routes = {props.routes}
                         setRoutes = {props.setRoutes}
+                        middleWareTemp = {props.middleWareTemp}
+                        setMiddleWareTemp = {props.setMiddleWareTemp}
+                        dbInputDisplay = {props.dbInputDisplay}
+                        setDBInputDisplay = {props.setDBInputDisplay}
                     />
                 </Grid>
                  <Grid sm={4}  item>
@@ -56,6 +62,12 @@ export default function Oak(props){
                         setSelectedEndPoint = {props.setSelectedEndPoint}
                         routes = {props.routes}
                         setRoutes = {props.setRoutes}
+                        dbInputDisplay = {props.setDBInputDisplay}
+                        setDBInputDisplay = {props.setDBInputDisplay}
+                        routeToggles = {props.routeToggles}
+                        setRouteToggles = {props.setRouteToggles}
+                        editRouteTextFieldValue = {props.editRouteTextFieldValue}
+                        setEditRouteTextFieldValue = {props.setEditRouteTextFieldValue}
                      />
                 </Grid>
              </Grid>

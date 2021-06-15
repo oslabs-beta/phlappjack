@@ -22,7 +22,7 @@ export default function CreateExistingApplication(props){
   }
 
   return (
-    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh', marginLeft:'2.5vw' }}>
+    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh', marginLeft:'2.5vw'}}>
       <Paper style = {{height:'55vh', width:'25vw'}}>
         <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
           Create New Application
@@ -35,7 +35,13 @@ export default function CreateExistingApplication(props){
         />
         <Button 
           variant = 'contained'
-          style = {{ marginLeft:'7.5vw', marginTop:'1vw', textAlign:'center', fontSize:'2.5vh', width:'10vw' }}
+          style = {{ 
+            marginLeft:'7.5vw', 
+            marginTop:'1vw', 
+            textAlign:'center', 
+            fontSize:'2.5vh', 
+            width:'8vw' 
+          }}
           onClick = {(e) => handleOnClick(e)}
         >
           Create

@@ -5,9 +5,9 @@ import Paper from '@material-ui/core/Paper';
 
 import RouteExcecutionOrderDisplay from './RouteExcecutionOrderDisplay';
 
-export default function ExistingModels(props){
+export default function RouteExecutionOrder(props){
 
-  // const [ childKey,setChildKey ] = useState(0);
+  const [ childKey,setChildKey ] = useState(0);
 
   // const handleClick = (e) =>{
   //   const inputFieldEle = (document.getElementById("Specifiy DB Input field")) as HTMLInputElement;
@@ -21,20 +21,25 @@ export default function ExistingModels(props){
   // }
 
   return (
-    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh', marginLeft:'2.5vw' }}>
+    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh'}}>
       <Paper style = {{height:'55vh', width:'25vw'}}>
         <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
           Route Execution Order
         </div>
         <RouteExcecutionOrderDisplay
-          key ={props.childKey}
+          key ={childKey}
+          setChildKey = {setChildKey}
           endPoints = {props.endPoints}
           setEndPoints = {props.setEndPoints}
-          setChildKey = {props.setChildKey}
           selectedEndPoint = {props.selectedEndPoint}
           setSelectedEndPoint = {props.setSelectedEndPoint}
           routes = {props.routes}
           setRoutes = {props.setRoutes}
+          setDBInputDisplay = {props.setDBInputDisplay}
+          routeToggles = {props.routeToggles}
+          setRouteToggles = {props.setRouteToggles}
+          editRouteTextFieldValue = {props.editRouteTextFieldValue}
+          setEditRouteTextFieldValue = {props.setEditRouteTextFieldValue}
         />
       </Paper>
     </div>

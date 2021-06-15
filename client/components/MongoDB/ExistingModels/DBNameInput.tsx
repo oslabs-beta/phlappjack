@@ -99,6 +99,13 @@ export default function DBNameInput(props){
         const newDBInputDisplay = props.dbInputDisplay;
         newDBInputDisplay[collectionInputEle.value] = [];
         props.setDBInputDisplay(newDBInputDisplay);
+        const newEndPoint: string = String('/' + collectionInputEle.value);
+        const newEndPoints = props.endPoints;
+        newEndPoints[newEndPoint] = [];
+        props.setEndPoints(newEndPoints);
+        //Modify newDBToggleState
+        const newDBToggleState = new Array(Object.keys(props.dbInputDisplay).length).fill(true).map((item, idx) => true);
+        props.setDBToggles(newDBToggleState);
       }
       collectionInputEle.value = '';
     }

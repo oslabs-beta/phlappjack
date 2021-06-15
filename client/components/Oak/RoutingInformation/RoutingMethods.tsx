@@ -31,14 +31,17 @@ export default function RoutingMethods(props){
     const resEle = event.target as HTMLElement;
     const index: number = resEle.value;
     props.setResMethod(responses[index].toLowerCase());
+    //Force parent element to re-render.
+    const newChildKey0: number = Math.floor(Math.random() * 100000);
+    props.setChildKey0(newChildKey0);
   };
 
   const labelDisplay = () => {
-    if(props.resMethod == '') return 'Please select a response method';
+    if(props.resMethod == '') return 'Select a response method';
     else return props.resMethod;
   };
 
-  const responses = ['GET','POST','DELETE','PUT'];
+  const responses = ['DELETE','GET','PATCH','POST','PUT'];
 
   return (
     <FormControl variant="outlined" className={classes.formControl}>

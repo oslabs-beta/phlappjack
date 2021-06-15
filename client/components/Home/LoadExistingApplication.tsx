@@ -34,6 +34,10 @@ export default function LoadExistingApplications(props){
             setNewApplication = {props.setNewApplication}
             childKeyForLoadingApplication = {props.childKeyForLoadingApplication}
             setChildKeyForLoadingApplication = {props.setChildKeyForLoadingApplication}
+            loadToggles = {props.loadToggles}
+            setLoadToggles = {props.setLoadToggles}
+            editLoadTextFieldValue = {props.editLoadTextFieldValue}
+            setEditLoadTextFieldValue = {props.setEditLoadTextFieldValue}
           />
       </Paper>
     </div>
