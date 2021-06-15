@@ -10,7 +10,7 @@ import {
 
 //up here we need to put all our cute little defualt imports for all files...
 //import * as serverImports from "./put server deps import file here"
-import { importString, setUp } from "./Imports/importsForServer.ts"
+import { importString, setUp, fetchHandler } from "./Imports/importsForServer.ts"
 import { CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete } from  "./CRUDFunctions.ts"
 import { mongooseString } from "./Imports/importsForMongo.ts"
 
@@ -37,6 +37,7 @@ export const configureApplication = async (
 
   await ensureDir(`${dir}/${applicationName}`)
   await ensureDir(`${dir}/${applicationName}/Server`)
+  await ensureFile(`${dir}/${applicationName}/Server/server.ts`)
   await ensureDir(`${dir}/${applicationName}/Models`)
   await ensureFile(`${dir}/${applicationName}/Routers`)
   await ensureDir(`${dir}/${applicationName}/Controllers/`)
@@ -84,10 +85,10 @@ export const configureApplication = async (
               await ensureFile(`${dir}/${applicationName}/models/${model}.ts`)
           }
           
-
+          const flatModel = obj[model].flat()
           //here we need to iterate through each of the mdodels to get their properties
-          model.forEach(el => {
-              schemaValues += `\t${String(el)}\n`
+          flatModel.forEach(el => {
+            schemaValues += `\t${String(el)}\n`
           })
 
           const schemaTemplateString = `
@@ -96,11 +97,12 @@ export const configureApplication = async (
           
               interface ${model}{
                   ${schemaValues}
-
-                  const db = await client.database(${mongoDBState})
-                  const ${model} = await db.collection("${model}")
                   
-              }`
+              }
+              
+              const db = await client.database(${mongoDBState})
+              const ${model} = await db.collection("${model}")
+              `
 
           const PretySchema = prettier.format(schemaTemplateString, {
               parser: "babel",
@@ -109,7 +111,6 @@ export const configureApplication = async (
 
           const writeSchema =  Deno.writeTextFile(`${dir}/${applicationName}/Models/${model}.ts`)
           writeSchema.then(() => console.log(`Schema file for ${model} succesfully wirtten to ${dir}/${applicationName}/Models/${model}.ts`))
-
           
       }
   }
@@ -121,11 +122,19 @@ export const configureApplication = async (
             let controllerFileString = ''
             const model = models[i]
 
+            const flatModel = obj[model].flat()
+            const props = flatModel.reduce((acc, property) => {
+
+                acc += `${property}`
+                return acc
+
+            }, '')
+
             //CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete 
             const getAllCRUD: string = await CRUDFunctionGet(model)
             const getOneCRUD: string = await CRUDFunctionGetOne(model)
             const createCRUD: string = await CRUDFunctionCreateOne(model)
-            const updateCRUD: string = await CRUDFunctionPatch(model)
+            const updateCRUD: string = await CRUDFunctionPatch(model, props)
             const deleteCRUD: string = await CRUDFunctionDelete(model)
 
             controllerFileString += `${getAllCRUD}, ${getOneCRUD}, ${createCRUD}, ${updateCRUD}, ${deleteCRUD}`
@@ -140,7 +149,6 @@ export const configureApplication = async (
             await ensureFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`)
             const write = Deno.writeTextFile(`${dir}/${applicationName}/Controllers/${model}Controller.ts`, prettyController)
             write.then(() => console.log(`controller File for ${model} Successfully Written to ${dir}/${applicationName}/Controllers/${model}Controller.ts`))
-
         }
 
     }
@@ -161,7 +169,7 @@ export const configureApplication = async (
                 .patch("/${model}/:id, update${model})
                 .delete("${model}/:id, delete${model})`
 
-                routerString += route
+                routerString += `${route}\n`
         }
 
         template += importString
@@ -170,8 +178,9 @@ export const configureApplication = async (
         })
         template += setUp
         template += routerString
+        template += fetchHandler
 
-
+        Deno.writeTextFile(`${dir}/${applicationName}/Server/server.ts`, template)
 
     }
   
