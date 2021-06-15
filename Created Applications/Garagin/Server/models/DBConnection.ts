@@ -17,3 +17,5 @@ await client.connect({
     mechanism: "SCRAM-SHA-1"
   }
 });
+
+export { client };

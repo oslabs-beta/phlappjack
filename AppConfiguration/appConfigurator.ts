@@ -37,14 +37,20 @@ export const configureApplication = async (
 
   await ensureDir(`${dir}/${applicationName}`)
   await ensureDir(`${dir}/${applicationName}/Server`)
+  await ensureFile(`${dir}/${applicationName}/Server/deps.ts`);
   await ensureFile(`${dir}/${applicationName}/Server/server.ts`)
-  await ensureDir(`${dir}/${applicationName}/Models`)
-  await ensureFile(`${dir}/${applicationName}/Routers`)
+  await ensureDir(`${dir}/${applicationName}/Server/models`)
+  await ensureDir(`${dir}/${applicationName}/Server/Routes`)
+  await ensureFile(`${dir}/${applicationName}/Server/Routes/Router.ts`)
+
   await ensureDir(`${dir}/${applicationName}/Controllers/`)
+
   await ensureDir(`${dir}/${applicationName}/client`);
   await ensureFile(`${dir}/${applicationName}/client/deps.ts`);
+
   await ensureFile(`${dir}/${applicationName}/DockerFile`);
   await Deno.writeTextFile(`${dir}/${applicationName}/DockerFile`, dockerFile)
+
   await ensureFile(`${dir}/${applicationName}/docker-compose.yml`);
   await Deno.writeTextFile(`${dir}/${applicationName}/docker-compose.yml`, dockerComposeFile)
 
@@ -66,51 +72,49 @@ export const configureApplication = async (
           parser: "babel",
           plugins: prettierPlugins
         });
-        console.log(obj)
-        console.log(models)
+
       for(let i = 0; i < models.length; i++){
           //here we delcare an empty string whcih will hold our shcema's properties
-          let schemaValues = ''
+          let schemaValues +='';
           const model = models[i]
-          
+
           if(mongooseConnectionFileIsCreated){
-              await ensureFile(`${dir}/${applicationName}/Models/${model}.ts`)
-              const write = Deno.writeTextFile(`${dir}/${applicationName}/models/DBConnection.ts`, prettyConnection)
-              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/models/DBConnection.ts`))
+              await ensureFile(`${dir}/${applicationName}/Server/models/${model}.ts`)
+              const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/models/DBConnection.ts`, prettyConnection)
+              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/models/DBConnection.ts`))
           } else {
-              await ensureFile(`${dir}/${applicationName}/Models/DBConnection.ts`)
-              const write = Deno.writeTextFile(`${dir}/${applicationName}/Models/DBConnection.ts`, prettyConnection)
-              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/models/DBConnection.ts`))
+              await ensureFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`)
+              const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`, prettyConnection)
+              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/models/DBConnection.ts`))
               mongooseConnectionFileIsCreated = true
-              await ensureFile(`${dir}/${applicationName}/models/${model}.ts`)
+              await ensureFile(`${dir}/${applicationName}/Server/models/${model}.ts`)
           }
-          
-          const flatModel = obj[model].flat()
+
           //here we need to iterate through each of the mdodels to get their properties
-          flatModel.forEach(el => {
-            schemaValues += `\t${String(el)}\n`
+          obj[model].forEach((modelInput) =>{
+            schemaValues += `${String(modelInput)}\n`
           })
 
-          const schemaTemplateString = `
-              import { MongoClient } from '../deps.ts'
-              const client = new MongoClient();
-          
-              interface ${model}{
-                  ${schemaValues}
-                  
-              }
-              
-              const db = await client.database(${mongoDBState})
-              const ${model} = await db.collection("${model}")
-              `
+          const schemaTemplateString = `import { MongoClient } from '../deps.ts'
+import { client } from './DBConnection.ts'
+
+interface ${model}{
+    ${schemaValues}
+}
+
+const db = await client.database(${mongoDBState})
+const ${model} = await db.collection("${model}")
+
+export { ${model} };
+          `
 
           const PretySchema = prettier.format(schemaTemplateString, {
               parser: "babel",
               plugins: prettierPlugins
           })
 
-          const writeSchema =  Deno.writeTextFile(`${dir}/${applicationName}/Models/${model}.ts`)
-          writeSchema.then(() => console.log(`Schema file for ${model} succesfully wirtten to ${dir}/${applicationName}/Models/${model}.ts`))
+          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/models/${model}.ts`,schemaTemplateString);
+          writeSchema().then(() => console.log(`Schema file for ${model} succesfully wirtten to ${dir}/${applicationName}/Server/Models/${model}.ts`))
           
       }
   }

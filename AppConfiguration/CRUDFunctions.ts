@@ -27,7 +27,7 @@ export const CRUDFunctionGetOne =  (schema) => {
 
 export const CRUDFunctionCreateOne =  (schema) => {
     
-
+    console.log(schema)
     let parameters: string = ''
     schema.properties.forEach(el => {
         parameters += `${el},`

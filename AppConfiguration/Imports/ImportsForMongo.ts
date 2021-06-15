@@ -21,6 +21,9 @@ export const mongooseString = (mongoHostState ,userNameState ,passWordState ,mon
         db: "${mongoDBState}",
         mechanism: "SCRAM-SHA-1",
       },
-    });`
+    });
+    
+    export {client};
+    `
     
     }
