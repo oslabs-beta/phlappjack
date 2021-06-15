@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: 
       MONGO_INITDB_ROOT_PASSWORD: 
       
-App:
-    image:App
+Test2:
+    image:Test2
     ports: 
       - 8000:8000

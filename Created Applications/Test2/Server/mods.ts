@@ -1,5 +1,5 @@
 import { Application } from "./deps.ts";
-import { router } from "./Routes/router.ts";
+import { router } from "./Routes/Router.ts";
 
 const app = new Application();
 const port: number = 8000;

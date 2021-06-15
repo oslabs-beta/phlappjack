@@ -104,7 +104,6 @@ export default function Middleware(props){
       \t\t);
       \t}
       \tctx.response.body = ${currModel}_updateOne;
-      \t}
     })`
       //Middleware template for update many.
       } else if(props.resMethod == 'put' && props.selectedEndPoint.includes(':')){

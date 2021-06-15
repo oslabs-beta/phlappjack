@@ -99,9 +99,7 @@ export const configureApplication = async (
                 }
 
                 const db = await client.database("${mongoDBState}")
-                const ${model} = await db.collection<${model}>("${model}")
-
-                export { ${model} };
+               
           `
 
           const prettySchema = prettier.format(schemaTemplateString, {
@@ -109,7 +107,9 @@ export const configureApplication = async (
               plugins: prettierPlugins
           })
 
-          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/${model}.ts`,prettySchema);
+          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/${model}.ts`, `${prettySchema}\nconst ${model} = await db.collection<${model}>("${model}")\n
+
+          export { ${model} };`);
           writeSchema().then(() => console.log(`Schema file for ${model} succesfully wirtten to ${dir}/${applicationName}/Server/Models/${model}.ts`))
           
       }

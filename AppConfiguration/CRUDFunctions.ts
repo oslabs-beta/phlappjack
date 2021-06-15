@@ -7,7 +7,7 @@ interface Schema {
 export const CRUDFunctionGet =  (schema) => {
 
    const template: string = `const getAll${schema} = async (ctx: RouterContext) => {
-    const ${schema} = await ${schema}Collections.find();
+    const ${schema} = await ${schema}.find();
     ctx.response.body = ${schema};
    }\n`
 
@@ -18,7 +18,7 @@ export const CRUDFunctionGetOne =  (schema) => {
 
     const template: string = `const get${schema} = async (ctx: RouterContext) => {
         const id = ctx.params.id;
-        const ${schema} = await ${schema}collection.findOne({_id: {$oid: id } });
+        const ${schema} = await ${schema}.findOne({_id: {$oid: id } });
         ctx.response.body = ${schema};
     }\n`
 
@@ -34,7 +34,7 @@ export const CRUDFunctionCreateOne =  (schema, props) => {
         const ${single}: any = {
             ${props}
         };
-        const id = await ${schema}Collection.insertOne();
+        const id = await ${schema}.insertOne();
         ${single}._id = id;
         ctx.response.status = 201
         ctx.response.body = ${single}
@@ -52,7 +52,7 @@ export const CRUDFunctionPatch = (schema, props) => {
         
         const id = ctx.params.id
         const { ${props} } = await ctx.request.body().value;
-        const { modified } = await ${schema}Collection.updateOne({ _id: { $oid: id } }, {
+        const { modified } = await ${schema}.updateOne({ _id: { $oid: id } }, {
             $set: {
                 ${props}
             }
@@ -62,7 +62,7 @@ export const CRUDFunctionPatch = (schema, props) => {
             ctx.response.body = { message: '${single} not found' }
             return;
         }
-        ctx.response.body = await ${schema}Collection.findOne({ _id: { $oid: id } })
+        ctx.response.body = await ${schema}.findOne({ _id: { $oid: id } })
     }\n`
 
     return template
@@ -76,7 +76,7 @@ export const CRUDFunctionDelete = (schema) => {
     const template: string = ` const delete${single} = async (ctx: RouterContext) => {    
         const id = ctx.params.id
     
-        const ${single} = await ${schema}Collection.deleteOne({ _id: { $oid: id } });
+        const ${single} = await ${schema}.deleteOne({ _id: { $oid: id } });
     
         if (!${single}) {
             ctx.response.status = 404;
