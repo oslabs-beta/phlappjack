@@ -9,7 +9,7 @@ export default function EndPointNameInput(){
       <form>
         <TextField
           id="Specifiy Endpoint Name"
-          label="Enter New Endpoint Name"
+          label="Enter new endpoint"
           variant="outlined"
           color="secondary"
           style = {{width:'20vw'}}

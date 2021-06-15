@@ -33,7 +33,7 @@ export default function RoutingInformation(props){
     <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh'}}>
       <Paper style = {{height:'55vh', width:'25vw'}}>
       <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
-        {`Routes for ${props.selectedEndPoint}`}
+        {`Selected Route: ${props.selectedEndPoint}`}
       </div>
       <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
         <RoutingMethods

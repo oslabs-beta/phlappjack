@@ -62,10 +62,12 @@ export default function Oak(props){
                         setSelectedEndPoint = {props.setSelectedEndPoint}
                         routes = {props.routes}
                         setRoutes = {props.setRoutes}
-                        toggles = {props.toggles}
-                        setToggles = {props.setToggles}
-                        editTextFieldValue = {props.editTextFieldValue}
-                        setEditTextFieldValue = {props.setEditTextFieldValue}
+                        dbInputDisplay = {props.setDBInputDisplay}
+                        setDBInputDisplay = {props.setDBInputDisplay}
+                        routeToggles = {props.routeToggles}
+                        setRouteToggles = {props.setRouteToggles}
+                        editRouteTextFieldValue = {props.editRouteTextFieldValue}
+                        setEditRouteTextFieldValue = {props.setEditRouteTextFieldValue}
                      />
                 </Grid>
              </Grid>

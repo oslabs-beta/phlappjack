@@ -33,6 +33,15 @@ export default function RouteExecutionOrderDisplay(props){
 
   const classes = useStyles();
 
+  const handKeyDown = (e) =>{
+    if(e.keyCode === 9){ 
+      e.preventDefault();
+      document.execCommand('insertText', false, "\t");
+    }
+  }
+
+
+
   const handleMouseDown = (e) =>{
     e.preventDefault();
     let mouseup = false;
@@ -76,7 +85,7 @@ export default function RouteExecutionOrderDisplay(props){
     const handleClick = e => {
       if (ref.current && !ref.current.contains(e.target)) {
         const newToggleState = new Array(props.routes.length).fill(true).map((item, idx) => true);
-        props.setToggles(newToggleState);
+        props.setRouteToggles(newToggleState);
       }
     };
     useEffect(() => {
@@ -92,12 +101,11 @@ export default function RouteExecutionOrderDisplay(props){
   useClickOutside(editField);
 
   const handleChange = (e) =>{
-    props.setEditTextFieldValue(e.target.value)
+    props.setEditRouteTextFieldValue(e.target.value)
     const routeIndex: number = e.target.id;
     const newRoutes = props.routes;
     newRoutes[routeIndex] = e.target.value;
     props.setRoutes(newRoutes);
-
   }
 
 
@@ -108,10 +116,11 @@ export default function RouteExecutionOrderDisplay(props){
       routerDisplay.push(currRoute);
     }
   }
-  
+
+
   return (
     <div>
-      <Paper style = {{marginLeft:'2.5vw', marginTop:'2.5vh', height:'42vh', maxHeight:'100%', overflow:'auto', width:'20vw'}}>
+      <Paper style = {{marginLeft:'2.5vw', marginTop:'2.5vh', height:'42vh', maxHeight:'100%', overflow:'auto', width:'25vw'}}>
         <Divider/>
           <List>
             <ListItem 
@@ -143,7 +152,7 @@ export default function RouteExecutionOrderDisplay(props){
                             id = {`routing-background-color-selection_${index}`}
                             style = {{height:'auto'}}
                           >
-                            {props.toggles[index] ? (
+                            {props.routeToggles[index] ? (
                               <ListItem 
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
@@ -154,10 +163,10 @@ export default function RouteExecutionOrderDisplay(props){
                                 button key={index}
                                 onMouseDown = {(e) => handleMouseDown(e)}
                                 onDoubleClick = {() =>{
-                                  let newToggleState = props.toggles;
-                                  newToggleState[index] = false;
-                                  props.setToggles(newToggleState);
-                                  props.setEditTextFieldValue(props.routes[index])
+                                  let newRoutesToggleState = props.routeToggles;
+                                  newRoutesToggleState[index] = false;
+                                  props.setRouteToggles(newRoutesToggleState);
+                                  props.setEditRouteTextFieldValue(props.routes[index])
                                   //Force parent component to update.
                                   const newChildKey: number = Math.floor(Math.random() * 100000);
                                   props.setChildKey(newChildKey);
@@ -174,12 +183,13 @@ export default function RouteExecutionOrderDisplay(props){
                                   id = {index}
                                   multiline = {true}
                                   style = {{
-                                    width:'100%', 
+                                    width:'20vw', 
                                     marginLeft: '1.5em'
                                   }}
                                   rows = {8}
-                                  value = {props.editTextFieldValue}
+                                  value = {props.editRouteTextFieldValue}
                                   onChange = {handleChange}
+                                  onKeyDown = {handKeyDown}
                                 />
                               </div>
                             )}

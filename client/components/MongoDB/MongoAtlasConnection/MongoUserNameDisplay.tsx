@@ -14,7 +14,7 @@ export default function MongoUserNameDisplay(props){
   return (
     <div>
         <Paper style = {{ marginLeft:'2.5vw', marginTop:'1.5vh', marginRight:'2.5vw', height:'5vh', fontSize:'1.5em', textAlign:'left'}}>
-          {onRender()}
+            {onRender()}
         </Paper>
     </div>
   )

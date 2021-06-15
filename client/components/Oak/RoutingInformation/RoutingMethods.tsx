@@ -37,7 +37,7 @@ export default function RoutingMethods(props){
   };
 
   const labelDisplay = () => {
-    if(props.resMethod == '') return 'Please select a response method';
+    if(props.resMethod == '') return 'Select a response method';
     else return props.resMethod;
   };
 

@@ -37,6 +37,13 @@ export default function Middleware(props){
     props.setMiddleWareTemp(e.target.value)
   }
 
+  const handKeyDown = (e) =>{
+    if(e.keyCode === 9){ 
+      e.preventDefault();
+      document.execCommand('insertText', false, "\t");
+    }
+  }
+
   useEffect(() =>{
 
     const dbNames = Object.keys(props.dbInputDisplay);
@@ -49,6 +56,8 @@ export default function Middleware(props){
       dbName = endPointName.split('/')[1];
     }
 
+    if(!props.selectedEndPoint || dbName && !props.dbInputDisplay[dbName].length) return;
+
     let newMiddleWareTemp: string;
 
     if( props.selectedEndPoint !== 'Routing Information' && props.resMethod && dbNames.indexOf(dbName) > -1){
@@ -58,7 +67,7 @@ export default function Middleware(props){
         const currModelInput: string = props.dbInputDisplay[currModel][0].toString().split(':')[0];
         newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
       \tconst ${currModel}_findAll = await ${currModel}.find({ 
-      \t\t${currModelInput}: { $ne: null } 
+      \t\t_id: { $ne: null } 
       \t}).toArray();
       \tctx.response.body = ${currModel}_findAll;
     })
@@ -93,9 +102,10 @@ export default function Middleware(props){
         newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
       \tif(ctx.params && ctx.params.id && ctx.params.${currModelInput}){
       \t\tconst ${currModel}_updateOne = await ${currModel}.updateOne(
-      \t\t\t{${currModelInput}:{ $ne:ctx.params.${currModelInput}}},
+      \t\t\t{_id:ctx.params.id},
       \t\t\t{${currModelInput}:ctx.params.${currModelInput}}
       \t\t);
+      \t}
       \tctx.response.body = ${currModel}_updateOne;
       \t}
     })
@@ -175,6 +185,7 @@ export default function Middleware(props){
         id = 'middleware-input'
         value = {props.middleWareTemp}
         multiline={true}
+        placeholder = {'Enter routing and middleware for the selected endpoint'}
         rows={21}
         style = {{width:'100%',overflow: 'auto'}}
         inputProps={{
@@ -182,6 +193,7 @@ export default function Middleware(props){
           //todo
           // startAdornment: <InputAdornment position="start">Kg</InputAdornment>
         }}
+        onKeyDown = {handKeyDown}
         onChange = {handleChange}
       />
     </Paper>

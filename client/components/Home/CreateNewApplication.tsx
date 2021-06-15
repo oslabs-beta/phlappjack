@@ -35,7 +35,13 @@ export default function CreateExistingApplication(props){
         />
         <Button 
           variant = 'contained'
-          style = {{ marginLeft:'7.5vw', marginTop:'1vw', textAlign:'center', fontSize:'2.5vh', width:'10vw' }}
+          style = {{ 
+            marginLeft:'7.5vw', 
+            marginTop:'1vw', 
+            textAlign:'center', 
+            fontSize:'2.5vh', 
+            width:'8vw' 
+          }}
           onClick = {(e) => handleOnClick(e)}
         >
           Create

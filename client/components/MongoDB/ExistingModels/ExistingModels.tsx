@@ -9,6 +9,8 @@ import DBNameInput from './DBNameInput';
 
 export default function ExistingModels(props){
 
+  const [childKey0, setChildKey0 ] = useState(0);
+
   const handleClick = (e) =>{
     const inputFieldEle = (document.getElementById("Specifiy DB Input field")) as HTMLInputElement;
     props.setDBBeingModified(inputFieldEle.value)
@@ -21,10 +23,12 @@ export default function ExistingModels(props){
       const newEndPoints = props.endPoints;
       newEndPoints[newEndPoint] = [];
       props.setEndPoints(newEndPoints);
+
+      const newDBToggleState = new Array(Object.keys(props.dbInputDisplay).length).fill(true).map((item, idx) => true);
+      props.setDBToggles(newDBToggleState);
     }
     inputFieldEle.value = '';
   }
-
 
   return (
     <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh'}}>
@@ -33,12 +37,20 @@ export default function ExistingModels(props){
         Existing Models
       </div>
         <ExistingModelsDisplay
+          childKey0 = {childKey0}
+          setChildKey0 = {setChildKey0}
           dbBeingModified = {props.dbBeingModified}
           setDBBeingModified = {props.setDBBeingModified}
           dbInputDisplay = {props.dbInputDisplay}
           setDBInputDisplay = {props.setDBInputDisplay}
           endPoints = {props.endPoints}
           setEndPoints = {props.setEndPoints}
+          dbToggles = {props.dbToggles}
+          setDBToggles = {props.setDBToggles}
+          editDBTextFieldValue = {props.editDBTextFieldValue}
+          setEditDBTextFieldValue = {props.setEditDBTextFieldValue}
+          routes = {props.routes}
+          setRoutes = {props.setRoutes}
         />
         <DBNameInput
           dbBeingModified = {props.dbBeingModified}
@@ -47,6 +59,8 @@ export default function ExistingModels(props){
           setDBInputDisplay = {props.setDBInputDisplay}
           endPoints = {props.endPoints}
           setEndPoints = {props.setEndPoints}
+          dbToggles = {props.dbToggles}
+          setDBToggles = {props.setDBToggles}
         />
         <AddCircleIcon 
           style = {{fontSize:'48px', marginLeft:'11.5vw'}}

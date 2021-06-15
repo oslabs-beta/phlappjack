@@ -35,10 +35,11 @@ export default function RouteExecutionOrder(props){
           setSelectedEndPoint = {props.setSelectedEndPoint}
           routes = {props.routes}
           setRoutes = {props.setRoutes}
-          toggles = {props.toggles}
-          setToggles = {props.setToggles}
-          editTextFieldValue = {props.editTextFieldValue}
-          setEditTextFieldValue = {props.setEditTextFieldValue}
+          setDBInputDisplay = {props.setDBInputDisplay}
+          routeToggles = {props.routeToggles}
+          setRouteToggles = {props.setRouteToggles}
+          editRouteTextFieldValue = {props.editRouteTextFieldValue}
+          setEditRouteTextFieldValue = {props.setEditRouteTextFieldValue}
         />
       </Paper>
     </div>
