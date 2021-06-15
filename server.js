@@ -3,7 +3,7 @@ const path = require('path')
 const app = express()
 const cors = require("cors");
 const bodyParser = require('body-parser')
-const AppConfigurator  = require('./AppConfiguration/appConfigurator.js')
+// const AppConfigurator  = require('./AppConfiguration/appConfigurator.ts')
 const port = 3000
 
 app.use(cors());
@@ -19,8 +19,8 @@ app.get("/", (req, res) => {
 app.post("/ConfigureApplication", (req, res, next) => {
   props = req.body;
   const { newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose } = props;
-  const dir = './Created Appilcations/';
-  AppConfigurator(dir,newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose );
+  const dir = './Created Applications/';
+  // AppConfigurator(dir,newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose );
   next();
 })
 

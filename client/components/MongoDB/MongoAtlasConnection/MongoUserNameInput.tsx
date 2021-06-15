@@ -14,7 +14,7 @@ export default function MongoUserNameInput(props){
   }
 
   return (
-    <div style={{marginLeft:'2.5vw', marginTop:'0.5vw'}}>
+    <div style={{marginLeft:'2.5vw', marginTop:'0.5vW'}}>
       <form>
         <TextField
           id = "mongoUri-input-field"

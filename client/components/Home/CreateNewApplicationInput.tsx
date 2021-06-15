@@ -7,11 +7,11 @@ export default function CreateNewApplicationInput(props){
     if(e.keyCode === 13){
       e.preventDefault();
       const createNewAppEle = e.target as HTMLElement;
-      props.setNewApplication(createNewAppEle.value)
+      props.setNewApplication(createNewAppEle.value);
       createNewAppEle.value = '';
       //Force parent component to update.
       const newChildKey: number = Math.floor(Math.random() * 100000);
-      props.setChildKey(newChildKey)
+      props.setChildKey(newChildKey);
     }
   }
 

@@ -17,10 +17,12 @@ const useStyles = makeStyles((theme:Theme) =>
     }),
     );
 
+
 export default function MongoDB(props){
 
   const classes = useStyles();
   const [ childKey,setChildKey ] = useState(0);
+
   
   return (
        <Grid container  >
@@ -50,6 +52,14 @@ export default function MongoDB(props){
                   setDBBeingModified = {props.setDBBeingModified}
                   dbInputDisplay = {props.dbInputDisplay}
                   setDBInputDisplay = {props.setDBInputDisplay}
+                  endPoints = {props.endPoints}
+                  setEndPoints = {props.setEndPoints}
+                  dbToggles = {props.dbToggles}
+                  setDBToggles = {props.setDBToggles}
+                  editDBTextFieldValue = {props.editDBTextFieldValue}
+                  setEditDBTextFieldValue = {props.setEditDBTextFieldValue}
+                  routes = {props.routes}
+                  setRoutes = {props.setRoutes}
                 />
               </Grid>
               <Grid sm={4} item >
@@ -60,6 +70,10 @@ export default function MongoDB(props){
                   setDBBeingModified = {props.setDBBeingModified}
                   dbInputDisplay = {props.dbInputDisplay}
                   setDBInputDisplay = {props.setDBInputDisplay}
+                  endPoints = {props.endPoints}
+                  setEndPoints = {props.setEndPoints}
+                  routes = {props.routes}
+                  setRoutes = {props.setRoutes}
                 />
               </Grid>
            </Grid>

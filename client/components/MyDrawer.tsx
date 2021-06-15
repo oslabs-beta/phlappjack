@@ -120,7 +120,7 @@ export default function MyDrawer(props){
 
     const configureApp = () =>{
 
-      fetch('/ConfigureApplication', {
+      fetch('/export', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -150,7 +150,6 @@ export default function MyDrawer(props){
       window.localStorage.setItem(currApplicationName, JSON.stringify(propsToSave))
       const newKey: number = props.childKey + 1
       props.setChildKey(newKey)
-      console.log(props.childKey)
     }
 
     const [sectionSelected, setSectionSelected] = useState({

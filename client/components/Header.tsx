@@ -37,7 +37,7 @@ export default function Header(props){
 
     const onRender = () =>{
       if(props.newApplication) return String('Working on ' + props.newApplication)
-      return;
+      else return 'Please load or create an application';
     }
     
 

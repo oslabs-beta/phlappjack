@@ -7,52 +7,58 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExistingModelsDisplay from './ExistingModelsDisplay.tsx'
 import RoutingMethods from './RoutingMethods.tsx';
 import ResponseStatus from './ResponseStatus.tsx';
-import ResponseBody from './ResponseBody.tsx';
+import Middleware from './Middleware.tsx';
 
-export default function ExistingModels(props){
+export default function RoutingInformation(props){
 
-  const [ childKey,setChildKey ] = useState(0);
+  const [ childKey0,setChildKey0 ] = useState(0);
+  const [ childKey1,setChildKey1 ] = useState(0);
   const [ resMethod, setResMethod ] = useState('')
-  const [ resStatus, setResStatus ] = useState('')
-  const [ resBody, setResBody ] = useState('')
 
   const handleClick = (e) =>{
 
-    let newRoutes: Array<string> = props.routes;
-
-    newRoutes.push(`
-    .${resMethod}('${props.selectedEndPoint}',(ctx) => {
-      ctx.response.body = ${resBody};
-    )}
-    `)
+    const newRoutes = props.routes;
+    const newRouteEle = document.getElementById('middleware-input') as HTMLInputElement;
+    const newRouteEleValue = newRouteEle.value
+    newRoutes.push(newRouteEleValue)
     props.setRoutes(newRoutes);
-    setResMethod('');
-    setResStatus('');
-    setResBody('');
+    props.setMiddleWareTemp('')
+
     //Force parent element to re-render.
     const newChildKey: number = Math.floor(Math.random() * 100000);
     props.setChildKey(newChildKey);
   }
 
   return (
-    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh', marginLeft:'2.5vw' }}>
+    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh'}}>
       <Paper style = {{height:'55vh', width:'25vw'}}>
       <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
-        {`Routes for ${props.selectedEndPoint}`}
+        {`Selected Route: ${props.selectedEndPoint}`}
       </div>
       <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
         <RoutingMethods
           resMethod = {resMethod}
           setResMethod = {setResMethod}
+          childKey0 = {childKey0}
+          setChildKey0 = {setChildKey0}
         />
       </div>
       <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
-        <ResponseBody
-          resBody = {resBody}
-          setResBody = {setResBody}
+        <Middleware
+          resMethod = {resMethod}
+          setResMethod = {setResMethod}
+          middleWareTemp = {props.middleWareTemp}
+          setMiddleWareTemp = {props.setMiddleWareTemp}
+          selectedEndPoint = {props.selectedEndPoint}
+          setSelectedEndPoint = {props.setSelectedEndPoint}
+          dbInputDisplay = {props.dbInputDisplay}
+          setDBInputDisplay = {props.setDBInputDisplay}
         />
       </div>
-        <AddCircleIcon style = {{fontSize:'48px', marginLeft:'11.5vw'}} onClick ={(e) => handleClick(e)}/>
+        <AddCircleIcon 
+          style = {{fontSize:'48px', marginLeft:'11.5vw', marginTop:'0.125em'}} 
+          onClick ={handleClick}
+        />
       </Paper>
     </div>
   );

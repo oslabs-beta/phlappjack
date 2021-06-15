@@ -58,8 +58,8 @@ export default function ExistingEndpointsDisplay(props){
       }, 50)
     }
 
-    const endPointNames = Object.keys(props.endPoints);
-
+    const endPointNames = Object.keys(props.endPoints).sort();
+   
     return (
         <div>
             <Paper style = {{marginLeft:'2.5vw', marginTop:'2.5vh', marginRight:'2.5vw', height:'35vh'}}>

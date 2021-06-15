@@ -3,6 +3,7 @@ import { createBundle } from "./createBundle.ts";
 import gitClone from "./gitfunctions/gitClone.ts"
 import gitCommitPush from "./gitfunctions/gitCommitPush.ts"
 import { Leaf } from "./deps.ts";
+import { configureApplication } from "./AppConfiguration/appConfigurator.ts"
 
 // build bundle console messages, single line stdout
 const messageBuilding = new TextEncoder().encode("Building Bundle...");
@@ -25,12 +26,13 @@ router
   context.response.headers.set("Content-Type", "application/javascript; charset=utf-8")
   context.response.body = bundle;
 })
-  .get("/export", (context) => {
-    console.log("here")
-    const write = Deno.writeTextFile("./hello.txt", "Hello World!");
-    write.then(() => console.log("File written to ./hello.txt"));
-    context.response.body = "Hello world!";
-
+  .post("/export", async (context) => {
+    const response = await context.request.body();
+    const props = await response.value;
+    const dir = './CreatedApplications/'
+    const { newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose} = props;
+    console.log(props.routes);
+    configureApplication(dir, newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose);
   })
   .get("/gitclone", (context) => {
     gitClone()

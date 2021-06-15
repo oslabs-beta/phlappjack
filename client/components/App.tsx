@@ -87,25 +87,40 @@ export default function App() {
     const [newApplication, setNewApplication] = useState('');
     //State regarding loading applications.
     const [applicationsToLoad, setApplicationsToLoad] = useState(Object.keys(window.localStorage));
+    //Toggle state allowing load application text display to turn into text fields.
+    const loadToggleState = new Array(applicationsToLoad.length).fill(true).map((item, idx) => true);
+    const [loadToggles, setLoadToggles] = useState(loadToggleState);
+    const [editLoadTextFieldValue, setEditLoadTextFieldValue] = useState();
 
     //State regarding MongoDB tab.
     const [dbBeingModified, setDBBeingModified] = useState('DB Input Field');
-        //State for schema models and properties.
+    //State for schema models and properties.
     const [dbInputDisplay, setDBInputDisplay] = useState({});
-        //State for mongo atlas username.
+    //Toggle state allowing model input text display to turn into text fields.
+    const [dbToggles, setDBToggles] = useState([]);
+
+    const [editDBTextFieldValue, setEditDBTextFieldValue] = useState();
+    
+    //State for mongo atlas username.
     const [atlasUserName, setAtlasUserName] = useState('');
-        //State for mongo atlas password.
+    //State for mongo atlas password.
     const [atlasPassword, setAtlasPassword] = useState('');
-        //State for mongo atlas cluster.
+    //State for mongo atlas cluster.
     const [atlasHostCluster, setAtlasHostCluster] = useState('');
-        //State for mongo atlas username.
+    //State for mongo atlas username.
     const [atlasDB, setAtlasDB] = useState('');
     
     //State regarding Oak Tab.
     const [endPoints, setEndPoints] = useState({'/':[]});
-    const [selectedEndPoint, setSelectedEndPoint] = useState('Routing Information');
-        //State for routes.
+    const [selectedEndPoint, setSelectedEndPoint] = useState('');
+    //State for routes.
     const [routes, setRoutes] = useState([]);
+    //Toggle state allowing route display to turn into text fields.
+    const routeToggleState = new Array(routes.length).fill(true).map((item, idx) => true);
+    const [routeToggles, setRouteToggles] = useState(routeToggleState);
+    const [editRouteTextFieldValue, setEditRouteTextFieldValue] = useState();
+    //State for middleware template.
+    const [middleWareTemp, setMiddleWareTemp] = useState(``);
 
     //State regarding Docker Tab.
     const [dockerFile, setDockerFile] = useState(dockerFileInit);
@@ -127,7 +142,7 @@ export default function App() {
     };
 
     useEffect(() => {
-        console.log(applicationsToLoad.indexOf(newApplication) > -1)
+
         if(applicationsToLoad.indexOf(newApplication) > -1){
             //Retrieve saved props from local storage.
             const loadedProps = window.localStorage.getItem(newApplication);
@@ -137,9 +152,11 @@ export default function App() {
                 _atlasUserName,
                 _atlasPassword,
                 _atlasHostCluster,
-                _atlasDB, 
+                _atlasDB,
+                _endPoints,
+                _routes,
                 _dockerFile, 
-                _dockerCompose 
+                _dockerCompose
             } = JSON.parse(loadedProps);
             //Set the loaded props as the current state.
             setDBInputDisplay(_dbInputDisplay);
@@ -147,8 +164,12 @@ export default function App() {
             setAtlasPassword(_atlasPassword);
             setAtlasHostCluster(_atlasHostCluster);
             setAtlasDB(_atlasDB);
+            setEndPoints(_endPoints);
+            setRoutes(_routes);
             setDockerFile(_dockerFile);
             setDockerCompose(_dockerCompose);
+            const dbToggleState = new Array(Object.keys(_dbInputDisplay).length).fill(true).map((item, idx) => true);
+            setDBToggles(dbToggleState)
         }
 
         const newDockerFile: string = `FROM hayd/alpine-deno:1.10.2
@@ -237,6 +258,10 @@ ${newApplication}:
                             setDockerFile = {setDockerFile}
                             dockerCompose = {dockerCompose}
                             setDockerCompose = {setDockerCompose}
+                            endPoints = {endPoints}
+                            setEndPoints = {setEndPoints}
+                            routes = {routes}
+                            setRoutes = {setRoutes}
                         />
                     </Grid>
                     <Grid item xs={12} sm={10}>
@@ -250,6 +275,10 @@ ${newApplication}:
                                 setApplicationsToLoad = {setApplicationsToLoad}
                                 childKeyForLoadingApplication = {childKeyForLoadingApplication}
                                 setChildKeyForLoadingApplication = {setChildKeyForLoadingApplication}
+                                loadToggles = {loadToggles}
+                                setLoadToggles = {setLoadToggles}
+                                editLoadTextFieldValue = {editLoadTextFieldValue}
+                                setEditLoadTextFieldValue = {setEditLoadTextFieldValue}
                             />
                         </Route>
                         <Route exact path="/mongo">
@@ -268,6 +297,14 @@ ${newApplication}:
                                 setAtlasHostCluster = {setAtlasHostCluster}
                                 atlasDB = {atlasDB}
                                 setAtlasDB = {setAtlasDB}
+                                endPoints = {endPoints}
+                                setEndPoints = {setEndPoints}
+                                dbToggles = {dbToggles}
+                                setDBToggles = {setDBToggles}
+                                editDBTextFieldValue = {editDBTextFieldValue}
+                                setEditDBTextFieldValue = {setEditDBTextFieldValue}
+                                routes = {routes}
+                                setRoutes = {setRoutes}
                             />
                         </Route>
                         <Route exact path="/oak">
@@ -280,6 +317,14 @@ ${newApplication}:
                                 setSelectedEndPoint = {setSelectedEndPoint}
                                 routes = {routes}
                                 setRoutes = {setRoutes}
+                                middleWareTemp = {middleWareTemp}
+                                setMiddleWareTemp = {setMiddleWareTemp}
+                                dbInputDisplay = {dbInputDisplay}
+                                setDBInputDisplay = {setDBInputDisplay}
+                                routeToggles = {routeToggles}
+                                setRouteToggles = {setRouteToggles}
+                                editRouteTextFieldValue = {editRouteTextFieldValue}
+                                setEditRouteTextFieldValue = {setEditRouteTextFieldValue}
                             />
                         </Route>
                         <Route exact path="/deno">

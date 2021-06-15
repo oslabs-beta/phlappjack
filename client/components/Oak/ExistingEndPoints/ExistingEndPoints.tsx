@@ -28,7 +28,7 @@ export default function ExisitngEndPoints(props){
 
 
   return (
-    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh', marginLeft:'2.5vw' }}>
+    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh'}}>
       <Paper style = {{height:'55vh', width:'25vw'}}>
       <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
         Existing End Points
@@ -42,7 +42,10 @@ export default function ExisitngEndPoints(props){
           setSelectedEndPoint = {props.setSelectedEndPoint}
         />
         <EndPointNameInput/>
-        <AddCircleIcon style = {{fontSize:'48px', marginLeft:'11.5vw'}} onClick ={(e) => handleClick(e)}/>
+        <AddCircleIcon 
+          style = {{fontSize:'48px', marginLeft:'11.5vw'}} 
+          onClick ={(e) => handleClick(e)}
+        />
       </Paper>
     </div>
   );
