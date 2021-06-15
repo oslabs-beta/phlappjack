@@ -24,7 +24,8 @@ export const configureApplication = async (
   mongoDBState, 
   collectionsState, 
   dockerFile, 
-  dockerComposeFile
+  dockerComposeFile,
+  routes
   ) => {
       
 
@@ -102,7 +103,7 @@ export const configureApplication = async (
                     ${schemaValues}
                 }
 
-                const db = await client.database(${mongoDBState})
+                const db = await client.database("${mongoDBState}")
                 const ${model} = await db.collection("${model}")
 
                 export { ${model} };
@@ -190,11 +191,11 @@ export const configureApplication = async (
         }
 
         template += importString
-        controllerImportString.forEach(el => {
-            template += el
-        })
+        // controllerImportString.forEach(el => {
+        //     template += el
+        // })
         template += setUp
-        template += `${routerString}`
+        // template += `${routerString}`
         template += fetchHandler
 
         const prettyServer = prettier.format(template, {
@@ -202,15 +203,40 @@ export const configureApplication = async (
             plugins: prettierPlugins
         })
 
-
         const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/server.ts`, prettyServer)
         write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/server.ts`))
 
     }
+
+    const createRouteFile = async (routes,collectionsState) => {
+        const models:Array<string> = Object.keys(collectionsState)
+        let modelImport: string = ''
+        for(let i = 0; i < models.length; i++){
+            modelImport += `import { ${models[i]} } from '../models/${models[i]}.ts';\n`;
+        }
+
+        let routeTemplateStr: string =`import { Router } from '../deps.ts';
+${modelImport}
+const router = new Router()
+router`
+        for (let i = 0; i < routes.length; i++){
+            routeTemplateStr += '\n\t' + routes[i];
+        }
+        routeTemplateStr += ';';
+        routeTemplateStr += `\n\nexport { router };`;
+        Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/Router.ts`, routeTemplateStr);
+
+        let serverDepsTemplateStr: string =`export { Application, Router } from "https://deno.land/x/oak/mod.ts";
+export { MongoClient } from "https://deno.land/x/mongo/mod.ts";
+        `;
+        Deno.writeTextFile(`${dir}/${applicationName}/Server/deps.ts`, serverDepsTemplateStr);
+    }
+
   
    await createModelsDir(collectionsState);
    await createControllerFiles(collectionsState);
-   await createServerFiles(collectionsState)
+   await createServerFiles(collectionsState);
+   await createRouteFile(routes, collectionsState);
 }
 
 
