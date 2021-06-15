@@ -3,7 +3,7 @@ const path = require('path')
 const app = express()
 const cors = require("cors");
 const bodyParser = require('body-parser')
-const AppConfigurator  = require('./AppConfiguration/appConfigurator.js')
+const AppConfigurator  = require('./AppConfiguration/appConfigurator.ts')
 const port = 3000
 
 app.use(cors());

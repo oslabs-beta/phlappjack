@@ -11,9 +11,9 @@ import {
 
 //up here we need to put all our cute little defualt imports for all files...
 //import * as serverImports from "./put server deps import file here"
-import { importString, setUp } from "./Imports/importsForServer"
-import { CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete } from  "./CRUDFunctions"
-import { mongooseString } from "./Imports/importsForMongo"
+import { importString, setUp } from "./Imports/importsForServer.ts"
+import { CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete } from  "./CRUDFunctions.ts"
+import { mongooseString } from "./Imports/importsForMongo.ts"
 
 
 export const configureApplication = async (
@@ -172,6 +172,7 @@ export const configureApplication = async (
         })
         template += setUp
         template += routerString
+
 
 
     }
