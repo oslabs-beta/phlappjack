@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { IconButton, createStyles} from '@material-ui/core';
+import { IconButton, createStyles, Typography} from '@material-ui/core';
 import { makeStyles, useTheme, Theme } from '@material-ui/core/styles'
 import {FaHome} from 'react-icons/fa';
 import {DiMongodb} from 'react-icons/di';
@@ -57,10 +57,14 @@ const useStyles = makeStyles((theme: Theme) =>
     drawerHeader: {
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'space-between',
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
-      justifyContent: 'flex-end',
+      // justifyContent: 'space-evenly',
+    },
+    drawerHeaderText: {
+      paddingLeft: theme.spacing(8),
     },
     content: {
       flexGrow: 1,
@@ -187,8 +191,8 @@ export default function MyDrawer(props){
         }}
       >
         <div className={classes.drawerHeader}>
-          <div style={{fontSize:'2.5vh', marginRight:'2.5vw'}}>
-            Options
+          <div >
+            <Typography className={classes.drawerHeaderText} variant="h5">Options</Typography>
           </div>
           <IconButton onClick={props.handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}

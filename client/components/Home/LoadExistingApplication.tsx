@@ -1,10 +1,8 @@
 import * as React from 'react'
 const { useState, useEffect } = React;
 
-import Paper from '@material-ui/core/Paper';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-
 import LoadExistingApplicationsDisplay from './LoadExistingApplicationsDisplay'
+import { Typography } from '@material-ui/core';
 
 export default function LoadExistingApplications(props){
 
@@ -22,11 +20,10 @@ export default function LoadExistingApplications(props){
   }
 
   return (
-    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh', marginLeft:'2.5vw' }}>
-      <Paper style = {{height:'55vh', width:'25vw'}}>
-        <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
-          Load Existing Application
-        </div>
+    <div >
+         <Typography variant="h5">
+            Load Existing Application
+          </Typography> 
           <LoadExistingApplicationsDisplay
             applicationsToLoad = {props.applicationsToLoad}
             setApplicationsToLoad = {props.setApplicationsToLoad}
@@ -39,7 +36,6 @@ export default function LoadExistingApplications(props){
             editLoadTextFieldValue = {props.editLoadTextFieldValue}
             setEditLoadTextFieldValue = {props.setEditLoadTextFieldValue}
           />
-      </Paper>
     </div>
   );
 }

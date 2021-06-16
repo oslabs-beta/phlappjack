@@ -15,7 +15,7 @@ export default function Footer(){
     const classes = useStyles();
     return (
         <Grid container>
-            <Grid item sm={12} >
+            <Grid item sm={12} direction="column" >
             <br />
             <br />
             <Typography variant="h6" color="textSecondary" align="center" >
