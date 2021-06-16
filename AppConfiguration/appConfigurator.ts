@@ -87,7 +87,7 @@ export const configureApplication = async (
           }
 
           //here we need to iterate through each of the mdodels to get their properties
-          obj[model].forEach((modelInput,index) =>{
+          obj[model].forEach((modelInput) =>{
             schemaValues += `${String(modelInput)}`;
           })
 
@@ -233,7 +233,7 @@ export const configureApplication = async (
         })
 
 
-        const writeRoute = Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/router.ts`, routeTemplateStr);
+        const writeRoute = Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/router.ts`, prettyRouter);
         writeRoute.then(() => {console.log(`Router file successfully written to ${dir}/${applicationName}/Server/Routes/router.ts `)})
 
         const writeServerDeps = Deno.writeTextFile(`${dir}/${applicationName}/Server/deps.ts`, prettyServerDeps);
