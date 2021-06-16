@@ -113,6 +113,8 @@ export const configureApplication = async (
   }
 
     const createControllerFiles = async (obj) => {
+                //for building base CRUD functions if none are selected from front end...still needs to be implemented as a feature on the fornt end..
+
         const models = Object.keys(obj)
 
         for(let i = 0; i < models.length; i++){
@@ -151,7 +153,6 @@ export const configureApplication = async (
     }
 
     const createServerFiles = async (obj) => {
-        //for building base CRUD functions if none are selected from front end...still needs to be implemented as a feature on the fornt end..
         let template: string = ''
         let routerString: string = ''
         const models = Object.keys(obj)
@@ -207,19 +208,31 @@ export const configureApplication = async (
 
         let routeTemplateStr: string =`import { Bson, Router, helpers } from '../deps.ts';
             ${modelImport}
-        const router = new Router()
-        router`
+            const router = new Router()
+            router`
         for (let i = 0; i < routes.length; i++){
             routeTemplateStr += '\n\t' + routes[i];
         }
         routeTemplateStr += ';';
-        routeTemplateStr += `\n\nexport { router };`;
-        Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/router.ts`, routeTemplateStr);
+        routeTemplateStr += `export { router };`;
+
+        const prettyRouter = prettier.format(routeTemplateStr, {
+            parser: "babel",
+            plugins: prettierPlugins
+        })
+        const writeRoute = Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/router.ts`, routeTemplateStr);
+        writeRoute.then(() => {console.log(`Router file successfully written to ${dir}/${applicationName}/Server/Routes/router.ts `)})
 
         let serverDepsTemplateStr: string =`export { Application, Router, helpers  } from "https://deno.land/x/oak/mod.ts";
             export { MongoClient, Bson } from "https://deno.land/x/mongo/mod.ts";
                     `;
-        Deno.writeTextFile(`${dir}/${applicationName}/Server/deps.ts`, serverDepsTemplateStr);
+
+        const prettyServerDeps = prettier.format(serverDepsTemplateStr, {
+            parser: "babel",
+            plugins: prettierPlugins
+        })
+        const writeServerDeps = Deno.writeTextFile(`${dir}/${applicationName}/Server/deps.ts`, prettyServerDeps);
+        writeServerDeps.then(() => {console.log(`Sever Deps File successfully written to ${dir}/${applicationName}/Server/deps.ts`)})
     }
 
   
