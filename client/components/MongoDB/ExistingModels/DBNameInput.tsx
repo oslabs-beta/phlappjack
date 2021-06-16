@@ -103,6 +103,10 @@ export default function DBNameInput(props){
         const newEndPoints = props.endPoints;
         newEndPoints[newEndPoint] = [];
         props.setEndPoints(newEndPoints);
+
+        const newIdEndPoint: string = String('/' + collectionInputEle.value + ':id');
+        newEndPoints[newIdEndPoint] = [];
+        props.setEndPoints(newEndPoints);
         //Modify newDBToggleState
         const newDBToggleState = new Array(Object.keys(props.dbInputDisplay).length).fill(true).map((item, idx) => true);
         props.setDBToggles(newDBToggleState);

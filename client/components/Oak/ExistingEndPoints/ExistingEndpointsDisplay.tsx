@@ -83,7 +83,5 @@ export default function ExistingEndpointsDisplay(props){
             </Paper>
       </div>
 
-
-
     )
 }

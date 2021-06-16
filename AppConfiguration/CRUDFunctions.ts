@@ -6,67 +6,55 @@ interface Schema {
 
 export const CRUDFunctionGet =  (schema) => {
 
-   const template: string = `const getAll${schema.schemaName} = async (ctx: RouterContext) => {
-    const ${schema.schemaName} = await ${schema.schemaName}Collections.find();
-    ctx.response.body = ${schema.schemaName};
-   }`
+   const template: string = `const getAll${schema} = async (ctx: RouterContext) => {
+    const ${schema} = await ${schema}.find();
+    ctx.response.body = ${schema};
+   }\n`
 
    return template
 }
 
 export const CRUDFunctionGetOne =  (schema) => {
 
-    const template: string = `const get${schema.schemaName} = async (ctx: RouterContext) => {
+    const template: string = `const get${schema} = async (ctx: RouterContext) => {
         const id = ctx.params.id;
-        const ${schema.schemaName} = await ${schema.schemaName}collection.findOne({_id: {$oid: id } });
-        ctx.response.body = ${schema.schemaName};
-    }`
+        const ${schema} = await ${schema}.findOne({_id: {$oid: id } });
+        ctx.response.body = ${schema};
+    }\n`
 
     return template
 }
 
-export const CRUDFunctionCreateOne =  (schema) => {
-    
+export const CRUDFunctionCreateOne =  (schema, props) => {
 
-    let parameters: string = ''
-    schema.properties.forEach(el => {
-        parameters += `${el},`
-    })
-
-    const single: string = schema.schemaName.slice(0,schema.schemaName.length-1)
+    const single: string = schema.slice(0,schema.length-1)
     
-    const template: string = `const create${schema.schemaName} = async {ctx: RouterContext} => {
-        const {${parameters}} = await ctx.request.body().value;
+    const template: string = `const create${schema} = async (ctx: RouterContext) => {
+        const {${props}} = await ctx.request.body().value;
         const ${single}: any = {
-            ${parameters}
+            ${props}
         };
-        const id = await ${schema.schemaName}Collection.insertOne();
+        const id = await ${schema}.insertOne();
         ${single}._id = id;
         ctx.response.status = 201
         ctx.response.body = ${single}
-    }`
-
+    }\n`
 
     return template
 }
 
-export const CRUDFunctionPatch = (schema) => {
+export const CRUDFunctionPatch = (schema, props) => {
 
-    let parameters: string = ''
-    schema.properties.forEach(el => {
-        parameters += `${el},`
-    })
-
-    const single: string = schema.schemaName.slice(0,schema.schemaName.length-1)
+    const single: string = schema.slice(0,schema.length-1)
 
 
-    const template: string = `const update${schema.schemaName} = async (ctx: RouterContext) => {
+    const template: string = `const update${schema} = async (ctx: RouterContext) => {
         
         const id = ctx.params.id
-        const { ${parameters}} = await ctx.request.body().value;
-        const { modified } = await ${schema.schemaName}Collection.updateOne({ _id: { $oid: id } }, {
+        const { ${props} } = await ctx.request.body().value;
+        const { modified } = await ${schema}.updateOne({ _id: { $oid: id } }, {
             $set: {
-                ${parameters}
+                ${props}
             }
         })
         if (!modified) {
@@ -74,8 +62,8 @@ export const CRUDFunctionPatch = (schema) => {
             ctx.response.body = { message: '${single} not found' }
             return;
         }
-        ctx.response.body = await ${schema.schemaName}Collection.findOne({ _id: { $oid: id } })
-    }`
+        ctx.response.body = await ${schema}.findOne({ _id: { $oid: id } })
+    }\n`
 
     return template
 
@@ -83,12 +71,12 @@ export const CRUDFunctionPatch = (schema) => {
 
 export const CRUDFunctionDelete = (schema) => {
 
-    const single: string = schema.schemaName.slice(0,schema.schemaName.length-1)
+    const single: string = schema.slice(0,schema.length-1)
 
     const template: string = ` const delete${single} = async (ctx: RouterContext) => {    
         const id = ctx.params.id
     
-        const ${single} = await ${schema.schemaName}Collection.deleteOne({ _id: { $oid: id } });
+        const ${single} = await ${schema}.deleteOne({ _id: { $oid: id } });
     
         if (!${single}) {
             ctx.response.status = 404;

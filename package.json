@@ -4,9 +4,9 @@
     "description": "",
     "main": "index.tsx",
     "scripts": {
-        "start": "cross-env NODE_ENV=production node server/server.js",
-        "build": "cross-env NODE_ENV=production webpack",
-        "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"nodemon ./server.js\"",
+        "start": "NODE_ENV=production node server/server.js",
+        "build": "NODE_ENV=production webpack",
+        "dev": "NODE_ENV=development webpack serve --open && nodemon ./server.js",
         "gulp-prod": "node_modules/.bin/gulp prod",
         "gulp-dev": "node_modules/.bin/gulp dev"
     },
