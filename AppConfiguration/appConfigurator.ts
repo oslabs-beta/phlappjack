@@ -8,11 +8,10 @@ import {
   ensureFile,
 } from "https://deno.land/std/fs/mod.ts";
 
-//up here we need to put all our cute little defualt imports for all files...
-//import * as serverImports from "./put server deps import file here"
 import { importString, setUp, fetchHandler } from "./Imports/importsForServer.ts"
 import { CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete } from  "./CRUDFunctions.ts"
 import { mongooseString } from "./Imports/importsForMongo.ts"
+import { routerString, exportString } from "./Imports/ImportsForrouter.ts"
 
 
 export const configureApplication = async (
@@ -39,19 +38,15 @@ export const configureApplication = async (
   await ensureDir(`${dir}/${applicationName}`)
   await ensureDir(`${dir}/${applicationName}/Server`)
   await ensureFile(`${dir}/${applicationName}/Server/deps.ts`);
-  await ensureFile(`${dir}/${applicationName}/Server/server.ts`)
-  await ensureDir(`${dir}/${applicationName}/Server/models`)
+  await ensureFile(`${dir}/${applicationName}/Server/mods.ts`)
+  await ensureDir(`${dir}/${applicationName}/Server/Models`)
   await ensureDir(`${dir}/${applicationName}/Server/Routes`)
-  await ensureFile(`${dir}/${applicationName}/Server/Routes/Router.ts`)
-
+  await ensureFile(`${dir}/${applicationName}/Server/Routes/router.ts`)
   await ensureDir(`${dir}/${applicationName}/Controllers/`)
-
   await ensureDir(`${dir}/${applicationName}/client`);
   await ensureFile(`${dir}/${applicationName}/client/deps.ts`);
-
   await ensureFile(`${dir}/${applicationName}/DockerFile`);
   await Deno.writeTextFile(`${dir}/${applicationName}/DockerFile`, dockerFile)
-
   await ensureFile(`${dir}/${applicationName}/docker-compose.yml`);
   await Deno.writeTextFile(`${dir}/${applicationName}/docker-compose.yml`, dockerComposeFile)
 
@@ -81,12 +76,12 @@ export const configureApplication = async (
 
           if(mongooseConnectionFileIsCreated){
               await ensureFile(`${dir}/${applicationName}/Server/models/${model}.ts`)
-              const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/models/DBConnection.ts`, prettyConnection)
+              const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`, prettyConnection)
               write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/models/DBConnection.ts`))
           } else {
               await ensureFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`)
               const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`, prettyConnection)
-              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/models/DBConnection.ts`))
+              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/Models/DBConnection.ts`))
               mongooseConnectionFileIsCreated = true
               await ensureFile(`${dir}/${applicationName}/Server/models/${model}.ts`)
           }
@@ -161,7 +156,6 @@ export { ${model} };
 
     const createServerFiles = async (obj) => {
         
-
         let template: string = ''
         let routerString: string = ''
         const models = Object.keys(obj)
@@ -196,7 +190,6 @@ export { ${model} };
         //     template += el
         // })
         template += setUp
-        // template += `${routerString}`
         template += fetchHandler
 
         const prettyServer = prettier.format(template, {
@@ -204,16 +197,16 @@ export { ${model} };
             plugins: prettierPlugins
         })
 
-        const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/server.ts`, prettyServer)
-        write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/server.ts`))
+        const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/mods.ts`, prettyServer)
+        write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/mods.ts`))
 
     }
 
-    const createRouteFile = async (routes,collectionsState) => {
+    const createRouteFile = async (routes, collectionsState) => {
         const models:Array<string> = Object.keys(collectionsState)
         let modelImport: string = ''
         for(let i = 0; i < models.length; i++){
-            modelImport += `import { ${models[i]} } from '../models/${models[i]}.ts';\n`;
+            modelImport += `import { ${models[i]} } from '../Models/${models[i]}.ts';\n`;
         }
 
         let routeTemplateStr: string =`import { Bson, Router, helpers } from '../deps.ts';
@@ -225,7 +218,7 @@ router`
         }
         routeTemplateStr += ';';
         routeTemplateStr += `\n\nexport { router };`;
-        Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/Router.ts`, routeTemplateStr);
+        Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/router.ts`, routeTemplateStr);
 
         let serverDepsTemplateStr: string =`export { Application, Router, helpers  } from "https://deno.land/x/oak/mod.ts";
 export { MongoClient, Bson } from "https://deno.land/x/mongo/mod.ts";
