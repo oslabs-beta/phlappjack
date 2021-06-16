@@ -27,7 +27,7 @@ To use simply:
 3. Create a new application, or retrieve a previously saved one.
 4. Hit `SAVE`.
 5. `EXPORT` will dump the files to your local system.
-6. The `DEPLOY` button in Deno Deploy will push your app to you linked repository and to your project on Deno Deploy.
+6. The `DEPLOY` button in Deno Deploy will push your app to your linked repository and to your project on Deno Deploy.
    
 
 *Your configuration will be output alongside the application in the `/createdApplication` directory.*
