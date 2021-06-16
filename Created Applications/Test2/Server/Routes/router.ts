@@ -1,59 +1,62 @@
-import { Router } from '../deps.ts';
-            import { Posts } from '../Models/Posts.ts';
+import { Bson, Router, helpers } from '../deps.ts';
+import { Posts } from '../Models/Posts.ts';
 import { Users } from '../Models/Users.ts';
+import { RouterContext, Context } from "https://deno.land/x/oak@v6.2.0/mod.ts";
 
-            const router = new Router()
-            router
-	.post('/Posts', async (ctx) => {
-    	const body = await ctx.request.body()
-    	const value = body.value;
-    	const Posts_insertOne = await Posts.insert(value);
-    	ctx.response.body = Posts_insertOne;
+        const router = new Router()
+        router
+	.delete('/Posts', async (ctx) => {
+      const { id } = helpers.getQuery(ctx, {mergeParams: true });
+      if( id ){
+      	const Posts_deleteOne = await Posts.deleteOne({
+      		_id: new Bson.ObjectId(id)
+      	});
+      	ctx.response.body = Posts_deleteOne;
+      }
     })
 	.get('/Posts', async (ctx) => {
-      	const Posts_findAll = await Posts.find({ 
-      		_id: { $ne: null } 
-      	}).toArray();
-      	ctx.response.body = Posts_findAll;
+    console.log("here")
+
+    // ctx.response.body = await Posts.find({})
+      const Posts_findAll = await Posts.findAll(
+        {}
+      )
+      ctx.response.body = Posts_findAll;
+      console.log(ctx.response.body)
     })
-	.delete('/Posts', async (ctx) => {
-      	if(ctx.params && ctx.params.id){
-      		const Posts_deleteMany = await Posts.deleteMany({
-      			undefined:{ $ne:ctx.params.undefined}
-      		},
-      		{
-      			undefined:ctx.params.undefined
-      		});
-      		ctx.response.body = Posts_deleteMany;
-      	}
+	.post('/Posts', async (ctx) => {
+    const body = await ctx.request.body()
+    const value = await body.value;
+    const Posts_insertOne = await Posts.insert(value);
+    ctx.response.body = Posts_insertOne;
     })
-	.put('/Posts:comments', async (ctx) => {
-      	if(ctx.params && ctx.params.id && ctx.params.comments){
-      		const Posts_updateMany = await Posts.updateMany(
-      			{comments:{ $ne:ctx.params.comments}},
-      			{comments:ctx.params.comments}
-      		);
-      		ctx.response.body = Posts_updateMany;
-      	}
+	.get('/Users:password', async (ctx) => {
+    if(ctx.params && ctx.params.id){
+    	const Users_findOne = await Users.findOne({ 
+    		 _id:ctx.params.id
+    	});
+    	ctx.response.body = Users_findOne;
+    }
+  })
+	.delete('/Posts:title', async (ctx) => {
+      const { title } = helpers.getQuery(ctx, {mergeParams: true });
+      if( title ){
+      	const Posts_deleteMany = await Posts.deleteMany({
+      		title:ctx.params.title
+      	});
+      	ctx.response.body = Posts_deleteMany;
+      }
     })
-	.patch('/Posts:title', async (ctx) => {
-      	if(ctx.params && ctx.params.id && ctx.params.title){
-      		const Posts_updateOne = await Posts.updateOne(
-      			{_id:ctx.params.id},
-      			{title:ctx.params.title}
-      		);
-      	}
-      	ctx.response.body = Posts_updateOne;
-      	}
-    })
-	.put('/Users:password', async (ctx) => {
-      	if(ctx.params && ctx.params.id && ctx.params.password){
-      		const Users_updateMany = await Users.updateMany(
-      			{password:{ $ne:ctx.params.password}},
-      			{password:ctx.params.password}
-      		);
-      		ctx.response.body = Users_updateMany;
-      	}
+	.put('/Posts:title', async (ctx) => {
+      const { title } = helpers.getQuery(ctx, {mergeParams: true });
+      if(title){
+        console.log('test', title )
+      	const Posts_updateMany = await Posts.updateMany(
+      		{title:{ $ne: null}},
+      		{$set: { title: title } },
+      	);
+      	ctx.response.body = Posts_updateMany;
+      }
     });
 
 export { router };

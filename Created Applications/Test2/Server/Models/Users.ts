@@ -1,4 +1,4 @@
-import { MongoClient } from "../deps.ts";
+import { Bson, Router, helpers } from "../deps.ts";
 import { client } from "./DBConnection.ts";
 
 interface Users {
@@ -7,6 +7,7 @@ interface Users {
 }
 
 const db = await client.database("sample_airbnb");
-const Users = (await db.collection) < Users > "Users";
 
-export { Users };
+const Users = await db.collection<Users>("Users")
+
+          export { Users };

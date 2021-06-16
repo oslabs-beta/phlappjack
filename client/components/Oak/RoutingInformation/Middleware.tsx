@@ -66,84 +66,85 @@ export default function Middleware(props){
         const currModel: string = props.selectedEndPoint.split('/')[1];
         const currModelInput: string = props.dbInputDisplay[currModel][0].toString().split(':')[0];
         newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
-      \tconst ${currModel}_findAll = await ${currModel}.find({ 
-      \t\t_id: { $ne: null } 
-      \t}).toArray();
-      \tctx.response.body = ${currModel}_findAll;
+      const ${currModel}_findAll = await ${currModel}.find({ 
+      \t_id: { $ne: null } 
+      }).toArray();
+      ctx.response.body = ${currModel}_findAll;
     })`
       //Middleware template for find based on specified input field.
       } else if (props.resMethod == 'get' && props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
         newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
-    \tif(ctx.params && ctx.params.id){
-    \t\tconst ${currModel}_findOne = await ${currModel}.findOne({ 
-    \t\t\t _id:ctx.params.id
-    \t\t});
-    \t\tctx.response.body = ${currModel}_findOne;
-    \t}
+    if(ctx.params && ctx.params.id){
+    \tconst ${currModel}_findOne = await ${currModel}.findOne({ 
+    \t\t _id:ctx.params.id
+    \t});
+    \tctx.response.body = ${currModel}_findOne;
+    }
   })`
       //Middleware template for insert one.
       } else if (props.resMethod == 'post' && !props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1];
         const currModelInput: string = props.dbInputDisplay[currModel][0].toString().split(':')[0];
         newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
-    \tconst body = await ctx.request.body()
-    \tconst value = body.value;
-    \tconst ${currModel}_insertOne = await ${currModel}.insert(value);
-    \tctx.response.body = ${currModel}_insertOne;
+    const body = await ctx.request.body()
+    const value = await body.value;
+    const ${currModel}_insertOne = await ${currModel}.insert(value);
+    ctx.response.body = ${currModel}_insertOne;
     })`
       //Middleware template for update one.
       } else if (props.resMethod == 'patch' && props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
         const currModelInput: string = props.selectedEndPoint.split(':')[1];
         newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
-      \tif(ctx.params && ctx.params.id && ctx.params.${currModelInput}){
-      \t\tconst ${currModel}_updateOne = await ${currModel}.updateOne(
-      \t\t\t{_id:ctx.params.id},
-      \t\t\t{${currModelInput}:ctx.params.${currModelInput}}
-      \t\t);
-      \t}
-      \tctx.response.body = ${currModel}_updateOne;
+      const { id, ${currModelInput} } = helpers.getQuery(ctx, {mergeParams: true });
+      if(id && ${currModelInput}){
+      \tconst ${currModel}_updateOne = await ${currModel}.updateOne(
+      \t\t{_id:ctx.params.id},
+      \t\t{${currModelInput}:ctx.params.${currModelInput}}
+      \t);
+      ctx.response.body = ${currModel}_updateOne;
+      }
     })`
       //Middleware template for update many.
       } else if(props.resMethod == 'put' && props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
         const currModelInput: string = props.selectedEndPoint.split(':')[1];
         newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
-      \tif(ctx.params && ctx.params.id && ctx.params.${currModelInput}){
-      \t\tconst ${currModel}_updateMany = await ${currModel}.updateMany(
-      \t\t\t{${currModelInput}:{ $ne:ctx.params.${currModelInput}}},
-      \t\t\t{${currModelInput}:ctx.params.${currModelInput}}
-      \t\t);
-      \t\tctx.response.body = ${currModel}_updateMany;
-      \t}
-    })`
-      //Middleware template for delete many.
-      } else if(props.resMethod == 'delete' && props.selectedEndPoint.includes(':')){
-        const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
-        const currModelInput: string = props.selectedEndPoint.split(':')[1];
-        newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
-      \tif(ctx.params && ctx.params.id){
-      \t\tconst ${currModel}_deleteMany = await ${currModel}.deleteMany({
-      \t\t\t_id: ctx.params.id 
-      \t\t});
-      \t\tctx.response.body = ${currModel}_deleteMany;
-      \t}
+      const { ${currModelInput} } = helpers.getQuery(ctx, {mergeParams: true });
+      if(${currModelInput}){
+      \tconst ${currModel}_updateMany = await ${currModel}.updateMany(
+      \t\t{${currModelInput}:{ $ne: null}},
+      \t\t{$set:{${currModelInput}: ${currModelInput}}}
+      \t);
+      \tctx.response.body = ${currModel}_updateMany;
+      }
     })`
       //Middleware template for delete one.
       } else if(props.resMethod == 'delete' && !props.selectedEndPoint.includes(':')){
         const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
         const currModelInput: string = props.selectedEndPoint.split(':')[1];
         newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
-      \tif(ctx.params && ctx.params.id){
-      \t\tconst ${currModel}_deleteMany = await ${currModel}.deleteMany({
-      \t\t\t${currModelInput}:{ $ne:ctx.params.${currModelInput}}
-      \t\t},
-      \t\t{
-      \t\t\t${currModelInput}:ctx.params.${currModelInput}
-      \t\t});
-      \t\tctx.response.body = ${currModel}_deleteMany;
-      \t}
+      const { id } = helpers.getQuery(ctx, {mergeParams: true });
+      if( id ){
+      \tconst ${currModel}_deleteOne = await ${currModel}.deleteOne({
+      \t\t_id: new Bson.ObjectId(id)
+      \t});
+      \tctx.response.body = ${currModel}_deleteOne;
+      }
+    })`
+      //Middleware template for delete many.
+      } else if(props.resMethod == 'delete' && props.selectedEndPoint.includes(':')){
+        const currModel: string = props.selectedEndPoint.split('/')[1].split(':')[0];
+        const currModelInput: string = props.selectedEndPoint.split(':')[1];
+        newMiddleWareTemp =`.${props.resMethod}('${props.selectedEndPoint}', async (ctx) => {
+      const { ${currModelInput} } = helpers.getQuery(ctx, {mergeParams: true });
+      if( ${currModelInput} ){
+      \tconst ${currModel}_deleteMany = await ${currModel}.deleteMany({
+      \t\t${currModelInput}:ctx.params.${currModelInput}
+      \t});
+      \tctx.response.body = ${currModel}_deleteMany;
+      }
     })`
       }else { 
 
