@@ -8,6 +8,6 @@ interface Posts {
 }
 
 const db = await client.database("sample_airbnb");
-const Posts = (await db.collection) < Posts > "Posts";
+const Posts = await db.collection <Posts> ("Posts");
 
 export { Posts };

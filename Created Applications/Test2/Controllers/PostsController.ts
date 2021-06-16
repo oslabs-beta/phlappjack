@@ -1,3 +1,5 @@
+
+
 const getAllPosts = async (ctx: RouterContext) => {
   const Posts = await PostsCollections.find();
   ctx.response.body = Posts;

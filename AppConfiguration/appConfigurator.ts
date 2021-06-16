@@ -210,8 +210,8 @@ export const configureApplication = async (
 
         let routeTemplateStr: string =`import { Router } from '../deps.ts';
             ${modelImport}
-            const router = new Router()
-            router`
+        const router = new Router()
+        router`
         for (let i = 0; i < routes.length; i++){
             routeTemplateStr += '\n\t' + routes[i];
         }
