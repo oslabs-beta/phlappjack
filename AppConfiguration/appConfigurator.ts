@@ -38,7 +38,7 @@ export const configureApplication = async (
   await ensureDir(`${dir}/${applicationName}`)
   await ensureDir(`${dir}/${applicationName}/Server`)
   await ensureFile(`${dir}/${applicationName}/Server/deps.ts`);
-  await ensureFile(`${dir}/${applicationName}/Server/mods.ts`)
+  await ensureFile(`${dir}/${applicationName}/Server/mod.ts`)
   await ensureDir(`${dir}/${applicationName}/Server/Models`)
   await ensureDir(`${dir}/${applicationName}/Server/Routes`)
   await ensureFile(`${dir}/${applicationName}/Server/Routes/Router.ts`)
@@ -194,8 +194,8 @@ export { ${model} };`);
             plugins: prettierPlugins
         })
 
-        const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/mods.ts`, prettyServer)
-        write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/mods.ts`))
+        const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/mod.ts`, prettyServer)
+        write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/mod.ts`))
 
     }
 
