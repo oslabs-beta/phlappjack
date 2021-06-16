@@ -24,6 +24,10 @@ export default function ExistingModels(props){
       newEndPoints[newEndPoint] = [];
       props.setEndPoints(newEndPoints);
 
+      const newIdEndPoint: string = String('/' + inputFieldEle.value + ':id');
+      newEndPoints[newIdEndPoint] = [];
+      props.setEndPoints(newEndPoints);
+
       const newDBToggleState = new Array(Object.keys(props.dbInputDisplay).length).fill(true).map((item, idx) => true);
       props.setDBToggles(newDBToggleState);
     }

@@ -3,7 +3,7 @@ import { createBundle } from "./createBundle.ts";
 import gitClone from "./gitfunctions/gitClone.ts"
 import gitCommitPush from "./gitfunctions/gitCommitPush.ts"
 import { Leaf } from "./deps.ts";
-// import { configureApplication } from "./AppConfiguration/appConfigurator.ts"
+import { configureApplication } from "./AppConfiguration/appConfigurator.ts"
 import openChrome from "./openChrome.ts"
 
 // build bundle console messages, single line stdout
@@ -33,10 +33,9 @@ router
   .post("/export", async (context) => {
     const response = await context.request.body();
     const props = await response.value;
-    const dir = './CreatedApplications/'
-    const { newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose} = props;
-    console.log(props.routes);
-    configureApplication(dir, newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose);
+    const dir = './Created Applications/'
+    const { newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose, routes } = props;
+    configureApplication(dir, newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose, routes);
   })
   .get("/gitclone", (context) => {
     gitClone()

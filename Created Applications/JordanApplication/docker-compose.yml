@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: 
       MONGO_INITDB_ROOT_PASSWORD: 
       
-Garagin:
-    image:Garagin
+JordanApplication:
+    image:JordanApplication
     ports: 
       - 8000:8000

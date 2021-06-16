@@ -57,7 +57,8 @@ export default function RouteExecutionOrderDisplay(props){
       redPercentage += 1;
       if(redPercentage === 100){
         clearInterval(intervalID);
-        const indexToRemove: number = selectedRouteEle.parentNode.id.split('_')[1];
+        const indexToRemove: number = selectedRouteEle.parentNode.parentNode.id.split('_')[1];
+        console.log(indexToRemove)
         const newRoutes: Array<string> = props.routes;
         newRoutes.splice(indexToRemove, 1)
         props.setRoutes(newRoutes);
