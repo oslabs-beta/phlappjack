@@ -216,15 +216,16 @@ export const configureApplication = async (
         routeTemplateStr += ';';
         routeTemplateStr += `export { router };`;
 
+    
+        let serverDepsTemplateStr: string =`export { Application, Router, helpers  } from "https://deno.land/x/oak/mod.ts";
+            export { MongoClient, Bson } from "https://deno.land/x/mongo/mod.ts";
+                    `;
+
         const prettyRouter = prettier.format(routeTemplateStr, {
             parser: "babel",
             plugins: prettierPlugins
         })
-     
-
-        let serverDepsTemplateStr: string =`export { Application, Router, helpers  } from "https://deno.land/x/oak/mod.ts";
-            export { MongoClient, Bson } from "https://deno.land/x/mongo/mod.ts";
-                    `;
+        
 
         const prettyServerDeps = prettier.format(serverDepsTemplateStr, {
             parser: "babel",
@@ -234,7 +235,7 @@ export const configureApplication = async (
 
         const writeRoute = Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/router.ts`, routeTemplateStr);
         writeRoute.then(() => {console.log(`Router file successfully written to ${dir}/${applicationName}/Server/Routes/router.ts `)})
-        
+
         const writeServerDeps = Deno.writeTextFile(`${dir}/${applicationName}/Server/deps.ts`, prettyServerDeps);
         writeServerDeps.then(() => {console.log(`Sever Deps File successfully written to ${dir}/${applicationName}/Server/deps.ts`)})
     }
