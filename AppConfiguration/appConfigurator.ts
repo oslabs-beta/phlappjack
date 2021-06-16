@@ -8,10 +8,10 @@ import {
   ensureFile,
 } from "https://deno.land/std/fs/mod.ts";
 
-import { importString, setUp, fetchHandler } from "./Imports/importsForServer.ts"
+import { importString, setUp, fetchHandler } from "./Imports/ImportsForServer.ts"
 import { CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete } from  "./CRUDFunctions.ts"
-import { mongooseString } from "./Imports/importsForMongo.ts"
-import { routerString, exportString } from "./Imports/ImportsForrouter.ts"
+import { mongooseString } from "./Imports/ImportsForMongo.ts"
+import { routerString, exportString } from "./Imports/ImportsForRouter.ts"
 
 
 export const configureApplication = async (
@@ -38,10 +38,10 @@ export const configureApplication = async (
   await ensureDir(`${dir}/${applicationName}`)
   await ensureDir(`${dir}/${applicationName}/Server`)
   await ensureFile(`${dir}/${applicationName}/Server/deps.ts`);
-  await ensureFile(`${dir}/${applicationName}/Server/mods.ts`)
+  await ensureFile(`${dir}/${applicationName}/Server/mod.ts`)
   await ensureDir(`${dir}/${applicationName}/Server/Models`)
   await ensureDir(`${dir}/${applicationName}/Server/Routes`)
-  await ensureFile(`${dir}/${applicationName}/Server/Routes/router.ts`)
+  await ensureFile(`${dir}/${applicationName}/Server/Routes/Router.ts`)
 //   await ensureDir(`${dir}/${applicationName}/Controllers/`)
   await ensureDir(`${dir}/${applicationName}/client`);
   await ensureFile(`${dir}/${applicationName}/client/deps.ts`);
@@ -75,15 +75,15 @@ export const configureApplication = async (
           const model = models[i]
 
           if(mongooseConnectionFileIsCreated){
-              await ensureFile(`${dir}/${applicationName}/Server/models/${model}.ts`)
+              await ensureFile(`${dir}/${applicationName}/Server/Models/${model}.ts`)
               const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`, prettyConnection)
-              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/models/DBConnection.ts`))
+              write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/Models/DBConnection.ts`))
           } else {
               await ensureFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`)
               const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/DBConnection.ts`, prettyConnection)
               write.then(() => console.log(`Mongoose Connection File Written to ${dir}/${applicationName}/Server/Models/DBConnection.ts`))
               mongooseConnectionFileIsCreated = true
-              await ensureFile(`${dir}/${applicationName}/Server/models/${model}.ts`)
+              await ensureFile(`${dir}/${applicationName}/Server/Models/${model}.ts`)
           }
 
           //here we need to iterate through each of the mdodels to get their properties
@@ -105,8 +105,8 @@ export const configureApplication = async (
               plugins: prettierPlugins
           })
 
-          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/models/${model}.ts`,`${prettySchema}\nconst ${model} = await db.collection<${model}>("${model}")\n
-          export { ${model} };`);
+          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/Models/${model}.ts`,`${prettySchema}\nconst ${model} = await db.collection<${model}>("${model}")\n
+export { ${model} };`);
           writeSchema().then(() => console.log(`Schema file for ${model} succesfully wirtten to ${dir}/${applicationName}/Server/Models/${model}.ts`))
           
       }
@@ -194,8 +194,8 @@ export const configureApplication = async (
             plugins: prettierPlugins
         })
 
-        const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/mods.ts`, prettyServer)
-        write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/mods.ts`))
+        const write = Deno.writeTextFile(`${dir}/${applicationName}/Server/mod.ts`, prettyServer)
+        write.then(() => console.log(`server file succesfully written to ${dir}/${applicationName}/Server/mod.ts`))
 
     }
 
@@ -233,8 +233,8 @@ export const configureApplication = async (
         })
 
 
-        const writeRoute = Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/router.ts`, prettyRouter);
-        writeRoute.then(() => {console.log(`Router file successfully written to ${dir}/${applicationName}/Server/Routes/router.ts `)})
+        const writeRoute = Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/Router.ts`, prettyRouter);
+        writeRoute.then(() => {console.log(`Router file successfully written to ${dir}/${applicationName}/Server/Routes/Router.ts `)})
 
         const writeServerDeps = Deno.writeTextFile(`${dir}/${applicationName}/Server/deps.ts`, prettyServerDeps);
         writeServerDeps.then(() => {console.log(`Sever Deps File successfully written to ${dir}/${applicationName}/Server/deps.ts`)})
