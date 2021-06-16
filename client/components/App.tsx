@@ -15,6 +15,7 @@ import Home from './Home/Home';
 import MongoDB from './MongoDB/MongoDB';
 import Oak from './Oak/Oak'
 import Docker from './Docker/Docker'
+import Deno from './Deno/Deno'
 
 const theme = createMuiTheme({
     palette: {
@@ -327,7 +328,7 @@ ${newApplication}:
                             />
                         </Route>
                         <Route exact path="/deno">
-                            Placeholder
+                            <Deno />
                         </Route>
                         <Route exact path="/docker">
                             <Docker

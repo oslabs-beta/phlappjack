@@ -3,7 +3,8 @@ import { createBundle } from "./createBundle.ts";
 import gitClone from "./gitfunctions/gitClone.ts"
 import gitCommitPush from "./gitfunctions/gitCommitPush.ts"
 import { Leaf } from "./deps.ts";
-import { configureApplication } from "./AppConfiguration/appConfigurator.ts"
+// import { configureApplication } from "./AppConfiguration/appConfigurator.ts"
+import openChrome from "./openChrome.ts"
 
 // build bundle console messages, single line stdout
 const messageBuilding = new TextEncoder().encode("Building Bundle...");
@@ -16,6 +17,9 @@ await Deno.writeAll(Deno.stdout, messageDone);
 
 const index = Leaf.readTextFileSync("./build/index.html")
 const bundle = Leaf.readTextFileSync("./build/bundle.js")
+
+//open chrome 
+openChrome(Deno.build.os)
 
 const router = new Router();
 router
