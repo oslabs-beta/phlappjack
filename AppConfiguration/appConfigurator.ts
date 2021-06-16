@@ -206,9 +206,9 @@ export const configureApplication = async (
         }
 
         let routeTemplateStr: string =`import { Bson, Router, helpers } from '../deps.ts';
-            ${modelImport}
-        const router = new Router()
-        router`
+${modelImport}
+const router = new Router()
+router`
         for (let i = 0; i < routes.length; i++){
             routeTemplateStr += '\n\t' + routes[i];
         }
@@ -217,8 +217,8 @@ export const configureApplication = async (
         Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/router.ts`, routeTemplateStr);
 
         let serverDepsTemplateStr: string =`export { Application, Router, helpers  } from "https://deno.land/x/oak/mod.ts";
-            export { MongoClient, Bson } from "https://deno.land/x/mongo/mod.ts";
-                    `;
+export { MongoClient, Bson } from "https://deno.land/x/mongo/mod.ts";
+`;
         Deno.writeTextFile(`${dir}/${applicationName}/Server/deps.ts`, serverDepsTemplateStr);
     }
 
