@@ -1,5 +1,10 @@
 # phlappjack
 
+[![Leaf CI](https://github.com/mandarineorg/leaf/workflows/Unit%20Tests/badge.svg)](https://github.com/mandarineorg/leaf)
+
+![image](./assets/logo.svg)
+
+![image](assets/PHlappstack.gif)
 
 ## Front end dev (Node)
 run 
