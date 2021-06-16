@@ -92,29 +92,30 @@ export const configureApplication = async (
           }
 
           //here we need to iterate through each of the mdodels to get their properties
-          obj[model].forEach((modelInput) =>{
-            schemaValues += `${String(modelInput)}\n`
+          obj[model].forEach((modelInput,index) =>{
+            if(index === 0) schemaValues += `${String(modelInput)}\n`
+            else schemaValues += `\t${String(modelInput)}\n`
           })
 
-          const schemaTemplateString = `import { MongoClient } from '../deps.ts'
-                import { client } from './DBConnection.ts'
+          const schemaTemplateString = `import { Bson, Router, helpers } from '../deps.ts';
+import { client } from './DBConnection.ts'
 
-                interface ${model}{
-                    ${schemaValues}
-                }
+interface ${model}{
+    ${schemaValues.trim()}
+}
 
-                const db = await client.database("${mongoDBState}")
-                const ${model} = await db.collection("${model}")
+const db = await client.database("${mongoDBState}")
+const ${model} = await db.collection<${model}>("${model}")
 
-                export { ${model} };
+export { ${model} };
           `
 
-          const prettySchema = prettier.format(schemaTemplateString, {
-              parser: "babel",
-              plugins: prettierPlugins
-          })
+        //   const prettySchema = prettier.format(schemaTemplateString, {
+        //       parser: "babel",
+        //       plugins: prettierPlugins
+        //   })
 
-          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/models/${model}.ts`,prettySchema);
+          const writeSchema = async() => await Deno.writeTextFile(`${dir}/${applicationName}/Server/models/${model}.ts`,schemaTemplateString);
           writeSchema().then(() => console.log(`Schema file for ${model} succesfully wirtten to ${dir}/${applicationName}/Server/Models/${model}.ts`))
           
       }
@@ -215,7 +216,7 @@ export const configureApplication = async (
             modelImport += `import { ${models[i]} } from '../models/${models[i]}.ts';\n`;
         }
 
-        let routeTemplateStr: string =`import { Router } from '../deps.ts';
+        let routeTemplateStr: string =`import { Bson, Router, helpers } from '../deps.ts';
 ${modelImport}
 const router = new Router()
 router`
@@ -226,8 +227,8 @@ router`
         routeTemplateStr += `\n\nexport { router };`;
         Deno.writeTextFile(`${dir}/${applicationName}/Server/Routes/Router.ts`, routeTemplateStr);
 
-        let serverDepsTemplateStr: string =`export { Application, Router } from "https://deno.land/x/oak/mod.ts";
-export { MongoClient } from "https://deno.land/x/mongo/mod.ts";
+        let serverDepsTemplateStr: string =`export { Application, Router, helpers  } from "https://deno.land/x/oak/mod.ts";
+export { MongoClient, Bson } from "https://deno.land/x/mongo/mod.ts";
         `;
         Deno.writeTextFile(`${dir}/${applicationName}/Server/deps.ts`, serverDepsTemplateStr);
     }
