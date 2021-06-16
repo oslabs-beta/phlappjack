@@ -106,8 +106,7 @@ export default function DBInputFieldDisplay(props){
 
   return (
     <div>
-      <Paper style = {{marginLeft:'2.5vw', marginTop:'2.5vh', marginRight:'2.5vw', height:'35vh'}}>
-        <List style={{maxHeight: '100%', overflow: 'auto'}}>
+        <List >
           {applicationsToLoadNames.map((text, index) => (
             props.loadToggles[index] ? (
               <ListItem
@@ -147,7 +146,6 @@ export default function DBInputFieldDisplay(props){
               )
             ))}
           </List>
-      </Paper>
     </div>
   );
 }
