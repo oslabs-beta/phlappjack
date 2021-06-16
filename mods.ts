@@ -3,7 +3,7 @@ import { createBundle } from "./createBundle.ts";
 import gitClone from "./gitfunctions/gitClone.ts"
 import gitCommitPush from "./gitfunctions/gitCommitPush.ts"
 import { Leaf } from "./deps.ts";
-// import { configureApplication } from "./AppConfiguration/appConfigurator.ts"
+import { configureApplication } from "./AppConfiguration/appConfigurator.ts"
 import openChrome from "./openChrome.ts"
 
 // build bundle console messages, single line stdout

@@ -42,7 +42,7 @@ export const configureApplication = async (
   await ensureDir(`${dir}/${applicationName}/Server/Models`)
   await ensureDir(`${dir}/${applicationName}/Server/Routes`)
   await ensureFile(`${dir}/${applicationName}/Server/Routes/router.ts`)
-  await ensureDir(`${dir}/${applicationName}/Controllers/`)
+//   await ensureDir(`${dir}/${applicationName}/Controllers/`)
   await ensureDir(`${dir}/${applicationName}/client`);
   await ensureFile(`${dir}/${applicationName}/client/deps.ts`);
   await ensureFile(`${dir}/${applicationName}/DockerFile`);
