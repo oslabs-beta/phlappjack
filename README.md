@@ -25,9 +25,10 @@ To use simply:
 1. Download the executable and run it.
 2. Phlappjack will open your Chrome browser on http://localhost:8000
 3. Create a new application, or retrieve a previously saved one.
-4. Hit `SAVE`.
-5. `EXPORT` will dump the files to your local system.
-6. The `DEPLOY` button in Deno Deploy will push your app to your linked repository and to your project on Deno Deploy.
+4. Utilize the Phlappjack modules to enter your Mongo DB information (THIS WILL NOT BE SAVED ON OUR END), your desired schemas and their properites (TypeScript formatted), and create working middleware functions (Note: these are supplised as working boiler plate functions that can be specified further in the editor).
+5. Hit `SAVE`.
+6. `EXPORT` will dump the files to your local system.
+7. The `DEPLOY` button in Deno Deploy will push your app to your linked repository and to your project on Deno Deploy.
    
 
 *Your configuration will be output alongside the application in the `/createdApplication` directory.*
