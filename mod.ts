@@ -19,7 +19,7 @@ const index = Leaf.readTextFileSync("./build/index.html")
 const bundle = Leaf.readTextFileSync("./build/bundle.js")
 
 //open chrome 
-// openChrome(Deno.build.os)
+openChrome(Deno.build.os)
 
 const router = new Router();
 router
