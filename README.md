@@ -119,5 +119,5 @@ We would love to have you in our community, [please submit an issue](https://git
 ## Follow us wherever we are going
 - Author : [Kellen Levy Chris Salisbury Andrew Sheehy Jin Qin](https://twitter.com/phlappjack)
 - Website : https://www.phlappjack.com/
-- Twitter : [twitter](https://twitter.com/phlappjack)
-- Discord : [Click here](https://discord.gg/phlappjack)
+- Twitter : [twitter](https://twitter.com/Phlappjack1)     
+- Discord : [Click here](https://discord.gg/j6EmpEJ5)
