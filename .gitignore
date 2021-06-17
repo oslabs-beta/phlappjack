@@ -109,4 +109,4 @@ dist
 Created Applications/
 
 # .exe
-.exe
+*.exe
