@@ -1,6 +1,6 @@
-export default async function gitClone(dir) {
+export default async function gitClone(dir, repoUrl) {
 
-const userGithubRepo = "https://github.com/nonstdout/deno-deploy.git"
+const userGithubRepo = repoUrl;
 const cmd = Deno.run({
     cmd: ["git", "clone", userGithubRepo, Deno.cwd() + dir],
     stdout: "piped",

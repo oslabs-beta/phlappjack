@@ -4,6 +4,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import PublishRoundedIcon from '@material-ui/icons/PublishRounded';
+import GetAppIcon from '@material-ui/icons/GetApp';
 import CheckIcon from '@material-ui/icons/Check';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
@@ -51,8 +52,10 @@ const useStyles = makeStyles((theme:Theme) =>
 
 export default function Deno(props){
     const classes = useStyles();
-    const [loading, setLoading] = React.useState(false);
-    const [success, setSuccess] = React.useState(false);
+    const [gitLoading, setGitLoading] = React.useState(false);
+    const [gitSuccess, setGitSuccess] = React.useState(false);
+    const [deployLoading, setDeployLoading] = React.useState(false);
+    const [deploySuccess, setDeploySuccess] = React.useState(false);
     const timer = React.useRef<number>();
 
     const [name, setName] = React.useState('');
@@ -60,8 +63,11 @@ export default function Deno(props){
       setName(event.target.value);
     };
   
-    const buttonClassname = clsx({
-      [classes.buttonSuccess]: success,
+    const gitButtonClassname = clsx({
+      [classes.buttonSuccess]: gitSuccess,
+    });
+    const deployButtonClassname = clsx({
+      [classes.buttonSuccess]: deploySuccess,
     });
 
     React.useEffect(() => {
@@ -70,21 +76,35 @@ export default function Deno(props){
         };
       }, []);
 
-    const handleButtonClick = () => {
+    const handleButtonClickGit = () => {
       console.log(props.newApplication)
+      console.log(name)
       fetch(`/gitclone/${props.newApplication}`, {
         method: "POST",
+        body: name
       })
-        if (!loading) {
-          setSuccess(false);
-          setLoading(true);
+        if (!gitLoading) {
+          setGitSuccess(false);
+          setGitLoading(true);
           timer.current = window.setTimeout(() => {
-            fetch(`/gitpush/${props.newApplication}`, {
-              method: "POST",
-            })
-            setSuccess(true);
-            setLoading(false);
-          }, 2000);
+            setGitSuccess(true);
+            setGitLoading(false);
+          }, 20000);
+        }
+      };
+    const handleButtonClickDeploy = () => {
+      console.log(props.newApplication)
+      fetch(`/gitpush/${props.newApplication}`, {
+        method: "POST",
+        body: name
+      })
+        if (!deployLoading) {
+          setDeploySuccess(false);
+          setDeployLoading(true);
+          timer.current = window.setTimeout(() => {
+            setDeploySuccess(true);
+            setDeployLoading(false);
+          }, 5000);
         }
       };
 
@@ -103,7 +123,7 @@ export default function Deno(props){
                       value={name}
                       onChange={handleChange}
                       // variant="outlined"
-                      disabled={success}
+                      disabled={gitSuccess}
                       required
                       fullWidth
                       placeholder="Enter Github Url"
@@ -111,18 +131,33 @@ export default function Deno(props){
                   </form>
                   <div className={classes.wrapper}>
                     <Button
+                        id="git-button"
+                        variant="contained"
+                        color="secondary"
+                        size="large"
+                        className={gitButtonClassname}
+                        disabled={gitLoading}
+                        startIcon={gitSuccess ? <CheckIcon /> : <GetAppIcon />}
+                        onClick={handleButtonClickGit}
+                    >
+                        {gitSuccess ? "Cloned" : "Clone"}
+                    </Button>
+                    {gitLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                  </div>
+                    <div className={classes.wrapper}>
+                    <Button
                         id="deploy-button"
                         variant="contained"
                         color="secondary"
                         size="large"
-                        className={buttonClassname}
-                        disabled={loading}
-                        startIcon={success ? <CheckIcon /> : <PublishRoundedIcon />}
-                        onClick={handleButtonClick}
+                        className={deployButtonClassname}
+                        disabled={deployLoading}
+                        startIcon={deploySuccess ? <CheckIcon /> : <PublishRoundedIcon />}
+                        onClick={handleButtonClickDeploy}
                     >
-                        {success ? "Deployed" : "Deploy"}
+                        {deploySuccess ? "Deployed" : "Deploy"}
                     </Button>
-                    {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                    {deployLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
                     </div>
                 </Grid>
                  <Grid sm={4}  item>
