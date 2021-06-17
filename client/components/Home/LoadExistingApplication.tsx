@@ -21,7 +21,7 @@ export default function LoadExistingApplications(props){
 
   return (
     <div >
-         <Typography variant="h5">
+         <Typography align="center" variant="h5">
             Load Existing Application
           </Typography> 
           <LoadExistingApplicationsDisplay
