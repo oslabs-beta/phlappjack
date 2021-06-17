@@ -17,6 +17,7 @@ await Deno.writeAll(Deno.stdout, messageDone);
 
 const index = Leaf.readTextFileSync("./build/index.html")
 const bundle = Leaf.readTextFileSync("./build/bundle.js")
+const logo = Leaf.readTextFileSync("./build/logo.svg")
 
 //open chrome 
 openChrome(Deno.build.os)
@@ -29,6 +30,10 @@ router
 .get("/bundle.js", (context) => {
   context.response.headers.set("Content-Type", "application/javascript; charset=utf-8")
   context.response.body = bundle;
+})
+.get("/logo.svg", (context) => {
+  context.response.headers.set("Content-Type", "image/svg+xml")
+  context.response.body = logo;
 })
   .post("/export", async (context) => {
     const response = await context.request.body();

@@ -46,7 +46,7 @@ export default function Home(props){
             <Paper className={classes.paper}>
               <Grid container justify="center" sm={12}>
                 <Grid container justify="center" className={classes.image} >
-                  <img src="images/logo.svg" />
+                  <img src="/logo.svg" />
                 </Grid>
                   <Grid container className={classes.menupair} alignItems="center">
                     <Grid sm={6} className={props.applicationsToLoad.length ? classes.show : classes.hide} item>
