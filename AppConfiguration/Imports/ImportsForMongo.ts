@@ -1,7 +1,7 @@
 
 
 
-export const mongooseString = (mongoHostState ,userNameState ,passWordState ,mongoDBState) => {
+export const mongooseString = () => {
 
     return `import { MongoClient } from '../deps.ts'
     const client = new MongoClient();

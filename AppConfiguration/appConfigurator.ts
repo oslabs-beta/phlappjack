@@ -61,12 +61,7 @@ export const configureApplication = async (
    
       let mongooseConnectionFileIsCreated: boolean = false
 
-      const prettyConnection =  prettier.format(await mongooseString(
-          mongoHostState, 
-          userNameState, 
-          passWordState, 
-          mongoDBState
-          ), {
+      const prettyConnection =  prettier.format(await mongooseString(), {
           parser: "babel",
           plugins: prettierPlugins
         });
@@ -244,7 +239,7 @@ export { ${model} };`);
     }
 
     const createEnvFile = (mongoHostState, 
-        userNameState, 
+        userNameState,
         passWordState, 
         mongoDBState, 
         ) => {
