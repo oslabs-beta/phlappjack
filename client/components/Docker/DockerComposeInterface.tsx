@@ -14,16 +14,17 @@ export default function DockerComposeInterface(props){
   }
 
   return (
-    <div style = {{display:'flex', flexDirection:'column', marginTop:'2.5vh', marginLeft:'2.5vw', marginRight:'2.5vw' }}>
-      <Paper>
+    <div style = {{display:'flex', flexDirection:'column', marginTop:'2.5vh' }}>
+      {/* <Paper> */}
         <TextField 
           value = {props.dockerCompose}
           multiline = {true}
-          rows = {25}
-          style = {{width:'20vw'}}
+          rows = {30}
+          fullWidth
+          // style = {{width:'20vw'}}
           onChange = {handleChange}
         />
-      </Paper>
+      {/* </Paper> */}
     </div>
   );
 }
