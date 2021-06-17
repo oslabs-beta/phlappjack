@@ -4,8 +4,6 @@
 
 ![image](./assets/logo.svg)
 
-![image](assets/PHlappstack.gif)
-
 The tastiest way to build your stack... in Deno Deploy!
 
 **No installation required**
@@ -106,7 +104,7 @@ The backend is running Oak and serving static files from the build directory.
 
 To aid development, the application structure looks like this:
 
-![image](./assets/phlappjack-dependency.PNG)
+![image](./assets/phlappjack-dependency.png)
 
 
 ## Questions
