@@ -104,7 +104,7 @@ The backend is running Oak and serving static files from the build directory.
 
 To aid development, the application structure looks like this:
 
-![image](./assets/phlappjack-dependency.PNG)
+![image](./assets/phlappjack-dependency.png)
 
 
 ## Questions
