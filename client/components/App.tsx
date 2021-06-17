@@ -343,7 +343,9 @@ ${newApplication}:
                             />
                         </Route>
                         <Route exact path="/deno">
-                            <Deno />
+                            <Deno
+                            newApplication={newApplication}
+                            />
                         </Route>
                         <Route exact path="/docker">
                             <Docker

@@ -1,8 +1,10 @@
-export default async function gitCommitPush() {
+export default async function gitCommitPush(dir, repoUrl) {
 
-const userGithubRepo = "https://github.com/nonstdout/deno-deploy.git"
+const userGithubRepo = repoUrl;
 
-const commands = [
+Deno.chdir(dir)
+
+const commands = [        
     {
         cmd: ["git", "add", "."],
         stdout: "piped",
@@ -24,7 +26,6 @@ for await (const item of commands) {
 
     let cmd = Deno.run(item)
 
-    console.log(cmd)
 
     const { code } = await cmd.status(); // (*1); wait here for child to finish
 
@@ -40,5 +41,4 @@ for await (const item of commands) {
         console.log(errorString);
     }
 }
-Deno.exit(0);
 }

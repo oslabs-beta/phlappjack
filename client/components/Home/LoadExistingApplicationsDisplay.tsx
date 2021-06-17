@@ -68,7 +68,7 @@ export default function DBInputFieldDisplay(props){
   const useClickOutside = (ref) => {
     const handleClick = e => {
       if (ref.current && !ref.current.contains(e.target)) {
-        const newLoadState = new Array(props.applicationsToLoad.length).fill(true).map((item, idx) => true);
+        const newLoadState = new Array(props.applicationsToLoad).fill(true).map((item, idx) => true);
         props.setLoadToggles(newLoadState);
       }
     };
