@@ -2,7 +2,7 @@
 
 [![Leaf CI](https://github.com/mandarineorg/leaf/workflows/Unit%20Tests/badge.svg)](https://github.com/mandarineorg/leaf)
 
-![image](https://github.com/oslabs-beta/phlappjack/blob/readme/assets/logo.svg)
+![image](https://github.com/oslabs-beta/phlappjack/raw/readme/assets/logo.svg)
 
 The tastiest way to build your stack... in Deno Deploy!
 
