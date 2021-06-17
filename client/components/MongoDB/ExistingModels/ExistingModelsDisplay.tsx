@@ -63,7 +63,7 @@ export default function ExistingModelsDisplay(props){
         selectedKeyValueEle.style.background = `transparent`
         clearInterval(intervalID);
       }
-    }, 50)
+    }, 25)
 
   }
 

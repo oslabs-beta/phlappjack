@@ -108,7 +108,7 @@ export default function App() {
     const [editLoadTextFieldValue, setEditLoadTextFieldValue] = useState();
 
     //State regarding MongoDB tab.
-    const [dbBeingModified, setDBBeingModified] = useState('DB Input Field');
+    const [dbBeingModified, setDBBeingModified] = useState('Schema Input Field');
     //State for schema models and properties.
     const [dbInputDisplay, setDBInputDisplay] = useState({});
     //Toggle state allowing model input text display to turn into text fields.
@@ -296,6 +296,11 @@ ${newApplication}:
                                 setEditLoadTextFieldValue = {setEditLoadTextFieldValue}
                             />
                         </Route>
+                        <Route exact path="/deno">
+                            <Deno
+                            newApplication={newApplication}
+                            />
+                        </Route>
                         <Route exact path="/mongo">
                             <MongoDB
                                 key ={childKey}
@@ -340,11 +345,6 @@ ${newApplication}:
                                 setRouteToggles = {setRouteToggles}
                                 editRouteTextFieldValue = {editRouteTextFieldValue}
                                 setEditRouteTextFieldValue = {setEditRouteTextFieldValue}
-                            />
-                        </Route>
-                        <Route exact path="/deno">
-                            <Deno
-                            newApplication={newApplication}
                             />
                         </Route>
                         <Route exact path="/docker">

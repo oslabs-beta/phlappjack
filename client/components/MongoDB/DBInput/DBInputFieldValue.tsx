@@ -42,7 +42,7 @@ export default function DBInputFieldValue(props){
       <form>
         <TextField
           id="value-input-field"
-          label="Enter Key Definition"
+          label="Enter Type Definition"
           variant="outlined"
           color="secondary"
           onKeyDown={handleClick}

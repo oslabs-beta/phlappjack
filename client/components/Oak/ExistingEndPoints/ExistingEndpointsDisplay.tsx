@@ -55,7 +55,7 @@ export default function ExistingEndpointsDisplay(props){
           selectedKeyValueEle.style.background = `transparent`
           clearInterval(intervalID);
         }
-      }, 50)
+      }, 25)
     }
 
     const endPointNames = Object.keys(props.endPoints).sort();

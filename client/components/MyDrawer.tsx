@@ -203,14 +203,14 @@ export default function MyDrawer(props){
           <ListItem id="Home" key={'Home'} selected={sectionSelected.home} onClick={() => handleSelect('home')}>
             <ListItemLink to="/" primary="Home" icon={<FaHome size={'42'}/>} />
           </ListItem>
+          <ListItem button key={'Deno'} selected={sectionSelected.deno} onClick={() => handleSelect('deno')}>
+          <ListItemLink to="/deno" primary="Deno" icon={<SiDeno size={'42'}/>} />
+          </ListItem>
           <ListItem id="mongo" key={'MongoDB'} selected={sectionSelected.mongo} onClick={() => handleSelect('mongo')}>
             <ListItemLink to="/mongo" primary="MongoDb" icon={<DiMongodb size={'42'}/>} />
           </ListItem>
           <ListItem button key={'Oak'} selected={sectionSelected.oak} onClick={() => handleSelect('oak')}>
             <ListItemLink to="/oak" primary="Oak" icon={<GiSquirrel size={'42'}/>}/>
-          </ListItem>
-          <ListItem button key={'Deno'} selected={sectionSelected.deno} onClick={() => handleSelect('deno')}>
-          <ListItemLink to="/deno" primary="Deno" icon={<SiDeno size={'42'}/>} />
           </ListItem>
           <ListItem button key={'Docker'} selected={sectionSelected.docker} onClick={() => handleSelect('docker')}>
           <ListItemLink to="/docker" primary="Docker" icon={<FaDocker size={'42'}/>} />

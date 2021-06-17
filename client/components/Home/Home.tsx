@@ -48,7 +48,7 @@ export default function Home(props){
                 <Grid container justify="center" className={classes.image} >
                   <img src="/logo.svg" />
                 </Grid>
-                  <Grid container className={classes.menupair} alignItems="center">
+                  <Grid container className={classes.menupair} alignItems="top">
                     <Grid sm={6} className={props.applicationsToLoad.length ? classes.show : classes.hide} item>
                       <LoadExistingApplication
                         applicationsToLoad = {props.applicationsToLoad}
@@ -63,7 +63,7 @@ export default function Home(props){
                         setEditLoadTextFieldValue = {props.setEditLoadTextFieldValue}
                       />
                     </Grid>
-                  <Grid sm={6} container justify="center" item>
+                  <Grid sm={6} item>
                     <CreateNewApplication
                       key ={props.childKey}
                       setChildKey = {props.setChildKey}

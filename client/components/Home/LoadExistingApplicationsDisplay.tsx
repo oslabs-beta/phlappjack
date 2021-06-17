@@ -130,13 +130,13 @@ export default function DBInputFieldDisplay(props){
                 />
               </ListItem>
             ):(
-            <div ref = {editField}>
+            <div ref = {editField} style = {{marginLeft:"2.5vw"}}>
               <TextField
                 id = {`load-application-rename_${index}`}
                 multiline = {true}
                 inputProps = {{style:{textAlign:'center', fontSize:'1.5em'}}}
                 style = {{
-                  width:'20vw'
+                  // width:'20vw'
                 }}
                 rows = {2}
                 value = {props.editLoadTextFieldValue}

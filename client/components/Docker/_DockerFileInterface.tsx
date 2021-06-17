@@ -13,16 +13,16 @@ export default function _DockerFileInterface(props){
   }
 
   return (
-    <div style = {{display:'flex', flexDirection:'column', marginTop:'2.5vh', marginLeft:'2.5vw', marginRight:'2.5vw' }}>
-      <Paper>
+    <div style = {{display:'flex', flexDirection:'column', marginTop:'2.5vh' }}>
+      {/* <Paper> */}
         <TextField
+          multiline
           value = {props.dockerFile}
-          multiline = {true}
-          rows = {25}
-          style = {{width:'20vw'}}
+          rows = {30}
+          fullWidth
           onChange = {handleChange}
         />
-      </Paper>
+      {/* </Paper> */}
     </div>
   );
 }

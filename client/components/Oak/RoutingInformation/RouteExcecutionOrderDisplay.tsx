@@ -71,7 +71,7 @@ export default function RouteExecutionOrderDisplay(props){
         backgroundColorDiv.style.background = `transparent`
         clearInterval(intervalID);
       }
-    }, 50)
+    }, 25)
 
   }
 
@@ -121,7 +121,7 @@ export default function RouteExecutionOrderDisplay(props){
 
   return (
     <div>
-      <Paper style = {{marginLeft:'2.5vw', marginTop:'2.5vh', height:'42vh', maxHeight:'100%', overflow:'auto', width:'25vw'}}>
+      <Paper style = {{marginLeft:'2.5vw', marginTop:'2.5vh', height:'42vh', maxHeight:'100%', overflow:'auto', width:'20vw'}}>
         <Divider/>
           <List>
             <ListItem 

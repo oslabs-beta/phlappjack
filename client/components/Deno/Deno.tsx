@@ -140,7 +140,7 @@ export default function Deno(props){
                         startIcon={gitSuccess ? <CheckIcon /> : <GetAppIcon />}
                         onClick={handleButtonClickGit}
                     >
-                        {gitSuccess ? "Cloned" : "Clone"}
+                        {gitSuccess ? "Cloned" : "Clone  "}
                     </Button>
                     {gitLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
