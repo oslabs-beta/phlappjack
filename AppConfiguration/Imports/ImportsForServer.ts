@@ -11,7 +11,7 @@ const port: number = 8000;
 
 app.use(
   oakCors({
-    origin: "http://localhost:3333"
+    origin: "*"
   }),
 );
 
