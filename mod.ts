@@ -37,12 +37,17 @@ router
     const { newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose, routes } = props;
     configureApplication(dir, newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose, routes);
   })
-  .get("/gitclone", (context) => {
-    gitClone()
+  .post("/gitclone/:app", (context) => {
+    const dir = '/Created Applications';
+    const appDirectory = `${dir}/${context.params.app}`
+    console.log(appDirectory)
+    // gitClone(appDirectory)
     context.response.body = "Cloned repo!";
   })
-  .get("/gitpush", (context) => {
-    gitCommitPush()
+  .post("/gitpush/:app", (context) => {
+    const dir = '/CreatedApplications';
+    const appDirectory = `${dir}/${context.params.app}`
+    gitCommitPush(appDirectory)
     context.response.body = "Pushed repo!";
   })
 

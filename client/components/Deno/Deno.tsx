@@ -71,10 +71,17 @@ export default function Deno(props){
       }, []);
 
     const handleButtonClick = () => {
+      console.log(props.newApplication)
+      fetch(`/gitclone/${props.newApplication}`, {
+        method: "POST",
+      })
         if (!loading) {
           setSuccess(false);
           setLoading(true);
           timer.current = window.setTimeout(() => {
+            fetch(`/gitpush/${props.newApplication}`, {
+              method: "POST",
+            })
             setSuccess(true);
             setLoading(false);
           }, 2000);

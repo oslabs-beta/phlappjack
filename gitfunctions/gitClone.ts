@@ -1,9 +1,8 @@
-export default async function gitCommitPush() {
+export default async function gitClone(dir) {
 
 const userGithubRepo = "https://github.com/nonstdout/deno-deploy.git"
-
 const cmd = Deno.run({
-    cmd: ["git", "clone", userGithubRepo, `${Deno.cwd()}/tmp`],
+    cmd: ["git", "clone", userGithubRepo, Deno.cwd() + dir],
     stdout: "piped",
     stderr: "piped",
 
@@ -17,10 +16,9 @@ const rawError = await cmd.stderrOutput();
 
 if (code === 0) {
     const output = await Deno.stdout.write(rawOutput);
-    console.log(`Cloned ${userGithubRepo} sucessfully into ./tmp`)
+    console.log(`Cloned ${userGithubRepo} sucessfully into ${Deno.cwd()}${dir}`)
 } else {
     const errorString = new TextDecoder().decode(rawError);
     console.log(errorString);
 }
-Deno.exit(code);
 }
