@@ -20,7 +20,7 @@ const bundle = Leaf.readTextFileSync("./build/bundle.js")
 const logo = Leaf.readTextFileSync("./build/logo.svg")
 
 //open chrome 
-openChrome(Deno.build.os)
+await openChrome(Deno.build.os)
 
 const router = new Router();
 router
