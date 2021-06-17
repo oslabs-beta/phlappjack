@@ -13,7 +13,15 @@ export default function MongoPasswordDisplay(props){
   }
   return (
     <div>
-        <Paper style = {{ marginLeft:'2.5vw', marginTop:'1vh', marginRight:'2.5vw', height:'5vh', fontSize:'1.5em', textAlign:'left'}}>
+        <Paper style = {{ 
+          marginLeft:'2.5vw', 
+          marginTop:'1vh', 
+          marginRight:'2.5vw', 
+          display:'flex',
+          flexDirection:'column',
+          justifyContent:'center',
+          height:'5vh', 
+          fontSize:'1.5em'}}>
           {onRender()}
         </Paper>
     </div>

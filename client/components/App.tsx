@@ -296,6 +296,11 @@ ${newApplication}:
                                 setEditLoadTextFieldValue = {setEditLoadTextFieldValue}
                             />
                         </Route>
+                        <Route exact path="/deno">
+                            <Deno
+                            newApplication={newApplication}
+                            />
+                        </Route>
                         <Route exact path="/mongo">
                             <MongoDB
                                 key ={childKey}
@@ -340,11 +345,6 @@ ${newApplication}:
                                 setRouteToggles = {setRouteToggles}
                                 editRouteTextFieldValue = {editRouteTextFieldValue}
                                 setEditRouteTextFieldValue = {setEditRouteTextFieldValue}
-                            />
-                        </Route>
-                        <Route exact path="/deno">
-                            <Deno
-                            newApplication={newApplication}
                             />
                         </Route>
                         <Route exact path="/docker">
