@@ -2,7 +2,7 @@
 
 [![Leaf CI](https://github.com/mandarineorg/leaf/workflows/Unit%20Tests/badge.svg)](https://github.com/mandarineorg/leaf)
 
-![image](https://github.com/oslabs-beta/phlappjack/raw/readme/assets/logo.svg)
+![image](./assets/logo.svg)
 
 The tastiest way to build your stack... in Deno Deploy!
 
@@ -104,7 +104,7 @@ The backend is running Oak and serving static files from the build directory.
 
 To aid development, the application structure looks like this:
 
-![image](https://raw.githubusercontent.com/oslabs-beta/phlappjack/readme/assets/phlappjack-dependency.PNG)
+![image](./assets/phlappjack-dependency.png)
 
 
 ## Questions
