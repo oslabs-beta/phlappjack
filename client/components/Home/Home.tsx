@@ -39,19 +39,16 @@ export default function Home(props){
 
   const classes = useStyles();
   const [ childKey,setChildKey ] = useState(0);
-  console.log(props.applicationsToLoad)
 
-  
   return (
         <Grid>
           <Grid container sm={12}>
             <Paper className={classes.paper}>
               <Grid container justify="center" sm={12}>
                 <Grid container justify="center" className={classes.image} >
-                  <img src="/assets/logo.svg" />
+                  <img src="images/logo.svg" />
                 </Grid>
                   <Grid container className={classes.menupair} alignItems="center">
-
                     <Grid sm={6} className={props.applicationsToLoad.length ? classes.show : classes.hide} item>
                       <LoadExistingApplication
                         applicationsToLoad = {props.applicationsToLoad}

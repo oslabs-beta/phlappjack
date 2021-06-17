@@ -10,4 +10,4 @@ const db = await client.database("sample_airbnb");
 
 const toDos = await db.collection<toDos>("toDos")
 
-          export { toDos };
+export { toDos };
