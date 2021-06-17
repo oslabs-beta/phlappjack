@@ -1,15 +1,10 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 // const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    plugins: [
-        new MiniCssExtractPlugin(),
-        // new HtmlWebpackPlugin({
-        //     title: 'Hot Module Replacement',
-        // })
-    ],
     entry: './client/index.tsx',
     output: {
         path: path.resolve(__dirname, 'build'),

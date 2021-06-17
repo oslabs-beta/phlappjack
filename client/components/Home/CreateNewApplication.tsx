@@ -1,12 +1,22 @@
 import * as React from 'react'
 const { useState, useEffect } = React;
-
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CreateNewApplicationInput from './CreateNewApplicationInput'
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { Typography, Grid } from '@material-ui/core';
+
+const useStyles = makeStyles((theme:Theme) => 
+    createStyles({
+        button: {
+            margin: theme.spacing(1),
+        }
+    }),
+    );
 
 export default function CreateExistingApplication(props){
+  const classes = useStyles()
 
   const [ childKey,setChildKey ] = useState(0);
 
@@ -22,11 +32,7 @@ export default function CreateExistingApplication(props){
   }
 
   return (
-    <div style = {{display:'flex', flexDirection:'column', marginTop:'5vh', marginLeft:'2.5vw'}}>
-      <Paper style = {{height:'55vh', width:'25vw'}}>
-        <div style = {{ marginTop:'2.5vh', textAlign:'center', fontSize:'2.5vh'}}>
-          Create New Application
-        </div>
+    <Grid container sm={6} justify="center">
         <CreateNewApplicationInput
           key ={props.childKey}
           setChildKey = {props.setChildKey}
@@ -34,19 +40,14 @@ export default function CreateExistingApplication(props){
           setNewApplication = {props.setNewApplication}
         />
         <Button 
-          variant = 'contained'
-          style = {{ 
-            marginLeft:'7.5vw', 
-            marginTop:'1vw', 
-            textAlign:'center', 
-            fontSize:'2.5vh', 
-            width:'8vw' 
-          }}
+          className={classes.button}
+          variant="contained"
+          color="secondary"
+          size="large"
           onClick = {(e) => handleOnClick(e)}
         >
           Create
         </Button>
-      </Paper>
-    </div>
+      </Grid>
   );
 }

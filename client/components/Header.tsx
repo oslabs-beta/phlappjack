@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton, createStyles} from '@material-ui/core';
+import { AppBar, Grid, Toolbar, Typography, IconButton, createStyles} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import clsx from 'clsx'
@@ -55,11 +55,11 @@ export default function Header(props){
             >
                 <MenuIcon />
             </IconButton>
-            <Typography variant="h6" >Phlappjack</Typography>
+            <Grid container justify="space-between">
+                <Typography variant="h5" >Phlappjack</Typography>
+                <Typography align="right" variant="h5" >{onRender()}</Typography>
+            </Grid>
             </Toolbar>
-            <div style = {{position:'absolute', left:'42.5vw', top:'0.75vw'}}>
-              <Typography variant="h6" >{onRender()}</Typography>
-            </div>
         </AppBar>
     )
 }

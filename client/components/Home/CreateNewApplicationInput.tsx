@@ -16,17 +16,15 @@ export default function CreateNewApplicationInput(props){
   }
 
   return (
-    <div style={{marginLeft:'2.5vw', marginTop:'0.5vw'}}>
       <form>
         <TextField
           id = "cerate-new-application-input-field"
-          label="Enter the name of the new application"
+          label=""
+          placeholder="Application Name"
           variant="outlined"
           color="secondary"
-          style = {{width:'20vw'}}
           onKeyDown={(e) => handleKeyPress(e)} 
         />
       </form>
-    </div>
   );
 }

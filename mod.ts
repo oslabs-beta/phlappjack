@@ -17,6 +17,7 @@ await Deno.writeAll(Deno.stdout, messageDone);
 
 const index = Leaf.readTextFileSync("./build/index.html")
 const bundle = Leaf.readTextFileSync("./build/bundle.js")
+const logo = Leaf.readTextFileSync("./build/logo.svg")
 
 //open chrome 
 openChrome(Deno.build.os)
@@ -30,19 +31,33 @@ router
   context.response.headers.set("Content-Type", "application/javascript; charset=utf-8")
   context.response.body = bundle;
 })
+.get("/logo.svg", (context) => {
+  context.response.headers.set("Content-Type", "image/svg+xml")
+  context.response.body = logo;
+})
   .post("/export", async (context) => {
     const response = await context.request.body();
     const props = await response.value;
-    const dir = './Created Applications/'
+    const dir = './Created Applications';
     const { newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose, routes } = props;
     configureApplication(dir, newApplication, atlasHostCluster, atlasUserName, atlasPassword, atlasDB, dbInputDisplay, dockerFile, dockerCompose, routes);
   })
-  .get("/gitclone", (context) => {
-    gitClone()
+  .post("/gitclone/:app", async (context) => {
+    const dir = '/Created Applications';
+    const appDirectory = `${dir}/${context.params.app}`
+    console.log(appDirectory)
+    const request = context.request.body()
+    const repoUrl = await request.value
+    console.log(repoUrl)
+    gitClone(appDirectory, repoUrl)
     context.response.body = "Cloned repo!";
   })
-  .get("/gitpush", (context) => {
-    gitCommitPush()
+  .post("/gitpush/:app", async (context) => {
+    const dir = './Created Applications';
+    const appDirectory = `${dir}/${context.params.app}`
+    const request = context.request.body()
+    const repoUrl = await request.value
+    gitCommitPush(appDirectory, repoUrl)
     context.response.body = "Pushed repo!";
   })
 

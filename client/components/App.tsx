@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import red from '@material-ui/core/colors/red'
 const primary = red['A200']
 import amber from '@material-ui/core/colors/amber'
@@ -26,8 +26,22 @@ const theme = createMuiTheme({
             main: secondary
         },
         type: 'dark'
-    }
+    },
 });
+
+const useStyles = makeStyles((theme:Theme) => 
+    createStyles({
+        header: {
+            height: "4.8vh",
+        },
+        content: {
+            height: "89.8vh",
+        },
+        footer: {
+            height: "5vh",
+        },
+    }),
+    );
 
 interface Schema {
 schemaName: string;
@@ -82,6 +96,7 @@ services:
 `
 
 export default function App() {
+    const classes = useStyles()
 
     //State regarding new application.
     const [newApplication, setNewApplication] = useState('');
@@ -225,15 +240,15 @@ ${newApplication}:
         <MemoryRouter>
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Grid container direction="column">
-                <Grid item>
+            <Grid container >
+                <Grid id="header" className={classes.header} container>
                     <Header 
                         open={open} 
                         handleDrawerOpen={handleDrawerOpen}
                         newApplication = {newApplication}
                     />
                 </Grid>
-                <Grid item container>
+                <Grid id="content" className={classes.content} item container>
                     <Grid item xs={false} sm={2}>
                         <Drawer 
                             open={open} 
@@ -328,7 +343,9 @@ ${newApplication}:
                             />
                         </Route>
                         <Route exact path="/deno">
-                            <Deno />
+                            <Deno
+                            newApplication={newApplication}
+                            />
                         </Route>
                         <Route exact path="/docker">
                             <Docker
@@ -354,9 +371,9 @@ ${newApplication}:
                         </Route>
                     </Grid>
                 </Grid>
-            </Grid>
-            <Grid container direction="column">
-                <Footer></Footer>
+                <Grid id="footer-container"container className={classes.footer} alignItems="flex-end" >
+                    <Footer></Footer>
+                </Grid>
             </Grid>
         </ThemeProvider>
         </MemoryRouter>
