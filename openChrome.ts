@@ -47,7 +47,7 @@ export default async function openChrome (osType) {
     } else if (osType === 'darwin'){
 
         const cmd = Deno.run({
-            cmd: ['open chrome', 'http://localhost:8000'],
+            cmd: ['/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome', 'http://localhost:8000'],
             stdout: "piped",
             stderr: "piped",
         },)
