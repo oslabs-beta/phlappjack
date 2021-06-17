@@ -12,6 +12,7 @@ import { importString, setUp, fetchHandler } from "./Imports/ImportsForServer.ts
 import { CRUDFunctionGet, CRUDFunctionGetOne, CRUDFunctionPatch, CRUDFunctionCreateOne, CRUDFunctionDelete } from  "./CRUDFunctions.ts"
 import { mongooseString } from "./Imports/ImportsForMongo.ts"
 import { routerString, exportString } from "./Imports/ImportsForRouter.ts"
+import { prependListener } from "process";
 
 
 export const configureApplication = async (
@@ -42,13 +43,14 @@ export const configureApplication = async (
   await ensureDir(`${dir}/${applicationName}/Server/Models`)
   await ensureDir(`${dir}/${applicationName}/Server/Routes`)
   await ensureFile(`${dir}/${applicationName}/Server/Routes/Router.ts`)
-//   await ensureDir(`${dir}/${applicationName}/Controllers/`)
+  //await ensureDir(`${dir}/${applicationName}/Controllers/`)
   await ensureDir(`${dir}/${applicationName}/client`);
   await ensureFile(`${dir}/${applicationName}/client/deps.ts`);
   await ensureFile(`${dir}/${applicationName}/DockerFile`);
   await Deno.writeTextFile(`${dir}/${applicationName}/DockerFile`, dockerFile)
   await ensureFile(`${dir}/${applicationName}/docker-compose.yml`);
   await Deno.writeTextFile(`${dir}/${applicationName}/docker-compose.yml`, dockerComposeFile)
+  await ensureFile(`${dir}/${applicationName}/.env`)
 
   
   let controllerImportString: string[] = []
@@ -241,11 +243,38 @@ export { ${model} };`);
         writeServerDeps.then(() => {console.log(`Sever Deps File successfully written to ${dir}/${applicationName}/Server/deps.ts`)})
     }
 
-  
+    const createEnvFile = (mongoHostState, 
+        userNameState, 
+        passWordState, 
+        mongoDBState, 
+        ) => {
+            let template: string = ''
+            const host: string = `MONGO_HOST=${mongoHostState}`
+            const db: string = `MONGO_DB=${mongoDBState}`
+            const user: string = `MONGO_USER=${userNameState}`
+            const password: string = `MONGO_PASS=${passWordState}`
+
+            template += host
+            template += db
+            template += user
+            template += password
+
+            const prettyEnv = prettier.format(template, {
+                parser: "babel",
+                plugins: prettierPlugins
+            })
+
+           const write = Deno.writeTextFile(`${dir}/${applicationName}/.env`, prettyEnv)
+           write.then(() => console.log("env file successfully created"))
+    }
+
+   
+   await createEnvFile(mongoHostState, userNameState, passWordState, mongoDBState)
    await createModelsDir(collectionsState);
    //await createControllerFiles(collectionsState);
    await createServerFiles(collectionsState);
    await createRouteFile(routes, collectionsState);
+   
 }
 
 
